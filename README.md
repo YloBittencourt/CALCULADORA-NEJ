@@ -21,15 +21,9 @@ A planilha deve ter uma aba chamada `Pedidos` e a primeira linha com estas colun
 O ID da planilha é o trecho entre `/d/` e `/edit` na URL. Compartilhe a planilha com o e-mail da conta de serviço do Google, dando permissão de Editor.
 
 ## Integração com Google Apps Script
-O backend da Vercel envia os pedidos para o Apps Script publicado como aplicativo da Web. A URL da implantação já está configurada em `api/pedidos.js`. Não é necessário criar conta de serviço, chave JSON ou configurar faturamento no Google Cloud.
+A função `api/pedidos.js` envia os dados do pedido ao Apps Script publicado como aplicativo da Web. Não é necessário configurar conta de serviço, chave privada, Google Cloud ou variáveis de ambiente na Vercel. O endereço publicado do Apps Script já está configurado no arquivo da API.
 
-No Apps Script, a implantação deve estar configurada como:
-- Executar como: **Eu**.
-- Quem pode acessar: **Qualquer pessoa**.
-
-O site só exibe a tela Pix quando o Apps Script retorna `sucesso: true`. Se a gravação falhar ou a resposta não confirmar o registro, a tela Pix não é exibida. A planilha recebe `Aguardando pagamento` na coluna Pagamento e `Recebido` na coluna Status do pedido.
-
-A aba `Pedidos` deve conter exatamente os cabeçalhos descritos acima, na mesma ordem.
+O site só libera a tela Pix quando o Apps Script responde com `sucesso: true`, depois de inserir a linha na aba `Pedidos`.
 
 ## Adicionar a imagem do QR Code Pix
 A tela de pagamento já reserva o espaço para a imagem. Para inserir o QR Code:
