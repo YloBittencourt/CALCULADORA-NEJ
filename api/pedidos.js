@@ -1,4 +1,3 @@
-const { google } = require('googleapis');
 const crypto = require('crypto');
 
 const SHIRT_PRICE_CENTS = 4500;
@@ -56,29 +55,43 @@ module.exports = async (req, res) => {
     if (totalCents <= 0) throw new Error('O pedido precisa conter pelo menos um produto.');
     if (totalCents > 100000000) throw new Error('Valor do pedido fora do limite permitido.');
 
-    const email = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL;
-    const privateKey = (process.env.GOOGLE_PRIVATE_KEY || '').replace(/\\n/g, '\n');
-    const spreadsheetId = process.env.GOOGLE_SHEET_ID;
-    if (!email || !privateKey || !spreadsheetId) throw new Error('A integração com a planilha ainda não foi configurada.');
-
-    const auth = new google.auth.JWT({ email, key: privateKey, scopes: ['https://www.googleapis.com/auth/spreadsheets'] });
-    const sheetsApi = google.sheets({ version: 'v4', auth });
+    // O Apps Script grava na aba Pedidos. A chamada ocorre no servidor da Vercel,
+    // portanto a URL do Google não precisa ser chamada diretamente pelo navegador.
+    const appsScriptUrl = 'https://script.google.com/macros/s/AKfycbyOkDOpLPTZdf9J3tPb7RYacfVidoRDIZkeTxlJBSgt6vLWzf1W2kGHns8FkZcridUahw/exec';
     const orderId = `GER-${new Date().toISOString().slice(0,10).replace(/-/g,'')}-${crypto.randomBytes(3).toString('hex').toUpperCase()}`;
     const shirtSummary = SHIRT_KEYS.filter(k => shirts[k]).map(k => `${SHIRT_LABELS[k]}: ${shirts[k]}`).join(' | ') || '-';
     const buttonSummary = BUTTON_MODELS.filter(([k]) => buttons[k]).map(([k,label]) => `${label}: ${buttons[k]} (R$ ${(priceButtons(buttons[k])/100).toFixed(2).replace('.',',')})`).join(' | ') || '-';
-    const row = [
-      orderId, new Date().toISOString(), escapeSheet(name), cpf, phone,
-      shirtSummary, shirtCount, buttonSummary,
-      (shirtCents/100).toFixed(2), (buttonCents/100).toFixed(2), (totalCents/100).toFixed(2),
-      'Aguardando pagamento', 'Novo'
-    ];
-    await sheetsApi.spreadsheets.values.append({
-      spreadsheetId,
-      range: 'Pedidos!A:M',
-      valueInputOption: 'USER_ENTERED',
-      insertDataOption: 'INSERT_ROWS',
-      requestBody: { values: [row] },
+
+    const scriptPayload = {
+      orderId,
+      name,
+      cpf,
+      phone,
+      shirtsDetail: shirtSummary,
+      shirtQty: shirtCount,
+      buttonsDetail: buttonSummary,
+      shirtsSubtotal: shirtCents / 100,
+      buttonsSubtotal: buttonCents / 100,
+      total: totalCents / 100
+    };
+
+    const scriptResponse = await fetch(appsScriptUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(scriptPayload),
+      redirect: 'follow'
     });
+    const responseText = await scriptResponse.text();
+    let scriptResult;
+    try {
+      scriptResult = JSON.parse(responseText);
+    } catch (_) {
+      throw new Error('O Google Apps Script não retornou uma confirmação válida.');
+    }
+    if (!scriptResponse.ok || scriptResult.sucesso !== true) {
+      throw new Error(scriptResult.mensagem || 'O Google Apps Script não confirmou o registro do pedido.');
+    }
+
     return res.status(201).json({ ok: true, orderId, total: totalCents / 100, paymentStatus: 'Aguardando pagamento' });
   } catch (error) {
     console.error('Erro ao registrar pedido:', error);

@@ -20,16 +20,16 @@ A planilha deve ter uma aba chamada `Pedidos` e a primeira linha com estas colun
 
 O ID da planilha é o trecho entre `/d/` e `/edit` na URL. Compartilhe a planilha com o e-mail da conta de serviço do Google, dando permissão de Editor.
 
-## Credenciais Google na Vercel
-1. Em um projeto Google Cloud, ative a Google Sheets API.
-2. Crie uma conta de serviço e gere uma chave JSON.
-3. Na Vercel, configure estas Environment Variables:
-   - `GOOGLE_SERVICE_ACCOUNT_EMAIL` = valor `client_email` do JSON.
-   - `GOOGLE_PRIVATE_KEY` = valor `private_key` completo. Se o painel armazenar as quebras como `\\n`, o backend já as converte para quebras de linha.
-   - `GOOGLE_SHEET_ID` = ID da planilha.
-4. Faça redeploy depois de salvar as variáveis.
+## Integração com Google Apps Script
+O backend da Vercel envia os pedidos para o Apps Script publicado como aplicativo da Web. A URL da implantação já está configurada em `api/pedidos.js`. Não é necessário criar conta de serviço, chave JSON ou configurar faturamento no Google Cloud.
 
-Nunca coloque a chave JSON ou a chave privada no código do site, no Git ou no navegador.
+No Apps Script, a implantação deve estar configurada como:
+- Executar como: **Eu**.
+- Quem pode acessar: **Qualquer pessoa**.
+
+O site só exibe a tela Pix quando o Apps Script retorna `sucesso: true`. Se a gravação falhar ou a resposta não confirmar o registro, a tela Pix não é exibida. A planilha recebe `Aguardando pagamento` na coluna Pagamento e `Recebido` na coluna Status do pedido.
+
+A aba `Pedidos` deve conter exatamente os cabeçalhos descritos acima, na mesma ordem.
 
 ## Adicionar a imagem do QR Code Pix
 A tela de pagamento já reserva o espaço para a imagem. Para inserir o QR Code:
@@ -50,4 +50,4 @@ Mantenha `index.html` na raiz e `api/pedidos.js` dentro da pasta `api`. Atualize
 - Use dados de teste, não CPF real de terceiros.
 
 ## Privacidade
-Como a planilha contém CPF e telefone, restrinja o compartilhamento às pessoas responsáveis pelos pedidos. O pagamento é marcado como `Aguardando pagamento` e o status do pedido como `Novo`; a confirmação do Pix deve ser feita manualmente.
+Como a planilha contém CPF e telefone, restrinja o compartilhamento às pessoas responsáveis pelos pedidos. O pagamento é marcado como `Aguardando pagamento` e o status do pedido como `Recebido`; a confirmação do Pix deve ser feita manualmente.
