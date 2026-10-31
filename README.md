@@ -1,43 +1,53 @@
 # Lojinha Geração — site de pedidos
 
-Versão inicial sem Tally. O site usa HTML/CSS/JS e uma função serverless da Vercel para validar e registrar pedidos no Google Planilhas.
+Projeto sem Tally para hospedagem na Vercel. O site usa HTML/CSS/JS e uma função serverless para validar pedidos e registrar os dados no Google Planilhas.
 
-## O que já está implementado
+## O que está implementado
 - Dados do cliente primeiro (nome, CPF e WhatsApp).
 - Dois modelos de camisa a R$ 45,00, com seleção por tamanho.
 - Cinco modelos de bottons.
-- Preço dos bottons por modelo: unidade R$ 6, combo de 3 R$ 15, combo de 5 R$ 23; excedentes calculados a R$ 6 por unidade. A combinação de combos busca o menor preço para a quantidade selecionada.
+- Preço dos bottons por modelo: unidade R$ 6, combo de 3 R$ 15, combo de 5 R$ 23; excedentes calculados a R$ 6 por unidade.
 - Revisão do pedido antes de confirmar.
 - Validação de CPF e recálculo dos valores no servidor.
 - Registro em uma nova linha da aba `Pedidos`.
-- Status inicial `Aguardando pagamento`; Pix automático fica para uma etapa posterior.
+- Após o registro, exibe o número do pedido, o valor total, a chave Pix `vpggdonejelementar@gmail.com` e um espaço para o QR Code.
+- O pagamento permanece com confirmação manual; não há conciliação automática com o banco.
 
-## Criar a planilha
-Crie uma planilha Google e uma aba chamada `Pedidos`. Na primeira linha, use estas colunas:
+## Configurar a planilha Google
+A planilha deve ter uma aba chamada `Pedidos` e a primeira linha com estas colunas, nesta ordem:
 
 `Pedido | Data/hora | Nome | CPF | Telefone | Camisas (detalhe) | Qtde camisas | Bottons (detalhe) | Subtotal camisas | Subtotal bottons | Total | Pagamento | Status do pedido`
 
-Compartilhe a planilha com o e-mail da conta de serviço do Google (permissão Editor).
+O ID da planilha é o trecho entre `/d/` e `/edit` na URL. Compartilhe a planilha com o e-mail da conta de serviço do Google, dando permissão de Editor.
 
-## Credenciais Google
+## Credenciais Google na Vercel
 1. Em um projeto Google Cloud, ative a Google Sheets API.
 2. Crie uma conta de serviço e gere uma chave JSON.
-3. Copie o `client_email` e o `private_key` do JSON.
-4. Na Vercel, configure estas Environment Variables:
-   - `GOOGLE_SERVICE_ACCOUNT_EMAIL` = `client_email`
-   - `GOOGLE_PRIVATE_KEY` = `private_key` (cole o valor inteiro; mantenha as quebras como `\n` se o painel pedir)
-   - `GOOGLE_SHEET_ID` = ID da planilha, trecho entre `/d/` e `/edit` na URL
-5. Faça redeploy depois de salvar as variáveis.
+3. Na Vercel, configure estas Environment Variables:
+   - `GOOGLE_SERVICE_ACCOUNT_EMAIL` = valor `client_email` do JSON.
+   - `GOOGLE_PRIVATE_KEY` = valor `private_key` completo. Se o painel armazenar as quebras como `\\n`, o backend já as converte para quebras de linha.
+   - `GOOGLE_SHEET_ID` = ID da planilha.
+4. Faça redeploy depois de salvar as variáveis.
 
-Não coloque a chave JSON no código, no repositório ou no navegador.
+Nunca coloque a chave JSON ou a chave privada no código do site, no Git ou no navegador.
+
+## Adicionar a imagem do QR Code Pix
+A tela de pagamento já reserva o espaço para a imagem. Para inserir o QR Code:
+1. Tire/recorte o print da imagem do QR Code Pix.
+2. Salve a imagem em PNG com o nome exato `pix-qr-code.png`.
+3. Coloque o arquivo na pasta principal do projeto, ao lado de `index.html`.
+4. Envie o projeto atualizado para a Vercel e faça redeploy.
+
+Se o arquivo ainda não estiver presente, o site mostra automaticamente o espaço reservado com instruções. A chave Pix exibida é `vpggdonejelementar@gmail.com` e possui botão para copiar.
 
 ## Publicar na Vercel
-Importe este projeto em um repositório Git conectado à Vercel ou envie os arquivos para o projeto Vercel existente. O `index.html` fica na raiz e a API em `api/pedidos.js`. A Vercel instalará `googleapis` com base no `package.json`.
+Mantenha `index.html` na raiz e `api/pedidos.js` dentro da pasta `api`. Atualize o projeto existente na Vercel com estes arquivos e faça redeploy. A dependência `googleapis` será instalada a partir do `package.json`.
 
-## Teste antes de divulgar
-Faça um pedido de teste e confira se a linha aparece na aba `Pedidos`. Teste também o cenário de 4 bottons do mesmo modelo (R$ 21,00) e o cenário de 2 camisas + 3 bottons de um modelo + 5 de outro (R$ 128,00). Use dados de teste, não CPF real de terceiros.
+## Testes recomendados
+- 4 bottons do mesmo modelo: R$ 21,00.
+- 2 camisas + 3 bottons de um modelo + 5 de outro: R$ 128,00.
+- Envie um pedido de teste e confirme se aparece na aba `Pedidos` e se a tela Pix mostra o mesmo total.
+- Use dados de teste, não CPF real de terceiros.
 
-## Observações
-- A integração Pix ainda não está ligada; por enquanto o pedido entra como `Aguardando pagamento`.
-- Como há CPF e telefone, restrinja o compartilhamento da planilha apenas às pessoas responsáveis pelos pedidos e siga as práticas aplicáveis de proteção de dados.
-- As imagens dos produtos estão apontando para os endereços que já eram usados no formulário anterior. Recomendável migrá-las para um armazenamento próprio do projeto antes de divulgação ampla.
+## Privacidade
+Como a planilha contém CPF e telefone, restrinja o compartilhamento às pessoas responsáveis pelos pedidos. O pagamento é marcado como `Aguardando pagamento` e o status do pedido como `Novo`; a confirmação do Pix deve ser feita manualmente.
