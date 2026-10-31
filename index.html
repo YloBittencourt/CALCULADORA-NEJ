@@ -3,87 +3,178 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Calculadora de Bottons — Lojinha Geração</title>
+<title>Pedido — Lojinha Geração</title>
 <style>
-:root{font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;color:#241b22;background:#fff8f2}
+:root{font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;color:#1f1a24;background:#fff}
 *{box-sizing:border-box}
-body{margin:0;padding:16px}
-main{max-width:720px;margin:0 auto;background:#fff;border:1px solid #f0d9cb;border-radius:18px;padding:20px;box-shadow:0 8px 24px #5b2b1712}
-h1{margin:0 0 8px;font-size:clamp(1.35rem,4vw,1.8rem)}
-.intro{color:#66565e;margin:0 0 16px;line-height:1.45}
-.item{display:grid;grid-template-columns:64px 1fr 90px;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid #f1e7e1}
-.item img{width:64px;height:64px;object-fit:cover;border-radius:10px;background:#f7eee8}
-.item label{font-weight:650;line-height:1.3}
-.item small{display:block;color:#7a6971;font-weight:400;margin-top:4px}
-input{width:100%;padding:11px 8px;border:1px solid #d9c5ba;border-radius:10px;font:inherit;font-size:1rem}
-input:focus{outline:3px solid #f5c6a8;border-color:#ad4d25}
-.total{margin-top:18px;padding:16px;border-radius:14px;background:#fff0e5;display:flex;justify-content:space-between;gap:12px;align-items:center}
-.total span{font-weight:700}
-#total{font-size:1.8rem;font-weight:800;color:#9c3e1c;white-space:nowrap}
-.note{font-size:.88rem;color:#66565e;line-height:1.45;margin:12px 0 0}
-.actions{margin-top:18px;display:flex;flex-direction:column;gap:8px}
-button{border:0;border-radius:12px;padding:14px 16px;background:#9c3e1c;color:#fff;font:inherit;font-weight:750;font-size:1rem;cursor:pointer}
-button:hover{filter:brightness(.94)}
-#status{font-size:.9rem;color:#9c3e1c;min-height:1.2em}
-@media(max-width:430px){body{padding:8px}.item{grid-template-columns:52px 1fr 76px;gap:8px}.item img{width:52px;height:52px}main{padding:14px}.total{align-items:flex-start;flex-direction:column}}
+body{margin:0;padding:14px;background:#fff}
+main{max-width:760px;margin:0 auto}
+.card{background:#fff;border:1px solid #e8d9d1;border-radius:16px;padding:18px;margin:0 0 14px}
+h1{font-size:1.45rem;margin:0 0 6px}
+h2{font-size:1.15rem;margin:0 0 10px}
+p{line-height:1.45;color:#5d5359;margin:6px 0 14px}
+label{display:block;font-weight:650;margin:10px 0 5px}
+input{width:100%;padding:12px;border:1px solid #cbbab1;border-radius:10px;font:inherit;background:#fff}
+input:focus{outline:3px solid #f3d0bc;border-color:#a94722}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+button{border:0;border-radius:12px;padding:14px 18px;background:#9c3e1c;color:white;font:inherit;font-weight:750;cursor:pointer;width:100%;margin-top:12px}
+button.secondary{background:#f4e8e1;color:#74351d}
+button:disabled{opacity:.5;cursor:not-allowed}
+.step{display:none}
+.step.active{display:block}
+.model{border:1px solid #eee2dc;border-radius:12px;padding:12px;margin:12px 0}
+.model h3{font-size:1rem;margin:0 0 8px}
+.sizegrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.sizegrid label{font-size:.85rem;margin:0}
+.sizegrid input{margin-top:4px;padding:9px 7px}
+.botton-gallery{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin:12px 0}
+.botton-gallery img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:9px;background:#f6eee9}
+.botton-grid{display:grid;grid-template-columns:1fr 82px;gap:8px;align-items:center;padding:9px 0;border-bottom:1px solid #f0e8e3}
+.botton-grid label{margin:0;font-size:.94rem}
+.botton-grid input{padding:9px;text-align:center}
+.price{display:flex;justify-content:space-between;gap:12px;align-items:center;background:#fff0e6;border-radius:12px;padding:15px;margin-top:14px}
+.price strong{font-size:1.55rem;color:#9c3e1c;white-space:nowrap}
+.muted{font-size:.86rem;color:#786c72}
+.error{color:#b42318;font-size:.9rem;min-height:1.2em}
+@media(max-width:430px){body{padding:8px}.card{padding:14px}.sizegrid{grid-template-columns:repeat(2,1fr)}.botton-gallery{gap:4px}.botton-gallery img{border-radius:6px}}
 </style>
 </head>
 <body>
 <main>
-<h1>🔥 Bottons — Lojinha Geração</h1>
-<p class="intro">Escolha a quantidade de cada modelo. O total é atualizado na hora, com os combos calculados separadamente por modelo.</p>
-<div id="items"></div>
-<div class="total"><span>Total dos bottons</span><output id="total" aria-live="polite">R$ 0,00</output></div>
-<p class="note">Por modelo: unidade avulsa R$ 6,00 · combo de 3 R$ 15,00 · combo de 5 R$ 23,00. Os excedentes são cobrados a R$ 6,00 cada.</p>
-<div class="actions"><button id="continue" type="button">Continuar para preencher o pedido</button><div id="status" role="status" aria-live="polite"></div></div>
+  <section class="step active" id="step-contact">
+    <div class="card">
+      <h1>🔥 Lojinha Geração</h1>
+      <p>Para começar, preencha seus dados. Em seguida, você escolhe as camisas e os bottons e confere o valor do pedido.</p>
+      <label for="nome">Nome completo</label><input id="nome" autocomplete="name" required>
+      <label for="cpf">CPF</label><input id="cpf" inputmode="numeric" autocomplete="off" placeholder="000.000.000-00" required>
+      <label for="telefone">Telefone (WhatsApp)</label><input id="telefone" inputmode="tel" autocomplete="tel" placeholder="(00) 00000-0000" required>
+      <div class="error" id="contact-error" role="alert"></div>
+      <button id="to-products" type="button">Continuar para as opções</button>
+    </div>
+  </section>
+
+  <section class="step" id="step-products">
+    <div class="card">
+      <h1>👕 Camisas</h1>
+      <p>Informe quantas unidades deseja de cada tamanho. Cada camisa custa R$ 45,00.</p>
+      <div class="model">
+        <h3>A onda que vira fogo</h3>
+        <img src="https://storage.tally.so/c8af1ab6-46e3-4fe4-b633-9e52782589bd/Camisa-01-Nova-proposta-A-onda-que-vira-fogo.png" alt="Camisa A onda que vira fogo" style="width:100%;max-height:190px;object-fit:contain">
+        <div class="sizegrid">
+          <label>P<input type="number" min="0" step="1" value="0" data-shirt="camisa_onda_p"></label>
+          <label>M<input type="number" min="0" step="1" value="0" data-shirt="camisa_onda_m"></label>
+          <label>G<input type="number" min="0" step="1" value="0" data-shirt="camisa_onda_g"></label>
+          <label>GG<input type="number" min="0" step="1" value="0" data-shirt="camisa_onda_gg"></label>
+        </div>
+      </div>
+      <div class="model">
+        <h3>O ciclo recomeça. O ponto de partida não</h3>
+        <img src="https://storage.tally.so/c9db4647-894f-4c12-a206-7a26304a9a50/Captura-de-tela-de-2026-10-31-09-00-08.png" alt="Camisa O ciclo recomeça" style="width:100%;max-height:190px;object-fit:contain">
+        <div class="sizegrid">
+          <label>M<input type="number" min="0" step="1" value="0" data-shirt="camisa_ciclo_m"></label>
+          <label>G<input type="number" min="0" step="1" value="0" data-shirt="camisa_ciclo_g"></label>
+          <label>GG<input type="number" min="0" step="1" value="0" data-shirt="camisa_ciclo_gg"></label>
+          <span></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h1>🔥 Bottons Geração</h1>
+      <p>Confira os cinco modelos juntos e escolha a quantidade de cada um. O preço é calculado em tempo real, com os combos aplicados separadamente por modelo.</p>
+      <div class="botton-gallery" aria-label="Os cinco modelos de bottons">
+        <img src="https://storage.tally.so/2470bd39-528f-42ce-9624-938b5c26fa0a/c755bf8d-ab72-4b00-a1d8-e4dca4d924d9.jpeg" alt="Geração em Chamas">
+        <img src="https://storage.tally.so/31cebcde-c922-4478-925e-d4111f03ce3d/270219fc-fcdc-48ee-98ca-5fad4a205a48.jpeg" alt="Álbum da Cidade">
+        <img src="https://storage.tally.so/0022ae47-7c02-4b30-bc61-862c3279d507/bd31266b-c430-4369-b12a-722ed8e640b7.jpeg" alt="O Maior Núcleo da Bahia">
+        <img src="https://storage.tally.so/9bbaf6f7-d30d-4bcc-96a1-df5dfd96c572/watermarked_img_3844160598284098502.jpg" alt="Grandões e Sem Medo">
+        <img src="https://storage.tally.so/43e7280f-c2f2-4bbb-8876-b06ddb5f9ce4/4b98ca0c-ac63-47f8-bb49-0a577915925d.jpeg" alt="Sol, Onda e Montanha">
+      </div>
+      <div id="botton-inputs"></div>
+      <p class="muted">Unidade: R$ 6,00 · 3 do mesmo modelo: R$ 15,00 · 5 do mesmo modelo: R$ 23,00. Unidades excedentes: R$ 6,00 cada.</p>
+      <div class="price"><span>Subtotal dos bottons</span><strong id="botton-total">R$ 0,00</strong></div>
+      <div class="price"><span>Total do pedido (camisas + bottons)</span><strong id="order-total">R$ 0,00</strong></div>
+      <div class="error" id="product-error" role="alert"></div>
+      <button class="secondary" id="back-contact" type="button">Voltar aos dados</button>
+      <button id="send-order" type="button">Enviar pedido e conferir pagamento</button>
+    </div>
+  </section>
 </main>
 <script>
-const models = [
-  {name:"Geração em Chamas",key:"botton_geracao",img:"https://storage.tally.so/2470bd39-528f-42ce-9624-938b5c26fa0a/c755bf8d-ab72-4b00-a1d8-e4dca4d924d9.jpeg"},
-  {name:"Álbum da Cidade",key:"botton_album",img:"https://storage.tally.so/31cebcde-c922-4478-925e-d4111f03ce3d/270219fc-fcdc-48ee-98ca-5fad4a205a48.jpeg"},
-  {name:"O Maior Núcleo da Bahia",key:"botton_nucleo",img:"https://storage.tally.so/0022ae47-7c02-4b30-bc61-862c3279d507/bd31266b-c430-4369-b12a-722ed8e640b7.jpeg"},
-  {name:"Grandões e Sem Medo",key:"botton_grandoes",img:"https://storage.tally.so/9bbaf6f7-d30d-4bcc-96a1-df5dfd96c572/watermarked_img_3844160598284098502.jpg"},
-  {name:"Sol, Onda e Montanha",key:"botton_sol",img:"https://storage.tally.so/43e7280f-c2f2-4bbb-8876-b06ddb5f9ce4/4b98ca0c-ac63-47f8-bb49-0a577915925d.jpeg"}
+const TALLY_URL = "https://tally.so/r/YjPGNJ";
+const bottonModels = [
+  ["Geração em Chamas","botton_geracao"],
+  ["Álbum da Cidade","botton_album"],
+  ["O Maior Núcleo da Bahia","botton_nucleo"],
+  ["Grandões e Sem Medo","botton_grandoes"],
+  ["Sol, Onda e Montanha","botton_sol"]
 ];
-const items=document.getElementById("items"),totalOutput=document.getElementById("total");
-const statusOutput=document.getElementById("status");
-const tallyUrl="https://tally.so/r/YjPGNJ";
+const bottonWrap=document.getElementById("botton-inputs");
+bottonModels.forEach(([name,key],i)=>{
+  const row=document.createElement("div");row.className="botton-grid";
+  const label=document.createElement("label");label.htmlFor="botton-"+i;label.textContent=name;
+  const input=document.createElement("input");input.id="botton-"+i;input.type="number";input.min="0";input.step="1";input.value="0";input.inputMode="numeric";input.dataset.botton=key;input.setAttribute("aria-label","Quantidade de "+name);
+  input.addEventListener("input",updateTotals);row.append(label,input);bottonWrap.append(row);
+});
+function quantity(el){return Math.max(0,Math.floor(Number(el.value)||0))}
 function priceFor(q){
-  const best=Array(q+1).fill(Infinity);best[0]=0;
+  const dp=Array(q+1).fill(Infinity);dp[0]=0;
   for(let n=1;n<=q;n++){
-    best[n]=best[n-1]+6;
-    if(n>=3)best[n]=Math.min(best[n],best[n-3]+15);
-    if(n>=5)best[n]=Math.min(best[n],best[n-5]+23);
+    dp[n]=dp[n-1]+6;
+    if(n>=3)dp[n]=Math.min(dp[n],dp[n-3]+15);
+    if(n>=5)dp[n]=Math.min(dp[n],dp[n-5]+23);
   }
-  return best[q];
+  return dp[q];
 }
 const money=v=>v.toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
-function getQuantities(){
-  return [...document.querySelectorAll("input[data-model]")].map(el=>Math.max(0,Math.floor(Number(el.value)||0)));
+function shirtData(){const out={};document.querySelectorAll("[data-shirt]").forEach(el=>out[el.dataset.shirt]=String(quantity(el)));return out}
+function bottonData(){const out={};document.querySelectorAll("[data-botton]").forEach(el=>out[el.dataset.botton]=quantity(el));return out}
+function totals(){
+  const shirts=Object.values(shirtData()).reduce((a,v)=>a+Number(v),0);
+  const bots=bottonData();
+  const bottonPrice=Object.values(bots).reduce((a,q)=>a+priceFor(q),0);
+  return {shirts,bottonPrice,total:shirts*45+bottonPrice,bots};
 }
-function update(){
-  const qs=getQuantities();
-  totalOutput.textContent=money(qs.reduce((sum,q)=>sum+priceFor(q),0));
-  statusOutput.textContent="";
+function updateTotals(){
+  const t=totals();
+  document.getElementById("botton-total").textContent=money(t.bottonPrice);
+  document.getElementById("order-total").textContent=money(t.total);
 }
-models.forEach((model,i)=>{
-  const row=document.createElement("div");row.className="item";
-  const img=document.createElement("img");img.src=model.img;img.alt="Foto do botton "+model.name;img.loading="lazy";
-  const label=document.createElement("label");label.htmlFor="model-"+i;label.textContent=model.name;
-  const hint=document.createElement("small");hint.textContent="Quantidade";label.appendChild(hint);
-  const input=document.createElement("input");input.id="model-"+i;input.type="number";input.min="0";input.step="1";input.value="0";input.inputMode="numeric";input.setAttribute("data-model",String(i));input.setAttribute("aria-label","Quantidade de "+model.name);
-  input.addEventListener("input",update);row.append(img,label,input);items.appendChild(row);
+document.querySelectorAll("[data-shirt]").forEach(el=>el.addEventListener("input",updateTotals));
+document.getElementById("to-products").addEventListener("click",()=>{
+  const nome=document.getElementById("nome").value.trim();
+  const cpf=document.getElementById("cpf").value.trim();
+  const telefone=document.getElementById("telefone").value.trim();
+  const error=document.getElementById("contact-error");
+  if(!nome||!cpf||!telefone){error.textContent="Preencha nome, CPF e telefone para continuar.";return}
+  if(cpf.replace(/\D/g,"").length!==11){error.textContent="Confira o CPF: ele deve ter 11 números.";return}
+  if(telefone.replace(/\D/g,"").length<10){error.textContent="Confira o telefone/WhatsApp.";return}
+  error.textContent="";
+  document.getElementById("step-contact").classList.remove("active");
+  document.getElementById("step-products").classList.add("active");
+  updateTotals();
 });
-document.getElementById("continue").addEventListener("click",()=>{
-  const qs=getQuantities();
-  if(qs.every(q=>q===0)){statusOutput.textContent="Escolha pelo menos 1 botton para continuar.";return;}
-  const params=new URLSearchParams();
-  models.forEach((model,i)=>params.set(model.key,String(qs[i])));
-  params.set("botton_preco",String(qs.reduce((sum,q)=>sum+priceFor(q),0)));
-  // Important: when embedded in Tally, navigate the top-level tab, not just the iframe.
-  window.top.location.href=tallyUrl+"?"+params.toString();
+document.getElementById("back-contact").addEventListener("click",()=>{
+  document.getElementById("step-products").classList.remove("active");
+  document.getElementById("step-contact").classList.add("active");
 });
-update();
+document.getElementById("send-order").addEventListener("click",()=>{
+  const error=document.getElementById("product-error");
+  const nome=document.getElementById("nome").value.trim();
+  const cpf=document.getElementById("cpf").value.trim();
+  const telefone=document.getElementById("telefone").value.trim();
+  const shirts=shirtData(), t=totals();
+  if(t.shirts===0 && t.bottonPrice===0){error.textContent="Adicione pelo menos uma camisa ou um botton ao pedido.";return}
+  error.textContent="";
+  const params=new URLSearchParams({
+    workflow:"complete",nome,cpf,telefone,
+    ...shirts,
+    ...t.bots,
+    botton_preco:String(t.bottonPrice)
+  });
+  // This click is a direct user action: leave the embedded calculator and open the same Tally form with all answers prefilled.
+  window.top.location.href=TALLY_URL+"?"+params.toString();
+});
+updateTotals();
 </script>
 </body>
 </html>
