@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Calculadora de Bottons — Lojinha Geração</title>
+<style>
+:root{font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;color:#241b22;background:#fff8f2}
+*{box-sizing:border-box}
+body{margin:0;padding:24px}
+main{max-width:720px;margin:0 auto;background:#fff;border:1px solid #f0d9cb;border-radius:20px;padding:28px;box-shadow:0 12px 36px #5b2b1712}
+h1{margin:0 0 8px;font-size:clamp(1.5rem,4vw,2rem)}
+.intro{color:#66565e;margin:0 0 24px;line-height:1.5}
+.item{display:grid;grid-template-columns:1fr 112px;gap:16px;align-items:center;padding:15px 0;border-bottom:1px solid #f1e7e1}
+.item label{font-weight:650;line-height:1.35}
+.item small{display:block;color:#7a6971;font-weight:400;margin-top:4px}
+input{width:100%;padding:12px;border:1px solid #d9c5ba;border-radius:10px;font:inherit;font-size:1.05rem}
+input:focus{outline:3px solid #f5c6a8;border-color:#ad4d25}
+.total{margin-top:24px;padding:20px;border-radius:14px;background:#fff0e5;display:flex;justify-content:space-between;gap:12px;align-items:center}
+.total span{font-weight:700}
+#total{font-size:2rem;font-weight:800;color:#9c3e1c;white-space:nowrap}
+.note{font-size:.9rem;color:#66565e;line-height:1.5;margin:16px 0 0}
+@media(max-width:480px){body{padding:12px}.item{grid-template-columns:1fr 90px}main{padding:18px}.total{align-items:flex-start;flex-direction:column}}
+</style>
+</head>
+<body>
+<main>
+<h1>🔥 Lojinha Geração — Bottons</h1>
+<p class="intro">Informe quantos bottons deseja de cada modelo. O valor é atualizado automaticamente, e os combos são calculados separadamente por modelo.</p>
+<div id="items"></div>
+<div class="total"><span>Total estimado do pedido</span><output id="total" aria-live="polite">R$ 0,00</output></div>
+<p class="note">Preços por modelo: 1 unidade = R$ 6,00 · pacote de 3 = R$ 15,00 · pacote de 5 = R$ 23,00. Quantidades que sobrarem fora dos pacotes custam R$ 6,00 cada.</p>
+</main>
+<script>
+const models = [
+  "Geração em Chamas",
+  "Álbum da Cidade",
+  "O Maior Núcleo da Bahia",
+  "Grandões e Sem Medo",
+  "Sol, Onda e Montanha"
+];
+const items = document.getElementById("items");
+const totalOutput = document.getElementById("total");
+const money = value => value.toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
+function priceFor(quantity) {
+  // Minimiza o custo usando pacotes de 3 e 5, e unidades avulsas.
+  const best = Array(quantity + 1).fill(Infinity);
+  best[0] = 0;
+  for (let n = 1; n <= quantity; n++) {
+    best[n] = best[n - 1] + 6;
+    if (n >= 3) best[n] = Math.min(best[n], best[n - 3] + 15);
+    if (n >= 5) best[n] = Math.min(best[n], best[n - 5] + 23);
+  }
+  return best[quantity];
+}
+function update() {
+  let total = 0;
+  document.querySelectorAll("input[data-model]").forEach(input => {
+    const quantity = Math.max(0, Math.floor(Number(input.value) || 0));
+    input.value = quantity;
+    total += priceFor(quantity);
+  });
+  totalOutput.textContent = money(total);
+}
+models.forEach((name,index) => {
+  const row = document.createElement("div");
+  row.className = "item";
+  const label = document.createElement("label");
+  label.htmlFor = `model-${index}`;
+  label.textContent = name;
+  const hint = document.createElement("small");
+  hint.textContent = "Quantidade desejada";
+  label.appendChild(hint);
+  const input = document.createElement("input");
+  input.id = `model-${index}`;
+  input.type = "number";
+  input.min = "0";
+  input.step = "1";
+  input.value = "0";
+  input.inputMode = "numeric";
+  input.setAttribute("data-model", String(index));
+  input.setAttribute("aria-label", `Quantidade de ${name}`);
+  input.addEventListener("input", update);
+  row.append(label,input);
+  items.appendChild(row);
+});
+</script>
+</body>
+</html>
