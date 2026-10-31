@@ -20,6 +20,11 @@ input:focus{outline:3px solid #f5c6a8;border-color:#ad4d25}
 .total span{font-weight:700}
 #total{font-size:2rem;font-weight:800;color:#9c3e1c;white-space:nowrap}
 .note{font-size:.9rem;color:#66565e;line-height:1.5;margin:16px 0 0}
+.actions{margin-top:22px;display:flex;flex-direction:column;gap:10px}
+button{border:0;border-radius:12px;padding:15px 18px;background:#9c3e1c;color:#fff;font:inherit;font-weight:750;font-size:1rem;cursor:pointer}
+button:hover{filter:brightness(.94)}
+button:disabled{opacity:.45;cursor:not-allowed}
+#status{font-size:.9rem;color:#9c3e1c;min-height:1.2em}
 @media(max-width:480px){body{padding:12px}.item{grid-template-columns:1fr 90px}main{padding:18px}.total{align-items:flex-start;flex-direction:column}}
 </style>
 </head>
@@ -29,7 +34,8 @@ input:focus{outline:3px solid #f5c6a8;border-color:#ad4d25}
 <p class="intro">Informe quantos bottons deseja de cada modelo. O valor é atualizado automaticamente, e os combos são calculados separadamente por modelo.</p>
 <div id="items"></div>
 <div class="total"><span>Total estimado do pedido</span><output id="total" aria-live="polite">R$ 0,00</output></div>
-<p class="note">Preços por modelo: 1 unidade = R$ 6,00 · pacote de 3 = R$ 15,00 · pacote de 5 = R$ 23,00. Quantidades que sobrarem fora dos pacotes custam R$ 6,00 cada.</p>
+<p class="note">Preços por modelo: 1 unidade = R$ 6,00 · pacote de 3 = R$ 15,00 · pacote de 5 = R$ 23,00. Os combos são calculados separadamente para cada modelo.</p>
+<div class="actions"><button id="continue" type="button">Continuar para preencher o pedido</button><div id="status" role="status" aria-live="polite"></div></div>
 </main>
 <script>
 const models = [
@@ -41,6 +47,9 @@ const models = [
 ];
 const items = document.getElementById("items");
 const totalOutput = document.getElementById("total");
+const continueButton = document.getElementById("continue");
+const statusOutput = document.getElementById("status");
+const tallyUrl = "https://tally.so/r/YjPGNJ";
 const money = value => value.toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
 function priceFor(quantity) {
   // Minimiza o custo usando pacotes de 3 e 5, e unidades avulsas.
@@ -53,6 +62,9 @@ function priceFor(quantity) {
   }
   return best[quantity];
 }
+function quantities() {
+  return [...document.querySelectorAll("input[data-model]")].map(input => Math.max(0, Math.floor(Number(input.value) || 0)));
+}
 function update() {
   let total = 0;
   document.querySelectorAll("input[data-model]").forEach(input => {
@@ -61,6 +73,7 @@ function update() {
     total += priceFor(quantity);
   });
   totalOutput.textContent = money(total);
+  statusOutput.textContent = "";
 }
 models.forEach((name,index) => {
   const row = document.createElement("div");
@@ -84,6 +97,23 @@ models.forEach((name,index) => {
   row.append(label,input);
   items.appendChild(row);
 });
+continueButton.addEventListener("click", () => {
+  const qs = quantities();
+  if (qs.every(q => q === 0)) {
+    statusOutput.textContent = "Escolha pelo menos 1 botton para continuar.";
+    return;
+  }
+  const params = new URLSearchParams({
+    botton_geracao: String(qs[0]),
+    botton_album: String(qs[1]),
+    botton_nucleo: String(qs[2]),
+    botton_grandoes: String(qs[3]),
+    botton_sol: String(qs[4]),
+    botton_preco: String(qs.reduce((sum,q) => sum + priceFor(q), 0))
+  });
+  window.location.href = `${tallyUrl}?${params.toString()}`;
+});
+update();
 </script>
 </body>
 </html>
