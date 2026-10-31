@@ -1,47 +1,48 @@
-# Lojinha Geração — site de pedidos
+# Lojinha Geração — envio de comprovante Pix
 
-Projeto sem Tally para hospedagem na Vercel. O site usa HTML/CSS/JS e uma função serverless para validar pedidos e registrar os dados no Google Planilhas.
+Projeto da loja hospedado na Vercel, integrado ao Google Apps Script e Google Planilhas.
 
-## O que está implementado
-- Dados do cliente primeiro (nome, CPF e WhatsApp).
-- Dois modelos de camisa a R$ 45,00, com seleção por tamanho.
-- Cinco modelos de bottons.
-- Preço dos bottons por modelo: unidade R$ 6, combo de 3 R$ 15, combo de 5 R$ 23; excedentes calculados a R$ 6 por unidade.
-- Revisão do pedido antes de confirmar.
-- Validação de CPF e recálculo dos valores no servidor.
-- Registro em uma nova linha da aba `Pedidos`.
-- Após o registro, exibe o número do pedido, o valor total, a chave Pix `vpggdonejelementar@gmail.com` e um espaço para o QR Code.
-- O pagamento permanece com confirmação manual; não há conciliação automática com o banco.
+## O que foi acrescentado nesta versão
+- Campo para anexar comprovante Pix na tela de pagamento.
+- Aceita JPG, PNG e PDF, com limite de 3 MB.
+- Envia o arquivo para a função `/api/comprovantes` na Vercel.
+- O Apps Script salva o comprovante na pasta do Google Drive `Comprovantes Lojinha Geração` (criada automaticamente).
+- Na aba `Pedidos`, grava o link do arquivo na coluna `Comprovante` e a data na coluna `Data do comprovante`.
+- Ao receber comprovante, altera `Pagamento` para `Aguardando confirmação` e `Status do pedido` para `Comprovante enviado`.
+- O sistema NÃO marca como `Pago` automaticamente. A equipe deve conferir o crédito na conta e mudar manualmente para `Pago`.
 
-## Configurar a planilha Google
-A planilha deve ter uma aba chamada `Pedidos` e a primeira linha com estas colunas, nesta ordem:
+## IMPORTANTE: atualizar o Apps Script antes de publicar este ZIP
+O envio de comprovantes exige permissão do Apps Script para criar arquivos no Google Drive. O código atualizado está em `apps-script/Code.gs`.
 
-`Pedido | Data/hora | Nome | CPF | Telefone | Camisas (detalhe) | Qtde camisas | Bottons (detalhe) | Subtotal camisas | Subtotal bottons | Total | Pagamento | Status do pedido`
+1. Abra a planilha Google e acesse **Extensões → Apps Script**.
+2. Abra `Código.gs`, substitua todo o conteúdo pelo arquivo `apps-script/Code.gs` deste ZIP.
+3. Salve.
+4. Clique em **Implantar → Gerenciar implantações**.
+5. Edite a implantação existente (ícone de lápis), escolha **Nova versão** e clique em **Implantar**.
+6. Autorize as permissões solicitadas para acessar a planilha e criar arquivos no Google Drive. A pasta `Comprovantes Lojinha Geração` será criada automaticamente no primeiro envio.
+7. Mantenha a implantação como **Executar como: Eu** e **Quem pode acessar: Qualquer pessoa**.
 
-O ID da planilha é o trecho entre `/d/` e `/edit` na URL. Compartilhe a planilha com o e-mail da conta de serviço do Google, dando permissão de Editor.
-
-## Integração com Google Apps Script
-A função `api/pedidos.js` envia os dados do pedido ao Apps Script publicado como aplicativo da Web. Não é necessário configurar conta de serviço, chave privada, Google Cloud ou variáveis de ambiente na Vercel. O endereço publicado do Apps Script já está configurado no arquivo da API.
-
-O site só libera a tela Pix quando o Apps Script responde com `sucesso: true`, depois de inserir a linha na aba `Pedidos`.
-
-## Adicionar a imagem do QR Code Pix
-A tela de pagamento já reserva o espaço para a imagem. Para inserir o QR Code:
-1. Tire/recorte o print da imagem do QR Code Pix.
-2. Salve a imagem em PNG com o nome exato `pix-qr-code.png`.
-3. Coloque o arquivo na pasta principal do projeto, ao lado de `index.html`.
-4. Envie o projeto atualizado para a Vercel e faça redeploy.
-
-Se o arquivo ainda não estiver presente, o site mostra automaticamente o espaço reservado com instruções. A chave Pix exibida é `vpggdonejelementar@gmail.com` e possui botão para copiar.
+O ID da planilha já está configurado no código. A aba deve continuar se chamando `Pedidos` e manter as 13 colunas originais na mesma ordem. O Apps Script adiciona automaticamente as colunas N e O: `Comprovante` e `Data do comprovante`.
 
 ## Publicar na Vercel
-Mantenha `index.html` na raiz e `api/pedidos.js` dentro da pasta `api`. Atualize o projeto existente na Vercel com estes arquivos e faça redeploy. A dependência `googleapis` será instalada a partir do `package.json`.
+Depois de atualizar e implantar o Apps Script:
+1. Atualize o projeto da Vercel com os arquivos deste ZIP, mantendo a estrutura de pastas.
+2. Confirme que `index.html` está na raiz e as funções estão em `api/pedidos.js` e `api/comprovantes.js`.
+3. Faça um novo deploy.
 
-## Testes recomendados
-- 4 bottons do mesmo modelo: R$ 21,00.
-- 2 camisas + 3 bottons de um modelo + 5 de outro: R$ 128,00.
-- Envie um pedido de teste e confirme se aparece na aba `Pedidos` e se a tela Pix mostra o mesmo total.
-- Use dados de teste, não CPF real de terceiros.
+## Fluxo de pedido e pagamento
+1. O pedido é registrado na planilha.
+2. Só depois da confirmação do registro, o site exibe o Pix.
+3. O cliente envia o comprovante na mesma tela.
+4. O comprovante é guardado no Drive e o link aparece na planilha.
+5. O status passa para `Aguardando confirmação` / `Comprovante enviado`.
+6. Após conferir o crédito na conta, a equipe muda `Pagamento` para `Pago` manualmente.
 
-## Privacidade
-Como a planilha contém CPF e telefone, restrinja o compartilhamento às pessoas responsáveis pelos pedidos. O pagamento é marcado como `Aguardando pagamento` e o status do pedido como `Recebido`; a confirmação do Pix deve ser feita manualmente.
+## QR Code Pix
+A imagem deve se chamar exatamente `pix-qr-code.png` e ficar na raiz do projeto, ao lado de `index.html`.
+
+## Limites e segurança
+- Tipos permitidos: JPG, PNG e PDF.
+- Tamanho máximo: 3 MB.
+- Os arquivos ficam na pasta do Drive da conta que executa o Apps Script. O link salvo na planilha é para uso da equipe com acesso ao Drive; não é publicado como arquivo aberto ao público.
+- O envio de comprovante não comprova, por si só, que o Pix foi recebido. Confirme sempre no extrato bancário antes de marcar como `Pago`.
