@@ -7,111 +7,81 @@
 <style>
 :root{font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;color:#241b22;background:#fff8f2}
 *{box-sizing:border-box}
-body{margin:0;padding:24px}
-main{max-width:720px;margin:0 auto;background:#fff;border:1px solid #f0d9cb;border-radius:20px;padding:28px;box-shadow:0 12px 36px #5b2b1712}
-h1{margin:0 0 8px;font-size:clamp(1.5rem,4vw,2rem)}
-.intro{color:#66565e;margin:0 0 24px;line-height:1.5}
-.item{display:grid;grid-template-columns:1fr 112px;gap:16px;align-items:center;padding:15px 0;border-bottom:1px solid #f1e7e1}
-.item label{font-weight:650;line-height:1.35}
+body{margin:0;padding:16px}
+main{max-width:720px;margin:0 auto;background:#fff;border:1px solid #f0d9cb;border-radius:18px;padding:20px;box-shadow:0 8px 24px #5b2b1712}
+h1{margin:0 0 8px;font-size:clamp(1.35rem,4vw,1.8rem)}
+.intro{color:#66565e;margin:0 0 16px;line-height:1.45}
+.item{display:grid;grid-template-columns:64px 1fr 90px;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid #f1e7e1}
+.item img{width:64px;height:64px;object-fit:cover;border-radius:10px;background:#f7eee8}
+.item label{font-weight:650;line-height:1.3}
 .item small{display:block;color:#7a6971;font-weight:400;margin-top:4px}
-input{width:100%;padding:12px;border:1px solid #d9c5ba;border-radius:10px;font:inherit;font-size:1.05rem}
+input{width:100%;padding:11px 8px;border:1px solid #d9c5ba;border-radius:10px;font:inherit;font-size:1rem}
 input:focus{outline:3px solid #f5c6a8;border-color:#ad4d25}
-.total{margin-top:24px;padding:20px;border-radius:14px;background:#fff0e5;display:flex;justify-content:space-between;gap:12px;align-items:center}
+.total{margin-top:18px;padding:16px;border-radius:14px;background:#fff0e5;display:flex;justify-content:space-between;gap:12px;align-items:center}
 .total span{font-weight:700}
-#total{font-size:2rem;font-weight:800;color:#9c3e1c;white-space:nowrap}
-.note{font-size:.9rem;color:#66565e;line-height:1.5;margin:16px 0 0}
-.actions{margin-top:22px;display:flex;flex-direction:column;gap:10px}
-button{border:0;border-radius:12px;padding:15px 18px;background:#9c3e1c;color:#fff;font:inherit;font-weight:750;font-size:1rem;cursor:pointer}
+#total{font-size:1.8rem;font-weight:800;color:#9c3e1c;white-space:nowrap}
+.note{font-size:.88rem;color:#66565e;line-height:1.45;margin:12px 0 0}
+.actions{margin-top:18px;display:flex;flex-direction:column;gap:8px}
+button{border:0;border-radius:12px;padding:14px 16px;background:#9c3e1c;color:#fff;font:inherit;font-weight:750;font-size:1rem;cursor:pointer}
 button:hover{filter:brightness(.94)}
-button:disabled{opacity:.45;cursor:not-allowed}
 #status{font-size:.9rem;color:#9c3e1c;min-height:1.2em}
-@media(max-width:480px){body{padding:12px}.item{grid-template-columns:1fr 90px}main{padding:18px}.total{align-items:flex-start;flex-direction:column}}
+@media(max-width:430px){body{padding:8px}.item{grid-template-columns:52px 1fr 76px;gap:8px}.item img{width:52px;height:52px}main{padding:14px}.total{align-items:flex-start;flex-direction:column}}
 </style>
 </head>
 <body>
 <main>
-<h1>🔥 Lojinha Geração — Bottons</h1>
-<p class="intro">Informe quantos bottons deseja de cada modelo. O valor é atualizado automaticamente, e os combos são calculados separadamente por modelo.</p>
+<h1>🔥 Bottons — Lojinha Geração</h1>
+<p class="intro">Escolha a quantidade de cada modelo. O total é atualizado na hora, com os combos calculados separadamente por modelo.</p>
 <div id="items"></div>
-<div class="total"><span>Total estimado do pedido</span><output id="total" aria-live="polite">R$ 0,00</output></div>
-<p class="note">Preços por modelo: 1 unidade = R$ 6,00 · pacote de 3 = R$ 15,00 · pacote de 5 = R$ 23,00. Os combos são calculados separadamente para cada modelo.</p>
+<div class="total"><span>Total dos bottons</span><output id="total" aria-live="polite">R$ 0,00</output></div>
+<p class="note">Por modelo: unidade avulsa R$ 6,00 · combo de 3 R$ 15,00 · combo de 5 R$ 23,00. Os excedentes são cobrados a R$ 6,00 cada.</p>
 <div class="actions"><button id="continue" type="button">Continuar para preencher o pedido</button><div id="status" role="status" aria-live="polite"></div></div>
 </main>
 <script>
 const models = [
-  "Geração em Chamas",
-  "Álbum da Cidade",
-  "O Maior Núcleo da Bahia",
-  "Grandões e Sem Medo",
-  "Sol, Onda e Montanha"
+  {name:"Geração em Chamas",key:"botton_geracao",img:"https://storage.tally.so/2470bd39-528f-42ce-9624-938b5c26fa0a/c755bf8d-ab72-4b00-a1d8-e4dca4d924d9.jpeg"},
+  {name:"Álbum da Cidade",key:"botton_album",img:"https://storage.tally.so/31cebcde-c922-4478-925e-d4111f03ce3d/270219fc-fcdc-48ee-98ca-5fad4a205a48.jpeg"},
+  {name:"O Maior Núcleo da Bahia",key:"botton_nucleo",img:"https://storage.tally.so/0022ae47-7c02-4b30-bc61-862c3279d507/bd31266b-c430-4369-b12a-722ed8e640b7.jpeg"},
+  {name:"Grandões e Sem Medo",key:"botton_grandoes",img:"https://storage.tally.so/9bbaf6f7-d30d-4bcc-96a1-df5dfd96c572/watermarked_img_3844160598284098502.jpg"},
+  {name:"Sol, Onda e Montanha",key:"botton_sol",img:"https://storage.tally.so/43e7280f-c2f2-4bbb-8876-b06ddb5f9ce4/4b98ca0c-ac63-47f8-bb49-0a577915925d.jpeg"}
 ];
-const items = document.getElementById("items");
-const totalOutput = document.getElementById("total");
-const continueButton = document.getElementById("continue");
-const statusOutput = document.getElementById("status");
-const tallyUrl = "https://tally.so/r/YjPGNJ";
-const money = value => value.toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
-function priceFor(quantity) {
-  // Minimiza o custo usando pacotes de 3 e 5, e unidades avulsas.
-  const best = Array(quantity + 1).fill(Infinity);
-  best[0] = 0;
-  for (let n = 1; n <= quantity; n++) {
-    best[n] = best[n - 1] + 6;
-    if (n >= 3) best[n] = Math.min(best[n], best[n - 3] + 15);
-    if (n >= 5) best[n] = Math.min(best[n], best[n - 5] + 23);
+const items=document.getElementById("items"),totalOutput=document.getElementById("total");
+const statusOutput=document.getElementById("status");
+const tallyUrl="https://tally.so/r/YjPGNJ";
+function priceFor(q){
+  const best=Array(q+1).fill(Infinity);best[0]=0;
+  for(let n=1;n<=q;n++){
+    best[n]=best[n-1]+6;
+    if(n>=3)best[n]=Math.min(best[n],best[n-3]+15);
+    if(n>=5)best[n]=Math.min(best[n],best[n-5]+23);
   }
-  return best[quantity];
+  return best[q];
 }
-function quantities() {
-  return [...document.querySelectorAll("input[data-model]")].map(input => Math.max(0, Math.floor(Number(input.value) || 0)));
+const money=v=>v.toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
+function getQuantities(){
+  return [...document.querySelectorAll("input[data-model]")].map(el=>Math.max(0,Math.floor(Number(el.value)||0)));
 }
-function update() {
-  let total = 0;
-  document.querySelectorAll("input[data-model]").forEach(input => {
-    const quantity = Math.max(0, Math.floor(Number(input.value) || 0));
-    input.value = quantity;
-    total += priceFor(quantity);
-  });
-  totalOutput.textContent = money(total);
-  statusOutput.textContent = "";
+function update(){
+  const qs=getQuantities();
+  totalOutput.textContent=money(qs.reduce((sum,q)=>sum+priceFor(q),0));
+  statusOutput.textContent="";
 }
-models.forEach((name,index) => {
-  const row = document.createElement("div");
-  row.className = "item";
-  const label = document.createElement("label");
-  label.htmlFor = `model-${index}`;
-  label.textContent = name;
-  const hint = document.createElement("small");
-  hint.textContent = "Quantidade desejada";
-  label.appendChild(hint);
-  const input = document.createElement("input");
-  input.id = `model-${index}`;
-  input.type = "number";
-  input.min = "0";
-  input.step = "1";
-  input.value = "0";
-  input.inputMode = "numeric";
-  input.setAttribute("data-model", String(index));
-  input.setAttribute("aria-label", `Quantidade de ${name}`);
-  input.addEventListener("input", update);
-  row.append(label,input);
-  items.appendChild(row);
+models.forEach((model,i)=>{
+  const row=document.createElement("div");row.className="item";
+  const img=document.createElement("img");img.src=model.img;img.alt="Foto do botton "+model.name;img.loading="lazy";
+  const label=document.createElement("label");label.htmlFor="model-"+i;label.textContent=model.name;
+  const hint=document.createElement("small");hint.textContent="Quantidade";label.appendChild(hint);
+  const input=document.createElement("input");input.id="model-"+i;input.type="number";input.min="0";input.step="1";input.value="0";input.inputMode="numeric";input.setAttribute("data-model",String(i));input.setAttribute("aria-label","Quantidade de "+model.name);
+  input.addEventListener("input",update);row.append(img,label,input);items.appendChild(row);
 });
-continueButton.addEventListener("click", () => {
-  const qs = quantities();
-  if (qs.every(q => q === 0)) {
-    statusOutput.textContent = "Escolha pelo menos 1 botton para continuar.";
-    return;
-  }
-  const params = new URLSearchParams({
-    botton_geracao: String(qs[0]),
-    botton_album: String(qs[1]),
-    botton_nucleo: String(qs[2]),
-    botton_grandoes: String(qs[3]),
-    botton_sol: String(qs[4]),
-    botton_preco: String(qs.reduce((sum,q) => sum + priceFor(q), 0))
-  });
-  window.location.href = `${tallyUrl}?${params.toString()}`;
+document.getElementById("continue").addEventListener("click",()=>{
+  const qs=getQuantities();
+  if(qs.every(q=>q===0)){statusOutput.textContent="Escolha pelo menos 1 botton para continuar.";return;}
+  const params=new URLSearchParams();
+  models.forEach((model,i)=>params.set(model.key,String(qs[i])));
+  params.set("botton_preco",String(qs.reduce((sum,q)=>sum+priceFor(q),0)));
+  // Important: when embedded in Tally, navigate the top-level tab, not just the iframe.
+  window.top.location.href=tallyUrl+"?"+params.toString();
 });
 update();
 </script>
