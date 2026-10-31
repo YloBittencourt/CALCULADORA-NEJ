@@ -1,180 +1,54 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Pedido — Lojinha Geração</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#9c3e1c"><title>Lojinha Geração</title>
 <style>
-:root{font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;color:#1f1a24;background:#fff}
-*{box-sizing:border-box}
-body{margin:0;padding:14px;background:#fff}
-main{max-width:760px;margin:0 auto}
-.card{background:#fff;border:1px solid #e8d9d1;border-radius:16px;padding:18px;margin:0 0 14px}
-h1{font-size:1.45rem;margin:0 0 6px}
-h2{font-size:1.15rem;margin:0 0 10px}
-p{line-height:1.45;color:#5d5359;margin:6px 0 14px}
-label{display:block;font-weight:650;margin:10px 0 5px}
-input{width:100%;padding:12px;border:1px solid #cbbab1;border-radius:10px;font:inherit;background:#fff}
-input:focus{outline:3px solid #f3d0bc;border-color:#a94722}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-button{border:0;border-radius:12px;padding:14px 18px;background:#9c3e1c;color:white;font:inherit;font-weight:750;cursor:pointer;width:100%;margin-top:12px}
-button.secondary{background:#f4e8e1;color:#74351d}
-button:disabled{opacity:.5;cursor:not-allowed}
-.step{display:none}
-.step.active{display:block}
-.model{border:1px solid #eee2dc;border-radius:12px;padding:12px;margin:12px 0}
-.model h3{font-size:1rem;margin:0 0 8px}
-.sizegrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-.sizegrid label{font-size:.85rem;margin:0}
-.sizegrid input{margin-top:4px;padding:9px 7px}
-.botton-gallery{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin:12px 0}
-.botton-gallery img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:9px;background:#f6eee9}
-.botton-grid{display:grid;grid-template-columns:1fr 82px;gap:8px;align-items:center;padding:9px 0;border-bottom:1px solid #f0e8e3}
-.botton-grid label{margin:0;font-size:.94rem}
-.botton-grid input{padding:9px;text-align:center}
-.price{display:flex;justify-content:space-between;gap:12px;align-items:center;background:#fff0e6;border-radius:12px;padding:15px;margin-top:14px}
-.price strong{font-size:1.55rem;color:#9c3e1c;white-space:nowrap}
-.muted{font-size:.86rem;color:#786c72}
-.error{color:#b42318;font-size:.9rem;min-height:1.2em}
-@media(max-width:430px){body{padding:8px}.card{padding:14px}.sizegrid{grid-template-columns:repeat(2,1fr)}.botton-gallery{gap:4px}.botton-gallery img{border-radius:6px}}
-</style>
-</head>
-<body>
-<main>
-  <section class="step active" id="step-contact">
-    <div class="card">
-      <h1>🔥 Lojinha Geração</h1>
-      <p>Para começar, preencha seus dados. Em seguida, você escolhe as camisas e os bottons e confere o valor do pedido.</p>
-      <label for="nome">Nome completo</label><input id="nome" autocomplete="name" required>
-      <label for="cpf">CPF</label><input id="cpf" inputmode="numeric" autocomplete="off" placeholder="000.000.000-00" required>
-      <label for="telefone">Telefone (WhatsApp)</label><input id="telefone" inputmode="tel" autocomplete="tel" placeholder="(00) 00000-0000" required>
-      <div class="error" id="contact-error" role="alert"></div>
-      <button id="to-products" type="button">Continuar para as opções</button>
-    </div>
-  </section>
-
-  <section class="step" id="step-products">
-    <div class="card">
-      <h1>👕 Camisas</h1>
-      <p>Informe quantas unidades deseja de cada tamanho. Cada camisa custa R$ 45,00.</p>
-      <div class="model">
-        <h3>A onda que vira fogo</h3>
-        <img src="https://storage.tally.so/c8af1ab6-46e3-4fe4-b633-9e52782589bd/Camisa-01-Nova-proposta-A-onda-que-vira-fogo.png" alt="Camisa A onda que vira fogo" style="width:100%;max-height:190px;object-fit:contain">
-        <div class="sizegrid">
-          <label>P<input type="number" min="0" step="1" value="0" data-shirt="camisa_onda_p"></label>
-          <label>M<input type="number" min="0" step="1" value="0" data-shirt="camisa_onda_m"></label>
-          <label>G<input type="number" min="0" step="1" value="0" data-shirt="camisa_onda_g"></label>
-          <label>GG<input type="number" min="0" step="1" value="0" data-shirt="camisa_onda_gg"></label>
-        </div>
-      </div>
-      <div class="model">
-        <h3>O ciclo recomeça. O ponto de partida não</h3>
-        <img src="https://storage.tally.so/c9db4647-894f-4c12-a206-7a26304a9a50/Captura-de-tela-de-2026-10-31-09-00-08.png" alt="Camisa O ciclo recomeça" style="width:100%;max-height:190px;object-fit:contain">
-        <div class="sizegrid">
-          <label>M<input type="number" min="0" step="1" value="0" data-shirt="camisa_ciclo_m"></label>
-          <label>G<input type="number" min="0" step="1" value="0" data-shirt="camisa_ciclo_g"></label>
-          <label>GG<input type="number" min="0" step="1" value="0" data-shirt="camisa_ciclo_gg"></label>
-          <span></span>
-        </div>
-      </div>
-    </div>
-
-    <div class="card">
-      <h1>🔥 Bottons Geração</h1>
-      <p>Confira os cinco modelos juntos e escolha a quantidade de cada um. O preço é calculado em tempo real, com os combos aplicados separadamente por modelo.</p>
-      <div class="botton-gallery" aria-label="Os cinco modelos de bottons">
-        <img src="https://storage.tally.so/2470bd39-528f-42ce-9624-938b5c26fa0a/c755bf8d-ab72-4b00-a1d8-e4dca4d924d9.jpeg" alt="Geração em Chamas">
-        <img src="https://storage.tally.so/31cebcde-c922-4478-925e-d4111f03ce3d/270219fc-fcdc-48ee-98ca-5fad4a205a48.jpeg" alt="Álbum da Cidade">
-        <img src="https://storage.tally.so/0022ae47-7c02-4b30-bc61-862c3279d507/bd31266b-c430-4369-b12a-722ed8e640b7.jpeg" alt="O Maior Núcleo da Bahia">
-        <img src="https://storage.tally.so/9bbaf6f7-d30d-4bcc-96a1-df5dfd96c572/watermarked_img_3844160598284098502.jpg" alt="Grandões e Sem Medo">
-        <img src="https://storage.tally.so/43e7280f-c2f2-4bbb-8876-b06ddb5f9ce4/4b98ca0c-ac63-47f8-bb49-0a577915925d.jpeg" alt="Sol, Onda e Montanha">
-      </div>
-      <div id="botton-inputs"></div>
-      <p class="muted">Unidade: R$ 6,00 · 3 do mesmo modelo: R$ 15,00 · 5 do mesmo modelo: R$ 23,00. Unidades excedentes: R$ 6,00 cada.</p>
-      <div class="price"><span>Subtotal dos bottons</span><strong id="botton-total">R$ 0,00</strong></div>
-      <div class="price"><span>Total do pedido (camisas + bottons)</span><strong id="order-total">R$ 0,00</strong></div>
-      <div class="error" id="product-error" role="alert"></div>
-      <button class="secondary" id="back-contact" type="button">Voltar aos dados</button>
-      <button id="send-order" type="button">Enviar pedido e conferir pagamento</button>
-    </div>
-  </section>
+:root{font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;color:#251b20;background:#fffaf6;--brand:#9c3e1c;--brand2:#74351d;--line:#eadbd2;--soft:#fff0e6}
+*{box-sizing:border-box}body{margin:0;padding:18px;background:linear-gradient(180deg,#fff7f0 0,#fff 320px)}main{max-width:780px;margin:0 auto}.hero{padding:22px 4px 14px}.eyebrow{font-size:.78rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--brand)}h1{font-size:clamp(1.7rem,5vw,2.35rem);margin:7px 0;color:#311e1a}h2{font-size:1.2rem;margin:0 0 8px}.lead{color:#685b60;line-height:1.55;margin:0}.card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:20px;margin:14px 0;box-shadow:0 8px 28px #552b1710}.steps{display:flex;gap:8px;margin:16px 0}.step-pill{flex:1;border-radius:99px;background:#f1e8e2;color:#786a6d;padding:9px;text-align:center;font-size:.82rem;font-weight:750}.step-pill.active{background:var(--brand);color:#fff}.panel{display:none}.panel.active{display:block}label{display:block;font-weight:700;margin:13px 0 6px}input{width:100%;padding:13px;border:1px solid #d8c7be;border-radius:11px;font:inherit;background:#fff;color:#251b20}input:focus{outline:3px solid #f3d0bc;border-color:var(--brand)}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}.actions{display:flex;gap:10px;margin-top:18px}.btn{border:0;border-radius:12px;padding:14px 18px;background:var(--brand);color:#fff;font:inherit;font-weight:800;cursor:pointer;min-height:48px}.btn:hover{filter:brightness(.95)}.btn:disabled{opacity:.55;cursor:wait}.btn.secondary{background:#f3e8e1;color:var(--brand2)}.actions .btn{flex:1}.product{border:1px solid #eee2dc;border-radius:14px;padding:14px;margin:14px 0}.product h3{font-size:1rem;margin:0 0 9px}.shirt-img{width:100%;height:190px;object-fit:contain;background:#fffaf6;border-radius:10px}.sizegrid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:12px}.sizegrid label{font-size:.86rem;margin:0}.sizegrid input{margin-top:5px;padding:10px;text-align:center}.gallery{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:12px 0}.gallery img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:10px;background:#f6eee9}.botton-row{display:grid;grid-template-columns:1fr 100px;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid #f0e8e3}.botton-row label{margin:0;font-size:.94rem}.botton-row input{text-align:center;padding:10px}.hint{font-size:.87rem;color:#786c72;line-height:1.45}.total{display:flex;justify-content:space-between;gap:10px;align-items:center;background:var(--soft);border-radius:13px;padding:15px;margin-top:13px}.total strong{font-size:1.55rem;color:var(--brand);white-space:nowrap}.summary-row{display:flex;justify-content:space-between;gap:14px;padding:10px 0;border-bottom:1px solid #f1e8e3}.summary-row span:first-child{color:#685b60}.error{color:#b42318;font-size:.9rem;min-height:1.2em;margin-top:8px}.success{text-align:center;padding:25px 10px}.success .check{font-size:3rem}.success h2{font-size:1.5rem}.success code{background:#f7eee8;padding:5px 8px;border-radius:7px}.hidden{display:none!important}.fine{font-size:.8rem;color:#81747a;line-height:1.5;margin-top:14px}
+@media(max-width:500px){body{padding:9px}.card{padding:15px}.grid2{grid-template-columns:1fr}.sizegrid{grid-template-columns:repeat(2,1fr)}.gallery{gap:4px}.gallery img{border-radius:6px}.botton-row{grid-template-columns:1fr 82px}.actions{flex-direction:column-reverse}.actions .btn{width:100%}.shirt-img{height:150px}}
+</style></head>
+<body><main>
+<header class="hero"><div class="eyebrow">Lojinha oficial</div><h1>🔥 Lojinha Geração</h1><p class="lead">Escolha seus produtos, confira o valor e confirme seu pedido em poucos passos.</p></header>
+<div class="steps" aria-label="Etapas do pedido"><div class="step-pill active" id="pill1">1. Seus dados</div><div class="step-pill" id="pill2">2. Produtos</div><div class="step-pill" id="pill3">3. Resumo</div></div>
+<section class="panel active" id="contact-panel"><div class="card"><h2>Vamos começar?</h2><p class="lead">Preencha seus dados para identificar seu pedido.</p>
+<label for="nome">Nome completo</label><input id="nome" autocomplete="name" maxlength="120" placeholder="Seu nome completo">
+<div class="grid2"><div><label for="cpf">CPF</label><input id="cpf" inputmode="numeric" autocomplete="off" maxlength="14" placeholder="000.000.000-00"></div><div><label for="telefone">Telefone / WhatsApp</label><input id="telefone" inputmode="tel" autocomplete="tel" maxlength="16" placeholder="(00) 00000-0000"></div></div>
+<div class="error" id="contact-error" role="alert"></div><div class="actions"><button class="btn" id="to-products">Continuar para os produtos →</button></div><p class="fine">Seus dados serão utilizados para identificar e organizar seu pedido.</p></div></section>
+<section class="panel" id="products-panel"><div class="card"><h2>👕 Escolha suas camisas</h2><p class="lead">Cada camisa custa R$ 45,00. Informe a quantidade desejada por tamanho.</p>
+<div class="product"><h3>A onda que vira fogo</h3><img class="shirt-img" src="https://storage.tally.so/c8af1ab6-46e3-4fe4-b633-9e52782589bd/Camisa-01-Nova-proposta-A-onda-que-vira-fogo.png" alt="Camisa A onda que vira fogo"><div class="sizegrid"><label>P<input type="number" min="0" step="1" value="0" data-shirt="camisa_onda_p"></label><label>M<input type="number" min="0" step="1" value="0" data-shirt="camisa_onda_m"></label><label>G<input type="number" min="0" step="1" value="0" data-shirt="camisa_onda_g"></label><label>GG<input type="number" min="0" step="1" value="0" data-shirt="camisa_onda_gg"></label></div></div>
+<div class="product"><h3>O ciclo recomeça. O ponto de partida não</h3><img class="shirt-img" src="https://storage.tally.so/c9db4647-894f-4c12-a206-7a26304a9a50/Captura-de-tela-de-2026-10-31-09-00-08.png" alt="Camisa O ciclo recomeça"><div class="sizegrid"><label>M<input type="number" min="0" step="1" value="0" data-shirt="camisa_ciclo_m"></label><label>G<input type="number" min="0" step="1" value="0" data-shirt="camisa_ciclo_g"></label><label>GG<input type="number" min="0" step="1" value="0" data-shirt="camisa_ciclo_gg"></label></div></div>
+</div><div class="card"><h2>🔥 Escolha seus bottons</h2><p class="lead">Veja os cinco modelos e informe quantos deseja de cada um.</p><div class="gallery" aria-label="Os cinco modelos de bottons"><img src="https://storage.tally.so/2470bd39-528f-42ce-9624-938b5c26fa0a/c755bf8d-ab72-4b00-a1d8-e4dca4d924d9.jpeg" alt="Geração em Chamas"><img src="https://storage.tally.so/31cebcde-c922-4478-925e-d4111f03ce3d/270219fc-fcdc-48ee-98ca-5fad4a205a48.jpeg" alt="Álbum da Cidade"><img src="https://storage.tally.so/0022ae47-7c02-4b30-bc61-862c3279d507/bd31266b-c430-4369-b12a-722ed8e640b7.jpeg" alt="O Maior Núcleo da Bahia"><img src="https://storage.tally.so/9bbaf6f7-d30d-4bcc-96a1-df5dfd96c572/watermarked_img_3844160598284098502.jpg" alt="Grandões e Sem Medo"><img src="https://storage.tally.so/43e7280f-c2f2-4bbb-8876-b06ddb5f9ce4/4b98ca0c-ac63-47f8-bb49-0a577915925d.jpeg" alt="Sol, Onda e Montanha"></div>
+<div id="botton-inputs"></div><p class="hint">Por modelo: unidade avulsa R$ 6,00 · combo de 3 por R$ 15,00 · combo de 5 por R$ 23,00. Unidades excedentes: R$ 6,00 cada. Os combos são calculados separadamente por modelo.</p>
+<div class="total"><span>Subtotal dos bottons</span><strong id="botton-total">R$ 0,00</strong></div><div class="total"><span>Subtotal das camisas</span><strong id="shirt-total">R$ 0,00</strong></div><div class="total"><span>Total do pedido</span><strong id="order-total">R$ 0,00</strong></div>
+<div class="error" id="products-error" role="alert"></div><div class="actions"><button class="btn secondary" id="back-contact">← Voltar</button><button class="btn" id="to-summary">Revisar pedido →</button></div></div></section>
+<section class="panel" id="summary-panel"><div class="card"><h2>Confira seu pedido</h2><p class="lead">Verifique os dados e os produtos antes de confirmar.</p><div id="summary-content"></div><div class="total"><span>Valor total</span><strong id="summary-total">R$ 0,00</strong></div><p class="fine">Nesta primeira versão, o pedido será registrado como aguardando pagamento. A integração de Pix automático será adicionada em uma próxima etapa.</p><div class="error" id="submit-error" role="alert"></div><div class="actions"><button class="btn secondary" id="back-products">← Alterar produtos</button><button class="btn" id="confirm-order">Confirmar pedido</button></div></div></section>
+<section class="panel" id="success-panel"><div class="card success"><div class="check">✅</div><h2>Pedido registrado!</h2><p class="lead">Seu pedido foi enviado e registrado com sucesso.</p><p>Número do pedido: <code id="order-code"></code></p><p class="lead">O pagamento ficará aguardando confirmação. Em breve teremos a opção de Pix integrada diretamente ao site.</p></div></section>
 </main>
 <script>
-const TALLY_URL = "https://tally.so/r/YjPGNJ";
-const bottonModels = [
-  ["Geração em Chamas","botton_geracao"],
-  ["Álbum da Cidade","botton_album"],
-  ["O Maior Núcleo da Bahia","botton_nucleo"],
-  ["Grandões e Sem Medo","botton_grandoes"],
-  ["Sol, Onda e Montanha","botton_sol"]
-];
-const bottonWrap=document.getElementById("botton-inputs");
-bottonModels.forEach(([name,key],i)=>{
-  const row=document.createElement("div");row.className="botton-grid";
-  const label=document.createElement("label");label.htmlFor="botton-"+i;label.textContent=name;
-  const input=document.createElement("input");input.id="botton-"+i;input.type="number";input.min="0";input.step="1";input.value="0";input.inputMode="numeric";input.dataset.botton=key;input.setAttribute("aria-label","Quantidade de "+name);
-  input.addEventListener("input",updateTotals);row.append(label,input);bottonWrap.append(row);
-});
-function quantity(el){return Math.max(0,Math.floor(Number(el.value)||0))}
-function priceFor(q){
-  const dp=Array(q+1).fill(Infinity);dp[0]=0;
-  for(let n=1;n<=q;n++){
-    dp[n]=dp[n-1]+6;
-    if(n>=3)dp[n]=Math.min(dp[n],dp[n-3]+15);
-    if(n>=5)dp[n]=Math.min(dp[n],dp[n-5]+23);
-  }
-  return dp[q];
-}
-const money=v=>v.toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
-function shirtData(){const out={};document.querySelectorAll("[data-shirt]").forEach(el=>out[el.dataset.shirt]=String(quantity(el)));return out}
-function bottonData(){const out={};document.querySelectorAll("[data-botton]").forEach(el=>out[el.dataset.botton]=quantity(el));return out}
-function totals(){
-  const shirts=Object.values(shirtData()).reduce((a,v)=>a+Number(v),0);
-  const bots=bottonData();
-  const bottonPrice=Object.values(bots).reduce((a,q)=>a+priceFor(q),0);
-  return {shirts,bottonPrice,total:shirts*45+bottonPrice,bots};
-}
-function updateTotals(){
-  const t=totals();
-  document.getElementById("botton-total").textContent=money(t.bottonPrice);
-  document.getElementById("order-total").textContent=money(t.total);
-}
-document.querySelectorAll("[data-shirt]").forEach(el=>el.addEventListener("input",updateTotals));
-document.getElementById("to-products").addEventListener("click",()=>{
-  const nome=document.getElementById("nome").value.trim();
-  const cpf=document.getElementById("cpf").value.trim();
-  const telefone=document.getElementById("telefone").value.trim();
-  const error=document.getElementById("contact-error");
-  if(!nome||!cpf||!telefone){error.textContent="Preencha nome, CPF e telefone para continuar.";return}
-  if(cpf.replace(/\D/g,"").length!==11){error.textContent="Confira o CPF: ele deve ter 11 números.";return}
-  if(telefone.replace(/\D/g,"").length<10){error.textContent="Confira o telefone/WhatsApp.";return}
-  error.textContent="";
-  document.getElementById("step-contact").classList.remove("active");
-  document.getElementById("step-products").classList.add("active");
-  updateTotals();
-});
-document.getElementById("back-contact").addEventListener("click",()=>{
-  document.getElementById("step-products").classList.remove("active");
-  document.getElementById("step-contact").classList.add("active");
-});
-document.getElementById("send-order").addEventListener("click",()=>{
-  const error=document.getElementById("product-error");
-  const nome=document.getElementById("nome").value.trim();
-  const cpf=document.getElementById("cpf").value.trim();
-  const telefone=document.getElementById("telefone").value.trim();
-  const shirts=shirtData(), t=totals();
-  if(t.shirts===0 && t.bottonPrice===0){error.textContent="Adicione pelo menos uma camisa ou um botton ao pedido.";return}
-  error.textContent="";
-  const params=new URLSearchParams({
-    workflow:"complete",nome,cpf,telefone,
-    ...shirts,
-    ...t.bots,
-    botton_preco:String(t.bottonPrice)
-  });
-  // This click is a direct user action: leave the embedded calculator and open the same Tally form with all answers prefilled.
-  window.top.location.href=TALLY_URL+"?"+params.toString();
-});
+const SHIRT_PRICE=45;
+const buttonModels=[['Geração em Chamas','botton_geracao'],['Álbum da Cidade','botton_album'],['O Maior Núcleo da Bahia','botton_nucleo'],['Grandões e Sem Medo','botton_grandoes'],['Sol, Onda e Montanha','botton_sol']];
+const money=v=>Number(v).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+const qty=el=>Math.max(0,Math.min(999,Math.floor(Number(el.value)||0)));
+function priceFor(q){const dp=Array(q+1).fill(Infinity);dp[0]=0;for(let n=1;n<=q;n++){dp[n]=dp[n-1]+6;if(n>=3)dp[n]=Math.min(dp[n],dp[n-3]+15);if(n>=5)dp[n]=Math.min(dp[n],dp[n-5]+23)}return dp[q]}
+const bottonWrap=document.getElementById('botton-inputs');
+buttonModels.forEach(([name,key],i)=>{const row=document.createElement('div');row.className='botton-row';const label=document.createElement('label');label.htmlFor='botton-'+i;label.textContent=name;const input=document.createElement('input');input.id='botton-'+i;input.type='number';input.min='0';input.max='999';input.step='1';input.value='0';input.inputMode='numeric';input.dataset.botton=key;input.setAttribute('aria-label','Quantidade de '+name);input.addEventListener('input',updateTotals);row.append(label,input);bottonWrap.append(row)});
+function getShirts(){const out={};document.querySelectorAll('[data-shirt]').forEach(el=>out[el.dataset.shirt]=qty(el));return out}
+function getButtons(){const out={};document.querySelectorAll('[data-botton]').forEach(el=>out[el.dataset.botton]=qty(el));return out}
+function totals(){const shirts=getShirts(),buttons=getButtons(),shirtCount=Object.values(shirts).reduce((a,b)=>a+b,0),shirtTotal=shirtCount*SHIRT_PRICE,buttonTotal=Object.values(buttons).reduce((a,q)=>a+priceFor(q),0);return{shirts,buttons,shirtCount,shirtTotal,buttonTotal,total:shirtTotal+buttonTotal}}
+function updateTotals(){const t=totals();document.getElementById('botton-total').textContent=money(t.buttonTotal);document.getElementById('shirt-total').textContent=money(t.shirtTotal);document.getElementById('order-total').textContent=money(t.total)}
+document.querySelectorAll('[data-shirt]').forEach(el=>el.addEventListener('input',updateTotals));
+function digits(v){return v.replace(/\D/g,'')}
+function validCPF(cpf){cpf=digits(cpf);if(cpf.length!==11||/^([0-9])\1+$/.test(cpf))return false;let sum=0;for(let i=0;i<9;i++)sum+=Number(cpf[i])*(10-i);let d=(sum*10)%11;if(d===10)d=0;if(d!==Number(cpf[9]))return false;sum=0;for(let i=0;i<10;i++)sum+=Number(cpf[i])*(11-i);d=(sum*10)%11;if(d===10)d=0;return d===Number(cpf[10])}
+function showPanel(id,step){document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));document.getElementById(id).classList.add('active');['pill1','pill2','pill3'].forEach((p,i)=>document.getElementById(p).classList.toggle('active',i<step));window.scrollTo({top:0,behavior:'smooth'})}
+document.getElementById('cpf').addEventListener('input',e=>{let v=digits(e.target.value).slice(0,11);v=v.replace(/(\d{3})(\d)/,'$1.$2').replace(/(\d{3})(\d)/,'$1.$2').replace(/(\d{3})(\d{1,2})$/,'$1-$2');e.target.value=v});
+document.getElementById('telefone').addEventListener('input',e=>{let v=digits(e.target.value).slice(0,11);if(v.length>10)v=v.replace(/(\d{2})(\d{5})(\d{4})/,'($1) $2-$3');else if(v.length>6)v=v.replace(/(\d{2})(\d{4})(\d{0,4})/,'($1) $2-$3');else if(v.length>2)v=v.replace(/(\d{2})(\d+)/,'($1) $2');e.target.value=v});
+document.getElementById('to-products').addEventListener('click',()=>{const name=document.getElementById('nome').value.trim(),cpf=document.getElementById('cpf').value,phone=document.getElementById('telefone').value;let msg='';if(!name)msg='Informe seu nome completo.';else if(!validCPF(cpf))msg='Informe um CPF válido.';else if(digits(phone).length<10)msg='Informe um telefone/WhatsApp válido.';document.getElementById('contact-error').textContent=msg;if(!msg)showPanel('products-panel',2)});
+document.getElementById('back-contact').addEventListener('click',()=>showPanel('contact-panel',1));
+function renderSummary(){const t=totals(),name=document.getElementById('nome').value.trim(),cpf=document.getElementById('cpf').value,phone=document.getElementById('telefone').value;let html=`<div class="summary-row"><span>Cliente</span><b>${escapeHTML(name)}</b></div><div class="summary-row"><span>CPF</span><b>${escapeHTML(cpf)}</b></div><div class="summary-row"><span>Telefone</span><b>${escapeHTML(phone)}</b></div><h3>Camisas</h3>`;const shirtLabels={camisa_onda_p:'A onda que vira fogo — P',camisa_onda_m:'A onda que vira fogo — M',camisa_onda_g:'A onda que vira fogo — G',camisa_onda_gg:'A onda que vira fogo — GG',camisa_ciclo_m:'O ciclo recomeça — M',camisa_ciclo_g:'O ciclo recomeça — G',camisa_ciclo_gg:'O ciclo recomeça — GG'};let hasShirt=false;for(const [k,q] of Object.entries(t.shirts)){if(q){hasShirt=true;html+=`<div class="summary-row"><span>${shirtLabels[k]}</span><b>${q} × R$ 45,00</b></div>`}}if(!hasShirt)html+='<p class="hint">Nenhuma camisa selecionada.</p>';html+='<h3 style="margin-top:18px">Bottons</h3>';let hasButtons=false;for(const [name,key] of buttonModels){const q=t.buttons[key];if(q){hasButtons=true;html+=`<div class="summary-row"><span>${name}</span><b>${q} un. · ${money(priceFor(q))}</b></div>`}}if(!hasButtons)html+='<p class="hint">Nenhum botton selecionado.</p>';html+=`<div class="summary-row"><span>Subtotal camisas</span><b>${money(t.shirtTotal)}</b></div><div class="summary-row"><span>Subtotal bottons</span><b>${money(t.buttonTotal)}</b></div>`;document.getElementById('summary-content').innerHTML=html;document.getElementById('summary-total').textContent=money(t.total)}
+function escapeHTML(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+document.getElementById('to-summary').addEventListener('click',()=>{const t=totals();document.getElementById('products-error').textContent=t.total===0?'Adicione pelo menos uma camisa ou um botton ao pedido.':'';if(t.total===0)return;renderSummary();showPanel('summary-panel',3)});
+document.getElementById('back-products').addEventListener('click',()=>showPanel('products-panel',2));
+document.getElementById('confirm-order').addEventListener('click',async()=>{const btn=document.getElementById('confirm-order'),err=document.getElementById('submit-error');btn.disabled=true;btn.textContent='Registrando pedido…';err.textContent='';const t=totals();const payload={customer:{name:document.getElementById('nome').value.trim(),cpf:digits(document.getElementById('cpf').value),phone:digits(document.getElementById('telefone').value)},shirts:t.shirts,buttons:t.buttons};try{const response=await fetch('/api/pedidos',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});const result=await response.json();if(!response.ok)throw new Error(result.error||'Não foi possível registrar o pedido.');document.getElementById('order-code').textContent=result.orderId;showPanel('success-panel',3)}catch(e){err.textContent=e.message||'Falha ao enviar. Tente novamente.';btn.disabled=false;btn.textContent='Confirmar pedido'}});
 updateTotals();
-</script>
-</body>
-</html>
+</script></body></html>

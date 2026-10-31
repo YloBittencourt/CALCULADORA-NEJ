@@ -1,0 +1,7 @@
+{
+  "name": "lojinha-geracao",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Site de pedidos da Lojinha Geração com registro no Google Planilhas",
+  "dependencies": { "googleapis": "^144.0.0" }
+}
