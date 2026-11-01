@@ -46,3 +46,14 @@ A imagem deve se chamar exatamente `pix-qr-code.png` e ficar na raiz do projeto,
 - Tamanho máximo: 3 MB.
 - Os arquivos ficam na pasta do Drive da conta que executa o Apps Script. O link salvo na planilha é para uso da equipe com acesso ao Drive; não é publicado como arquivo aberto ao público.
 - O envio de comprovante não comprova, por si só, que o Pix foi recebido. Confirme sempre no extrato bancário antes de marcar como `Pago`.
+
+## Atualização visual — Fase 1
+- Mantida a identidade visual azul, bege e branco da Lojinha Geração.
+- Incluída tabela de medidas oficial para P, M, G, GG, G1, G2 e G3 (medidas em centímetros).
+- Incluídos os tamanhos G1, G2 e G3 nos dois modelos de camisa, no resumo do pedido e na validação da API.
+- Adicionados controles de quantidade (+ e −), mantendo a digitação manual.
+- Refinados cartões, botões, etapas, áreas de produto, resumo e pagamento, com ajustes responsivos.
+- Não foi implementado carrinho persistente. O CPF e as regras comerciais foram mantidos.
+
+## Tamanhos de camisa aceitos
+P, M, G, GG, G1, G2 e G3. O preço unitário permanece R$ 45,00.

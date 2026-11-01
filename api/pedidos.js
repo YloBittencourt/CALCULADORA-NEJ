@@ -9,16 +9,86 @@ const BUTTON_MODELS = [
   ['botton_grandoes', 'Grandões e Sem Medo'],
   ['botton_sol', 'Sol, Onda e Montanha'],
 ];
-const SHIRT_KEYS = ['camisa_onda_p','camisa_onda_m','camisa_onda_g','camisa_onda_gg','camisa_ciclo_p','camisa_ciclo_m','camisa_ciclo_g','camisa_ciclo_gg'];
+const SHIRT_KEYS = ['camisa_onda_p','camisa_onda_m','camisa_onda_g','camisa_onda_gg','camisa_onda_g1','camisa_onda_g2','camisa_onda_g3','camisa_ciclo_p','camisa_ciclo_m','camisa_ciclo_g','camisa_ciclo_gg','camisa_ciclo_g1','camisa_ciclo_g2','camisa_ciclo_g3'];
 const SHIRT_LABELS = {
   camisa_onda_p:'A onda que vira fogo - P', camisa_onda_m:'A onda que vira fogo - M',
   camisa_onda_g:'A onda que vira fogo - G', camisa_onda_gg:'A onda que vira fogo - GG',
-  camisa_ciclo_p:'O ciclo recomeça - P', camisa_ciclo_m:'O ciclo recomeça - M', camisa_ciclo_g:'O ciclo recomeça - G', camisa_ciclo_gg:'O ciclo recomeça - GG'
+  camisa_onda_g1:'A onda que vira fogo - G1', camisa_onda_g2:'A onda que vira fogo - G2', camisa_onda_g3:'A onda que vira fogo - G3',
+  camisa_ciclo_p:'O ciclo recomeça - P', camisa_ciclo_m:'O ciclo recomeça - M', camisa_ciclo_g:'O ciclo recomeça - G', camisa_ciclo_gg:'O ciclo recomeça - GG',
+  camisa_ciclo_g1:'O ciclo recomeça - G1', camisa_ciclo_g2:'O ciclo recomeça - G2', camisa_ciclo_g3:'O ciclo recomeça - G3'
 };
+
+const BRAZILIAN_DDDS = new Set([
+  '11','12','13','14','15','16','17','18','19','21','22','24','27','28','31','32','33','34','35','37','38',
+  '41','42','43','44','45','46','47','48','49','51','53','54','55','61','62','63','64','65','66','67','68',
+  '69','71','73','74','75','77','79','81','82','83','84','85','86','87','88','89','91','92','93','94','95',
+  '96','97','98','99'
+]);
+
+class ValidationError extends Error {}
+
+function invalid(message) { throw new ValidationError(message); }
+
+function isRecord(value) {
+  return value !== null && typeof value === 'object' && !Array.isArray(value);
+}
+
+function normalizeName(value) {
+  if (typeof value !== 'string') invalid('Informe um nome válido.');
+  const name = value.normalize('NFC').trim().replace(/\s+/gu, ' ');
+  if (!name || name.length < 3 || name.length > 120) invalid('Informe um nome válido.');
+  if (/[\u0000-\u001F\u007F-\u009F]/u.test(name)) invalid('Informe um nome válido.');
+  if (!/\p{L}/u.test(name)) invalid('Informe um nome válido.');
+  return name;
+}
+
+function normalizeCPF(value) {
+  if (typeof value !== 'string') invalid('CPF inválido. Confira os números informados.');
+  const cpfText = value.trim();
+  if (!/^[\d.\-\s]+$/u.test(cpfText)) invalid('CPF inválido. Confira os números informados.');
+  const cpf = cpfText.replace(/\D/g, '');
+  if (!validCPF(cpf)) invalid('CPF inválido. Confira os números informados.');
+  return cpf;
+}
+
+function normalizePhone(value) {
+  if (typeof value !== 'string') invalid('Telefone inválido.');
+  const phoneText = value.trim();
+  if (!/^[\d()\-+\s]+$/u.test(phoneText)) invalid('Telefone inválido.');
+  const phone = phoneText.replace(/\D/g, '');
+  const ddd = phone.slice(0, 2);
+  const subscriber = phone.slice(2);
+  const validLength = phone.length === 10 || phone.length === 11;
+  const validSubscriber = phone.length === 10 ? /^[2-5]\d{7}$/u.test(subscriber) : /^9\d{8}$/u.test(subscriber);
+  if (!validLength || !BRAZILIAN_DDDS.has(ddd) || /^([0-9])\1+$/u.test(phone) || /^([0-9])\1+$/u.test(subscriber) || !validSubscriber) {
+    invalid('Telefone inválido.');
+  }
+  return phone;
+}
+
+function normalizeQuantity(value) {
+  if (typeof value === 'number') {
+    if (!Number.isSafeInteger(value) || value < 0 || value > 999) invalid('Quantidade inválida.');
+    return value;
+  }
+  if (typeof value === 'string' && /^\d+$/u.test(value)) {
+    const n = Number(value);
+    if (!Number.isSafeInteger(n) || n > 999) invalid('Quantidade inválida.');
+    return n;
+  }
+  invalid('Quantidade inválida.');
+}
+
+function validateProductObject(value, allowedKeys, fieldName) {
+  if (value == null) return {};
+  if (!isRecord(value)) invalid(`${fieldName} inválidos.`);
+  const unknownKeys = Object.keys(value).filter(key => !allowedKeys.has(key));
+  if (unknownKeys.length) invalid(`${fieldName} inválidos.`);
+  return value;
+}
+
 function quantity(v) {
-  const n = Number(v);
-  if (!Number.isInteger(n) || n < 0 || n > 999) throw new Error('Quantidade inválida.');
-  return n;
+  return normalizeQuantity(v);
 }
 function priceButtons(q) {
   const dp = Array(q + 1).fill(Infinity); dp[0] = 0;
@@ -48,28 +118,29 @@ module.exports = async (req, res) => {
 
   try {
     const body = req.body || {};
-    const customer = body.customer || {};
-    const name = String(customer.name || '').trim();
-    const cpf = String(customer.cpf || '').replace(/\D/g, '');
-    const phone = String(customer.phone || '').replace(/\D/g, '');
-    if (name.length < 3 || name.length > 120) throw new Error('Informe um nome válido.');
-    if (!validCPF(cpf)) throw new Error('CPF inválido. Confira os números informados.');
-    if (phone.length < 10 || phone.length > 11) throw new Error('Telefone inválido.');
+    if (!isRecord(body) || !isRecord(body.customer)) invalid('Dados do cliente inválidos.');
+    const customer = body.customer;
+    const name = normalizeName(customer.name);
+    const cpf = normalizeCPF(customer.cpf);
+    const phone = normalizePhone(customer.phone);
 
     const shirts = {}; let shirtCount = 0;
+    const shirtInput = validateProductObject(body.shirts, new Set(SHIRT_KEYS), 'Camisas');
     for (const key of SHIRT_KEYS) {
-      shirts[key] = quantity((body.shirts || {})[key] ?? 0);
+      shirts[key] = quantity(shirtInput[key] ?? 0);
       shirtCount += shirts[key];
     }
     const buttons = {}; let buttonCents = 0;
+    const buttonKeys = new Set(BUTTON_MODELS.map(([key]) => key));
+    const buttonInput = validateProductObject(body.buttons, buttonKeys, 'Bottons');
     for (const [key] of BUTTON_MODELS) {
-      buttons[key] = quantity((body.buttons || {})[key] ?? 0);
+      buttons[key] = quantity(buttonInput[key] ?? 0);
       buttonCents += priceButtons(buttons[key]);
     }
     const shirtCents = shirtCount * SHIRT_PRICE_CENTS;
     const totalCents = shirtCents + buttonCents;
-    if (totalCents <= 0) throw new Error('O pedido precisa conter pelo menos um produto.');
-    if (totalCents > 100000000) throw new Error('Valor do pedido fora do limite permitido.');
+    if (totalCents <= 0) invalid('O pedido precisa conter pelo menos um produto.');
+    if (totalCents > 100000000) invalid('Valor do pedido fora do limite permitido.');
 
     const shirtSummary = SHIRT_KEYS.filter(k => shirts[k])
       .map(k => `${SHIRT_LABELS[k]}: ${shirts[k]}`).join(' | ') || '-';
@@ -101,10 +172,10 @@ module.exports = async (req, res) => {
     const responseText = await response.text();
     let result;
     try { result = JSON.parse(responseText); }
-    catch (_) { throw new Error('O Apps Script não retornou uma confirmação válida. Verifique se a implantação está acessível para qualquer pessoa.'); }
+    catch (_) { throw new Error('Resposta externa inválida.'); }
 
     if (!response.ok || result.sucesso !== true) {
-      throw new Error(result.mensagem || 'O Apps Script não confirmou a gravação do pedido.');
+      throw new Error('O registro externo não foi confirmado.');
     }
 
     return res.status(201).json({
@@ -114,9 +185,11 @@ module.exports = async (req, res) => {
       paymentStatus: 'Aguardando pagamento'
     });
   } catch (error) {
-    console.error('Erro ao registrar pedido via Apps Script:', error);
-    const message = error.message || 'Não foi possível registrar o pedido.';
-    const status = /CPF|Telefone|nome|Quantidade|pedido precisa|Valor do pedido/.test(message) ? 400 : 502;
-    return res.status(status).json({ error: status === 502 ? `Falha ao gravar na planilha: ${message}` : message });
+    if (error instanceof ValidationError) return res.status(400).json({ error: error.message });
+    console.error('Falha ao registrar pedido:', error && error.name ? error.name : 'Erro interno');
+    return res.status(502).json({ error: 'Não foi possível registrar o pedido no momento.' });
   }
 };
+
+// O payload de pedidos é pequeno; limitar o parser reduz abuso antes da validação.
+module.exports.config = { api: { bodyParser: { sizeLimit: '128kb' } } };
