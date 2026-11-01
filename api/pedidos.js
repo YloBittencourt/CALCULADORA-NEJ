@@ -130,13 +130,14 @@ module.exports = async (req, res) => {
       shirts[key] = quantity(shirtInput[key] ?? 0);
       shirtCount += shirts[key];
     }
-    const buttons = {}; let buttonCents = 0;
+    const buttons = {}; let buttonCount = 0;
     const buttonKeys = new Set(BUTTON_MODELS.map(([key]) => key));
     const buttonInput = validateProductObject(body.buttons, buttonKeys, 'Bottons');
     for (const [key] of BUTTON_MODELS) {
       buttons[key] = quantity(buttonInput[key] ?? 0);
-      buttonCents += priceButtons(buttons[key]);
+      buttonCount += buttons[key];
     }
+    const buttonCents = priceButtons(buttonCount);
     const shirtCents = shirtCount * SHIRT_PRICE_CENTS;
     const totalCents = shirtCents + buttonCents;
     if (totalCents <= 0) invalid('O pedido precisa conter pelo menos um produto.');
@@ -145,7 +146,7 @@ module.exports = async (req, res) => {
     const shirtSummary = SHIRT_KEYS.filter(k => shirts[k])
       .map(k => `${SHIRT_LABELS[k]}: ${shirts[k]}`).join(' | ') || '-';
     const buttonSummary = BUTTON_MODELS.filter(([k]) => buttons[k])
-      .map(([k, label]) => `${label}: ${buttons[k]} (R$ ${money(priceButtons(buttons[k])).replace('.', ',')})`)
+      .map(([k, label]) => `${label}: ${buttons[k]}`)
       .join(' | ') || '-';
 
     // O Apps Script espera os campos achatados; convertemos aqui os dados recebidos da loja.
