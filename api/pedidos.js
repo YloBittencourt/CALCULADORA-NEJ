@@ -9,11 +9,11 @@ const BUTTON_MODELS = [
   ['botton_grandoes', 'Grandões e Sem Medo'],
   ['botton_sol', 'Sol, Onda e Montanha'],
 ];
-const SHIRT_KEYS = ['camisa_onda_p','camisa_onda_m','camisa_onda_g','camisa_onda_gg','camisa_ciclo_m','camisa_ciclo_g','camisa_ciclo_gg'];
+const SHIRT_KEYS = ['camisa_onda_p','camisa_onda_m','camisa_onda_g','camisa_onda_gg','camisa_ciclo_p','camisa_ciclo_m','camisa_ciclo_g','camisa_ciclo_gg'];
 const SHIRT_LABELS = {
   camisa_onda_p:'A onda que vira fogo - P', camisa_onda_m:'A onda que vira fogo - M',
   camisa_onda_g:'A onda que vira fogo - G', camisa_onda_gg:'A onda que vira fogo - GG',
-  camisa_ciclo_m:'O ciclo recomeça - M', camisa_ciclo_g:'O ciclo recomeça - G', camisa_ciclo_gg:'O ciclo recomeça - GG'
+  camisa_ciclo_p:'O ciclo recomeça - P', camisa_ciclo_m:'O ciclo recomeça - M', camisa_ciclo_g:'O ciclo recomeça - G', camisa_ciclo_gg:'O ciclo recomeça - GG'
 };
 function quantity(v) {
   const n = Number(v);
