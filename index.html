@@ -975,6 +975,34 @@
       .sizegrid .quantity-control { gap: 2px; }
       .sizegrid .quantity-button { flex-basis: 24px; width: 24px; }
     }
+    .shirt-selector { margin-top: 14px; padding: 14px; border: 1px solid #DCE4F2; border-radius: 13px; background: #F8FAFE; }
+    .shirt-selector-fields { display: grid; grid-template-columns: auto minmax(90px, 1fr) auto minmax(90px, 1fr) 48px; gap: 8px; align-items: center; }
+    .shirt-selector-fields label { margin: 0; font-size: .86rem; color: #53627F; }
+    .shirt-size-select, .shirt-quantity-input { width: 100%; min-height: 44px; padding: 9px 10px; border: 1px solid #C9D5E8; border-radius: 11px; font: inherit; background: #FFFFFF; color: #17264A; }
+    .shirt-size-select:focus, .shirt-quantity-input:focus { outline: 3px solid #B9D0FF; border-color: #004AAD; }
+    .add-shirt { min-width: 48px; min-height: 44px; padding: 8px; font-size: 1.35rem; line-height: 1; }
+    .shirt-feedback { min-height: 1.2em; margin: 8px 0 2px; color: #287443; font-size: .84rem; }
+    .shirt-feedback.error { color: #B42318; }
+    .shirt-list { display: grid; gap: 7px; margin-top: 8px; }
+    .shirt-list-empty { margin: 0; }
+    .shirt-list-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(72px, 100px) 42px; align-items: center; gap: 8px; padding: 8px 0; border-top: 1px solid #E4EAF4; }
+    .shirt-list-row strong { color: #02195B; }
+    .shirt-list-row input { min-height: 38px; padding: 7px; text-align: center; }
+    .remove-shirt { width: 38px; height: 38px; border: 1px solid #DCE4F2; border-radius: 9px; background: #FFFFFF; color: #B42318; font: inherit; font-weight: 800; cursor: pointer; }
+    .remove-shirt:hover { background: #FFF1F0; border-color: #E5AAA5; }
+    .remove-shirt:focus-visible { outline: 3px solid #F2B8B5; outline-offset: 2px; }
+    @media(max-width:600px) {
+      .shirt-selector-fields { grid-template-columns: auto minmax(0, 1fr) auto minmax(0, 1fr) 46px; gap: 6px; }
+      .shirt-selector { padding: 11px; }
+    }
+    @media(max-width:420px) {
+      .shirt-selector-fields { grid-template-columns: 1fr 1fr 46px; }
+      .shirt-selector-fields label:nth-of-type(1) { grid-column: 1; }
+      .shirt-selector-fields .shirt-size-select { grid-column: 2; }
+      .shirt-selector-fields label:nth-of-type(2) { grid-column: 1; }
+      .shirt-selector-fields .shirt-quantity-input { grid-column: 2; }
+      .shirt-selector-fields .add-shirt { grid-column: 3; grid-row: 1 / span 2; height: 100%; }
+    }
   </style>
 </head>
 
@@ -1041,7 +1069,18 @@
             aria-label="Ampliar foto da camisa A onda que vira fogo"><img class="shirt-img"
               src="/imagens/camisas/camisa-01-onda-vira-fogo.png" alt="Camisa A onda que vira fogo"></button>
           <p class="image-hint">Toque na imagem para ampliar</p>
-          <div class="sizegrid"><label>P<input type="number" min="0" max="999" step="1" value="0" data-shirt="camisa_onda_p" aria-label="Quantidade tamanho P"></label><label>M<input type="number" min="0" max="999" step="1" value="0" data-shirt="camisa_onda_m" aria-label="Quantidade tamanho M"></label><label>G<input type="number" min="0" max="999" step="1" value="0" data-shirt="camisa_onda_g" aria-label="Quantidade tamanho G"></label><label>GG<input type="number" min="0" max="999" step="1" value="0" data-shirt="camisa_onda_gg" aria-label="Quantidade tamanho GG"></label><label>G1<input type="number" min="0" max="999" step="1" value="0" data-shirt="camisa_onda_g1" aria-label="Quantidade tamanho G1"></label><label>G2<input type="number" min="0" max="999" step="1" value="0" data-shirt="camisa_onda_g2" aria-label="Quantidade tamanho G2"></label><label>G3<input type="number" min="0" max="999" step="1" value="0" data-shirt="camisa_onda_g3" aria-label="Quantidade tamanho G3"></label></div>
+          <div class="shirt-selector" data-shirt-product="onda" data-shirt-prefix="camisa_onda_">
+            <div class="shirt-selector-fields">
+              <label for="onda-size">Tamanho</label>
+              <select id="onda-size" class="shirt-size-select"><option value="P">P</option><option value="M">M</option><option value="G">G</option><option value="GG">GG</option><option value="G1">G1</option><option value="G2">G2</option><option value="G3">G3</option></select>
+              <label for="onda-quantity">Quantidade</label>
+              <input id="onda-quantity" class="shirt-quantity-input" type="number" min="1" max="999" step="1" inputmode="numeric" placeholder="0" aria-describedby="onda-feedback">
+              <button class="btn add-shirt" type="button">+</button>
+            </div>
+            <p class="shirt-feedback" id="onda-feedback" role="status" aria-live="polite"></p>
+            <div class="shirt-list" aria-live="polite"><p class="hint shirt-list-empty">Nenhum tamanho adicionado ainda.</p></div>
+            <div class="shirt-hidden-inputs"><input type="hidden" data-shirt="camisa_onda_p" value="0"><input type="hidden" data-shirt="camisa_onda_m" value="0"><input type="hidden" data-shirt="camisa_onda_g" value="0"><input type="hidden" data-shirt="camisa_onda_gg" value="0"><input type="hidden" data-shirt="camisa_onda_g1" value="0"><input type="hidden" data-shirt="camisa_onda_g2" value="0"><input type="hidden" data-shirt="camisa_onda_g3" value="0"></div>
+          </div>
         </div>
         <div class="product">
           <h3>O ciclo recomeça. O ponto de partida não</h3>
@@ -1051,7 +1090,18 @@
             aria-label="Ampliar foto da camisa O ciclo recomeça"><img class="shirt-img"
               src="/imagens/camisas/camisa-02-ciclo-recomeca.png" alt="Camisa O ciclo recomeça"></button>
           <p class="image-hint">Toque na imagem para ampliar</p>
-          <div class="sizegrid"><label>P<input type="number" min="0" max="999" step="1" value="0" data-shirt="camisa_ciclo_p" aria-label="Quantidade tamanho P"></label><label>M<input type="number" min="0" max="999" step="1" value="0" data-shirt="camisa_ciclo_m" aria-label="Quantidade tamanho M"></label><label>G<input type="number" min="0" max="999" step="1" value="0" data-shirt="camisa_ciclo_g" aria-label="Quantidade tamanho G"></label><label>GG<input type="number" min="0" max="999" step="1" value="0" data-shirt="camisa_ciclo_gg" aria-label="Quantidade tamanho GG"></label><label>G1<input type="number" min="0" max="999" step="1" value="0" data-shirt="camisa_ciclo_g1" aria-label="Quantidade tamanho G1"></label><label>G2<input type="number" min="0" max="999" step="1" value="0" data-shirt="camisa_ciclo_g2" aria-label="Quantidade tamanho G2"></label><label>G3<input type="number" min="0" max="999" step="1" value="0" data-shirt="camisa_ciclo_g3" aria-label="Quantidade tamanho G3"></label></div>
+          <div class="shirt-selector" data-shirt-product="ciclo" data-shirt-prefix="camisa_ciclo_">
+            <div class="shirt-selector-fields">
+              <label for="ciclo-size">Tamanho</label>
+              <select id="ciclo-size" class="shirt-size-select"><option value="P">P</option><option value="M">M</option><option value="G">G</option><option value="GG">GG</option><option value="G1">G1</option><option value="G2">G2</option><option value="G3">G3</option></select>
+              <label for="ciclo-quantity">Quantidade</label>
+              <input id="ciclo-quantity" class="shirt-quantity-input" type="number" min="1" max="999" step="1" inputmode="numeric" placeholder="0" aria-describedby="ciclo-feedback">
+              <button class="btn add-shirt" type="button">+</button>
+            </div>
+            <p class="shirt-feedback" id="ciclo-feedback" role="status" aria-live="polite"></p>
+            <div class="shirt-list" aria-live="polite"><p class="hint shirt-list-empty">Nenhum tamanho adicionado ainda.</p></div>
+            <div class="shirt-hidden-inputs"><input type="hidden" data-shirt="camisa_ciclo_p" value="0"><input type="hidden" data-shirt="camisa_ciclo_m" value="0"><input type="hidden" data-shirt="camisa_ciclo_g" value="0"><input type="hidden" data-shirt="camisa_ciclo_gg" value="0"><input type="hidden" data-shirt="camisa_ciclo_g1" value="0"><input type="hidden" data-shirt="camisa_ciclo_g2" value="0"><input type="hidden" data-shirt="camisa_ciclo_g3" value="0"></div>
+          </div>
         </div>
       </div>
       <div class="card">
@@ -1148,6 +1198,40 @@
     function priceFor(q) { const dp = Array(q + 1).fill(Infinity); dp[0] = 0; for (let n = 1; n <= q; n++) { dp[n] = dp[n - 1] + 6; if (n >= 3) dp[n] = Math.min(dp[n], dp[n - 3] + 15); if (n >= 5) dp[n] = Math.min(dp[n], dp[n - 5] + 23) } return dp[q] }
     const bottonWrap = document.getElementById('botton-inputs');
     buttonModels.forEach(([name, key], i) => { const row = document.createElement('div'); row.className = 'botton-row'; const label = document.createElement('label'); label.htmlFor = 'botton-' + i; label.textContent = name; const input = document.createElement('input'); input.id = 'botton-' + i; input.type = 'number'; input.min = '0'; input.max = '999'; input.step = '1'; input.value = '0'; input.inputMode = 'numeric'; input.dataset.botton = key; input.setAttribute('aria-label', 'Quantidade de ' + name); row.append(label, input); bottonWrap.append(row); bindQuantityInput(input) });
+    function shirtQuantity(value) { return /^\d+$/.test(String(value)) ? Number(value) : NaN }
+    function shirtInputFor(selector, size) { return selector.querySelector(`[data-shirt="${selector.dataset.shirtPrefix}${size.toLowerCase()}"]`) }
+    function setShirtFeedback(selector, message, isError = false) { const feedback = selector.querySelector('.shirt-feedback'); feedback.textContent = message; feedback.classList.toggle('error', isError) }
+    function renderShirtList(selector) {
+      const list = selector.querySelector('.shirt-list');
+      const rows = Array.from(selector.querySelectorAll('.shirt-hidden-inputs [data-shirt]')).map(input => ({ input, size: input.dataset.shirt.replace(selector.dataset.shirtPrefix, '').toUpperCase(), quantity: Number(input.value) })).filter(item => item.quantity > 0);
+      list.innerHTML = rows.length ? '' : '<p class="hint shirt-list-empty">Nenhum tamanho adicionado ainda.</p>';
+      rows.forEach(({ input, size, quantity }) => {
+        const row = document.createElement('div'); row.className = 'shirt-list-row';
+        const label = document.createElement('strong'); label.textContent = `Tamanho ${size}`;
+        const edit = document.createElement('input'); edit.type = 'number'; edit.min = '0'; edit.max = '999'; edit.step = '1'; edit.inputMode = 'numeric'; edit.value = String(quantity); edit.setAttribute('aria-label', `Quantidade tamanho ${size}`); edit.dataset.editShirt = input.dataset.shirt; edit.dataset.previousValue = String(quantity);
+        edit.addEventListener('change', () => {
+          const next = shirtQuantity(edit.value);
+          if (!Number.isInteger(next) || next < 0 || next > 999) { edit.value = edit.dataset.previousValue; setShirtFeedback(selector, 'Use uma quantidade inteira entre 0 e 999.', true); return }
+          input.value = String(next); edit.dataset.previousValue = String(next); renderShirtList(selector); updateTotals(); setShirtFeedback(selector, next ? 'Quantidade atualizada.' : 'Tamanho removido.');
+        });
+        const remove = document.createElement('button'); remove.type = 'button'; remove.className = 'remove-shirt'; remove.textContent = '×'; remove.setAttribute('aria-label', `Remover tamanho ${size}`);
+        remove.addEventListener('click', () => { input.value = '0'; renderShirtList(selector); updateTotals(); setShirtFeedback(selector, `Tamanho ${size} removido.`); });
+        row.append(label, edit, remove); list.append(row);
+      });
+    }
+    function bindShirtSelector(selector) {
+      const size = selector.querySelector('.shirt-size-select'), quantity = selector.querySelector('.shirt-quantity-input'), add = selector.querySelector('.add-shirt');
+      add.addEventListener('click', () => {
+        const amount = shirtQuantity(quantity.value);
+        if (!Number.isInteger(amount) || amount < 1 || amount > 999) { setShirtFeedback(selector, 'Informe uma quantidade inteira entre 1 e 999.', true); quantity.focus(); return }
+        const input = shirtInputFor(selector, size.value), current = Number(input.value) || 0;
+        if (current + amount > 999) { setShirtFeedback(selector, `O tamanho ${size.value} pode ter no máximo 999 unidades.`, true); quantity.focus(); return }
+        input.value = String(current + amount); renderShirtList(selector); updateTotals(); setShirtFeedback(selector, `${amount} camisa(s) tamanho ${size.value} adicionada(s).`); quantity.value = ''; quantity.focus();
+      });
+      quantity.addEventListener('keydown', event => { if (event.key === 'Enter') { event.preventDefault(); add.click(); } });
+      renderShirtList(selector);
+    }
+    document.querySelectorAll('.shirt-selector').forEach(bindShirtSelector);
     function getShirts() { const out = {}; document.querySelectorAll('[data-shirt]').forEach(el => out[el.dataset.shirt] = qty(el)); return out }
     function getButtons() { const out = {}; document.querySelectorAll('[data-botton]').forEach(el => out[el.dataset.botton] = qty(el)); return out }
     function totals() { const shirts = getShirts(), buttons = getButtons(), shirtCount = Object.values(shirts).reduce((a, b) => a + b, 0), shirtTotal = shirtCount * SHIRT_PRICE, buttonTotal = Object.values(buttons).reduce((a, q) => a + priceFor(q), 0); return { shirts, buttons, shirtCount, shirtTotal, buttonTotal, total: shirtTotal + buttonTotal } }
@@ -1175,7 +1259,7 @@
       wrap.insertBefore(makeButton('Diminuir quantidade', '−', -1), input);
       wrap.appendChild(makeButton('Aumentar quantidade', '+', 1));
     }
-    document.querySelectorAll('input[type="number"]').forEach(enhanceQuantityControls);
+    document.querySelectorAll('[data-botton]').forEach(enhanceQuantityControls);
     function digits(v) { return v.replace(/\D/g, '') }
     function validCPF(cpf) { cpf = digits(cpf); if (cpf.length !== 11 || /^([0-9])\1+$/.test(cpf)) return false; let sum = 0; for (let i = 0; i < 9; i++)sum += Number(cpf[i]) * (10 - i); let d = (sum * 10) % 11; if (d === 10) d = 0; if (d !== Number(cpf[9])) return false; sum = 0; for (let i = 0; i < 10; i++)sum += Number(cpf[i]) * (11 - i); d = (sum * 10) % 11; if (d === 10) d = 0; return d === Number(cpf[10]) }
     const BRAZILIAN_DDDS = new Set(['11','12','13','14','15','16','17','18','19','21','22','24','27','28','31','32','33','34','35','37','38','41','42','43','44','45','46','47','48','49','51','53','54','55','61','62','63','64','65','66','67','68','69','71','73','74','75','77','79','81','82','83','84','85','86','87','88','89','91','92','93','94','95','96','97','98','99']);
