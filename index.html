@@ -1,75 +1,616 @@
 <!doctype html>
 <html lang="pt-BR">
+
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#9c3e1c"><title>Lojinha Geração</title>
-<style>
-:root{font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;color:#251b20;background:#fffaf6;--brand:#9c3e1c;--brand2:#74351d;--line:#eadbd2;--soft:#fff0e6}
-*{box-sizing:border-box}body{margin:0;padding:18px;background:linear-gradient(180deg,#fff7f0 0,#fff 320px)}main{max-width:780px;margin:0 auto}.hero{padding:22px 4px 14px}.eyebrow{font-size:.78rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--brand)}h1{font-size:clamp(1.7rem,5vw,2.35rem);margin:7px 0;color:#311e1a}h2{font-size:1.2rem;margin:0 0 8px}.lead{color:#685b60;line-height:1.55;margin:0}.card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:20px;margin:14px 0;box-shadow:0 8px 28px #552b1710}.steps{display:flex;gap:8px;margin:16px 0}.step-pill{flex:1;border-radius:99px;background:#f1e8e2;color:#786a6d;padding:9px;text-align:center;font-size:.82rem;font-weight:750}.step-pill.active{background:var(--brand);color:#fff}.panel{display:none}.panel.active{display:block}label{display:block;font-weight:700;margin:13px 0 6px}input{width:100%;padding:13px;border:1px solid #d8c7be;border-radius:11px;font:inherit;background:#fff;color:#251b20}input:focus{outline:3px solid #f3d0bc;border-color:var(--brand)}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}.actions{display:flex;gap:10px;margin-top:18px}.btn{border:0;border-radius:12px;padding:14px 18px;background:var(--brand);color:#fff;font:inherit;font-weight:800;cursor:pointer;min-height:48px}.btn:hover{filter:brightness(.95)}.btn:disabled{opacity:.55;cursor:wait}.btn.secondary{background:#f3e8e1;color:var(--brand2)}.actions .btn{flex:1}.product{border:1px solid #eee2dc;border-radius:14px;padding:14px;margin:14px 0}.product h3{font-size:1rem;margin:0 0 9px}.shirt-img{width:100%;height:190px;object-fit:contain;background:#fffaf6;border-radius:10px}.sizegrid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:12px}.sizegrid label{font-size:.86rem;margin:0}.sizegrid input{margin-top:5px;padding:10px;text-align:center}.gallery{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:12px 0}.gallery img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:10px;background:#f6eee9}.botton-row{display:grid;grid-template-columns:1fr 100px;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid #f0e8e3}.botton-row label{margin:0;font-size:.94rem}.botton-row input{text-align:center;padding:10px}.hint{font-size:.87rem;color:#786c72;line-height:1.45}.total{display:flex;justify-content:space-between;gap:10px;align-items:center;background:var(--soft);border-radius:13px;padding:15px;margin-top:13px}.total strong{font-size:1.55rem;color:var(--brand);white-space:nowrap}.summary-row{display:flex;justify-content:space-between;gap:14px;padding:10px 0;border-bottom:1px solid #f1e8e3}.summary-row span:first-child{color:#685b60}.error{color:#b42318;font-size:.9rem;min-height:1.2em;margin-top:8px}.success{text-align:center;padding:25px 10px}.success .check{font-size:3rem}.success h2{font-size:1.5rem}.success code{background:#f7eee8;padding:5px 8px;border-radius:7px}.hidden{display:none!important}.fine{font-size:.8rem;color:#81747a;line-height:1.5;margin-top:14px}.pix-card{text-align:center}.pix-amount{font-size:2rem;font-weight:850;color:var(--brand);margin:8px 0 16px}.pix-frame{border:2px dashed #d9b9a7;border-radius:16px;padding:14px;max-width:320px;margin:14px auto;background:#fffaf6}.pix-frame img{display:block;width:100%;height:auto;max-height:290px;object-fit:contain}.pix-placeholder{min-height:220px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:#786c72}.pix-placeholder .qr-symbol{font-size:3rem}.pix-key{display:flex;align-items:center;gap:8px;background:#fff7f1;border:1px solid var(--line);border-radius:12px;padding:10px;margin:10px 0}.pix-key code{flex:1;overflow-wrap:anywhere;font-size:.95rem}.pix-key .btn{flex:0 0 auto;padding:10px 13px;min-height:42px}.copy-feedback{min-height:1.2em;color:#287443;font-size:.88rem}.receipt-box{margin-top:22px;padding:16px;border:1px solid var(--line);border-radius:14px;text-align:left;background:#fffaf6}.receipt-box input[type=file]{padding:10px;background:#fff}.receipt-box .btn{width:100%;margin-top:10px}.receipt-status{min-height:1.3em;margin-top:9px;font-size:.9rem;color:#287443}.receipt-status.error{color:#b42318}
-@media(max-width:500px){body{padding:9px}.card{padding:15px}.grid2{grid-template-columns:1fr}.sizegrid{grid-template-columns:repeat(2,1fr)}.gallery{gap:4px}.gallery img{border-radius:6px}.botton-row{grid-template-columns:1fr 82px}.actions{flex-direction:column-reverse}.actions .btn{width:100%}.shirt-img{height:150px}}
-</style></head>
-<body><main>
-<header class="hero"><div class="eyebrow">Lojinha oficial</div><h1>🔥 Lojinha Geração</h1><p class="lead">Escolha seus produtos, confira o valor e confirme seu pedido em poucos passos.</p></header>
-<div class="steps" aria-label="Etapas do pedido"><div class="step-pill active" id="pill1">1. Seus dados</div><div class="step-pill" id="pill2">2. Produtos</div><div class="step-pill" id="pill3">3. Resumo</div></div>
-<section class="panel active" id="contact-panel"><div class="card"><h2>Vamos começar?</h2><p class="lead">Preencha seus dados para identificar seu pedido.</p>
-<label for="nome">Nome completo</label><input id="nome" autocomplete="name" maxlength="120" placeholder="Seu nome completo">
-<div class="grid2"><div><label for="cpf">CPF</label><input id="cpf" inputmode="numeric" autocomplete="off" maxlength="14" placeholder="000.000.000-00"></div><div><label for="telefone">Telefone / WhatsApp</label><input id="telefone" inputmode="tel" autocomplete="tel" maxlength="16" placeholder="(00) 00000-0000"></div></div>
-<div class="error" id="contact-error" role="alert"></div><div class="actions"><button class="btn" id="to-products">Continuar para os produtos →</button></div><p class="fine">Seus dados serão utilizados para identificar e organizar seu pedido.</p></div></section>
-<section class="panel" id="products-panel"><div class="card"><h2>👕 Escolha suas camisas</h2><p class="lead">Cada camisa custa R$ 45,00. Informe a quantidade desejada por tamanho.</p>
-<div class="product"><h3>A onda que vira fogo</h3><img class="shirt-img" src="/imagens/camisas/camisa-01-onda-vira-fogo.png" alt="Camisa A onda que vira fogo"><div class="sizegrid"><label>P<input type="number" min="0" step="1" value="0" data-shirt="camisa_onda_p"></label><label>M<input type="number" min="0" step="1" value="0" data-shirt="camisa_onda_m"></label><label>G<input type="number" min="0" step="1" value="0" data-shirt="camisa_onda_g"></label><label>GG<input type="number" min="0" step="1" value="0" data-shirt="camisa_onda_gg"></label></div></div>
-<div class="product"><h3>O ciclo recomeça. O ponto de partida não</h3><img class="shirt-img" src="/imagens/camisas/camisa-02-ciclo-recomeca.png" alt="Camisa O ciclo recomeça"><div class="sizegrid"><label>P<input type="number" min="0" step="1" value="0" data-shirt="camisa_ciclo_p"></label><label>M<input type="number" min="0" step="1" value="0" data-shirt="camisa_ciclo_m"></label><label>G<input type="number" min="0" step="1" value="0" data-shirt="camisa_ciclo_g"></label><label>GG<input type="number" min="0" step="1" value="0" data-shirt="camisa_ciclo_gg"></label></div></div>
-</div><div class="card"><h2>🔥 Escolha seus bottons</h2><p class="lead">Veja os cinco modelos e informe quantos deseja de cada um.</p><div class="gallery" aria-label="Os cinco modelos de bottons"><img src="/imagens/bottons/botton-1.jpeg" alt="Geração em Chamas"><img src="/imagens/bottons/botton-2.jpeg" alt="Álbum da Cidade"><img src="/imagens/bottons/botton-3.jpeg" alt="O Maior Núcleo da Bahia"><img src="/imagens/bottons/botton-4.jpg" alt="Grandões e Sem Medo"><img src="/imagens/bottons/botton-5.jpeg" alt="Sol, Onda e Montanha"></div>
-<div id="botton-inputs"></div><p class="hint">Por modelo: unidade avulsa R$ 6,00 · combo de 3 por R$ 15,00 · combo de 5 por R$ 23,00. Unidades excedentes: R$ 6,00 cada. Os combos são calculados separadamente por modelo.</p>
-<div class="total"><span>Subtotal dos bottons</span><strong id="botton-total">R$ 0,00</strong></div><div class="total"><span>Subtotal das camisas</span><strong id="shirt-total">R$ 0,00</strong></div><div class="total"><span>Total do pedido</span><strong id="order-total">R$ 0,00</strong></div>
-<div class="error" id="products-error" role="alert"></div><div class="actions"><button class="btn secondary" id="back-contact">← Voltar</button><button class="btn" id="to-summary">Revisar pedido →</button></div></div></section>
-<section class="panel" id="summary-panel"><div class="card"><h2>Confira seu pedido</h2><p class="lead">Verifique os dados e os produtos antes de confirmar.</p><div id="summary-content"></div><div class="total"><span>Valor total</span><strong id="summary-total">R$ 0,00</strong></div><p class="fine">O pedido será registrado antes da exibição do Pix. Depois do pagamento, você poderá anexar o comprovante para nossa equipe conferir.</p><div class="error" id="submit-error" role="alert"></div><div class="actions"><button class="btn secondary" id="back-products">← Alterar produtos</button><button class="btn" id="confirm-order">Confirmar pedido</button></div></div></section>
-<section class="panel" id="payment-panel"><div class="card pix-card"><div class="check">✅</div><h2>Pedido registrado!</h2><p class="lead">Seu pedido foi enviado para nossa equipe. Agora, realize o pagamento via Pix.</p><p>Número do pedido: <code id="order-code"></code></p><div class="pix-amount" id="payment-total">R$ 0,00</div><h3>Escaneie o QR Code Pix</h3><div class="pix-frame"><img id="pix-qr-image" src="/imagens/pix-qr-code.jpeg" alt="QR Code Pix" onerror="this.style.display='none';document.getElementById('pix-placeholder').classList.remove('hidden')"><div id="pix-placeholder" class="pix-placeholder"><p class="lead">Ou, se preferir, copie a chave Pix:</p><div class="pix-key"><code id="pix-key">vpggdonejelementar@gmail.com</code><button class="btn" id="copy-pix-key" type="button">Copiar</button></div><div class="copy-feedback" id="copy-feedback" role="status" aria-live="polite"></div><p class="fine">Faça o Pix no valor exato acima. O pagamento será conferido manualmente pela equipe. Enviar o comprovante não confirma automaticamente o recebimento.</p>
-<div class="receipt-box" id="receipt-box"><h3>📎 Envie seu comprovante Pix</h3><p class="hint">Anexe uma imagem (JPG ou PNG) ou PDF do comprovante. Limite: 3 MB.</p><label for="receipt-file">Comprovante de pagamento</label><input id="receipt-file" type="file" accept="image/jpeg,image/png,application/pdf"><button class="btn" id="upload-receipt" type="button">Enviar comprovante</button><div class="receipt-status" id="receipt-status" role="status" aria-live="polite"></div></div>
-<p class="fine">Após o envio, o status ficará como <b>Aguardando confirmação</b>. A equipe atualizará para <b>Pago</b> somente depois de conferir o recebimento na conta.</p></div></section>
-</main>
-<script>
-const SHIRT_PRICE=45;
-const buttonModels=[['Geração em Chamas','botton_geracao'],['Álbum da Cidade','botton_album'],['O Maior Núcleo da Bahia','botton_nucleo'],['Grandões e Sem Medo','botton_grandoes'],['Sol, Onda e Montanha','botton_sol']];
-const money=v=>Number(v).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
-const qty=el=>Math.max(0,Math.min(999,Math.floor(Number(el.value)||0)));
-function priceFor(q){const dp=Array(q+1).fill(Infinity);dp[0]=0;for(let n=1;n<=q;n++){dp[n]=dp[n-1]+6;if(n>=3)dp[n]=Math.min(dp[n],dp[n-3]+15);if(n>=5)dp[n]=Math.min(dp[n],dp[n-5]+23)}return dp[q]}
-const bottonWrap=document.getElementById('botton-inputs');
-buttonModels.forEach(([name,key],i)=>{const row=document.createElement('div');row.className='botton-row';const label=document.createElement('label');label.htmlFor='botton-'+i;label.textContent=name;const input=document.createElement('input');input.id='botton-'+i;input.type='number';input.min='0';input.max='999';input.step='1';input.value='0';input.inputMode='numeric';input.dataset.botton=key;input.setAttribute('aria-label','Quantidade de '+name);input.addEventListener('input',updateTotals);row.append(label,input);bottonWrap.append(row)});
-function getShirts(){const out={};document.querySelectorAll('[data-shirt]').forEach(el=>out[el.dataset.shirt]=qty(el));return out}
-function getButtons(){const out={};document.querySelectorAll('[data-botton]').forEach(el=>out[el.dataset.botton]=qty(el));return out}
-function totals(){const shirts=getShirts(),buttons=getButtons(),shirtCount=Object.values(shirts).reduce((a,b)=>a+b,0),shirtTotal=shirtCount*SHIRT_PRICE,buttonTotal=Object.values(buttons).reduce((a,q)=>a+priceFor(q),0);return{shirts,buttons,shirtCount,shirtTotal,buttonTotal,total:shirtTotal+buttonTotal}}
-function updateTotals(){const t=totals();document.getElementById('botton-total').textContent=money(t.buttonTotal);document.getElementById('shirt-total').textContent=money(t.shirtTotal);document.getElementById('order-total').textContent=money(t.total)}
-document.querySelectorAll('[data-shirt]').forEach(el=>el.addEventListener('input',updateTotals));
-function digits(v){return v.replace(/\D/g,'')}
-function validCPF(cpf){cpf=digits(cpf);if(cpf.length!==11||/^([0-9])\1+$/.test(cpf))return false;let sum=0;for(let i=0;i<9;i++)sum+=Number(cpf[i])*(10-i);let d=(sum*10)%11;if(d===10)d=0;if(d!==Number(cpf[9]))return false;sum=0;for(let i=0;i<10;i++)sum+=Number(cpf[i])*(11-i);d=(sum*10)%11;if(d===10)d=0;return d===Number(cpf[10])}
-function showPanel(id,step){document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));document.getElementById(id).classList.add('active');['pill1','pill2','pill3'].forEach((p,i)=>document.getElementById(p).classList.toggle('active',i<step));window.scrollTo({top:0,behavior:'smooth'})}
-document.getElementById('cpf').addEventListener('input',e=>{let v=digits(e.target.value).slice(0,11);v=v.replace(/(\d{3})(\d)/,'$1.$2').replace(/(\d{3})(\d)/,'$1.$2').replace(/(\d{3})(\d{1,2})$/,'$1-$2');e.target.value=v});
-document.getElementById('telefone').addEventListener('input',e=>{let v=digits(e.target.value).slice(0,11);if(v.length>10)v=v.replace(/(\d{2})(\d{5})(\d{4})/,'($1) $2-$3');else if(v.length>6)v=v.replace(/(\d{2})(\d{4})(\d{0,4})/,'($1) $2-$3');else if(v.length>2)v=v.replace(/(\d{2})(\d+)/,'($1) $2');e.target.value=v});
-document.getElementById('to-products').addEventListener('click',()=>{const name=document.getElementById('nome').value.trim(),cpf=document.getElementById('cpf').value,phone=document.getElementById('telefone').value;let msg='';if(!name)msg='Informe seu nome completo.';else if(!validCPF(cpf))msg='Informe um CPF válido.';else if(digits(phone).length<10)msg='Informe um telefone/WhatsApp válido.';document.getElementById('contact-error').textContent=msg;if(!msg)showPanel('products-panel',2)});
-document.getElementById('back-contact').addEventListener('click',()=>showPanel('contact-panel',1));
-function renderSummary(){const t=totals(),name=document.getElementById('nome').value.trim(),cpf=document.getElementById('cpf').value,phone=document.getElementById('telefone').value;let html=`<div class="summary-row"><span>Cliente</span><b>${escapeHTML(name)}</b></div><div class="summary-row"><span>CPF</span><b>${escapeHTML(cpf)}</b></div><div class="summary-row"><span>Telefone</span><b>${escapeHTML(phone)}</b></div><h3>Camisas</h3>`;const shirtLabels={camisa_onda_p:'A onda que vira fogo — P',camisa_onda_m:'A onda que vira fogo — M',camisa_onda_g:'A onda que vira fogo — G',camisa_onda_gg:'A onda que vira fogo — GG',camisa_ciclo_p:'O ciclo recomeça — P',camisa_ciclo_m:'O ciclo recomeça — M',camisa_ciclo_g:'O ciclo recomeça — G',camisa_ciclo_gg:'O ciclo recomeça — GG'};let hasShirt=false;for(const [k,q] of Object.entries(t.shirts)){if(q){hasShirt=true;html+=`<div class="summary-row"><span>${shirtLabels[k]}</span><b>${q} × R$ 45,00</b></div>`}}if(!hasShirt)html+='<p class="hint">Nenhuma camisa selecionada.</p>';html+='<h3 style="margin-top:18px">Bottons</h3>';let hasButtons=false;for(const [name,key] of buttonModels){const q=t.buttons[key];if(q){hasButtons=true;html+=`<div class="summary-row"><span>${name}</span><b>${q} un. · ${money(priceFor(q))}</b></div>`}}if(!hasButtons)html+='<p class="hint">Nenhum botton selecionado.</p>';html+=`<div class="summary-row"><span>Subtotal camisas</span><b>${money(t.shirtTotal)}</b></div><div class="summary-row"><span>Subtotal bottons</span><b>${money(t.buttonTotal)}</b></div>`;document.getElementById('summary-content').innerHTML=html;document.getElementById('summary-total').textContent=money(t.total)}
-function escapeHTML(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-document.getElementById('to-summary').addEventListener('click',()=>{const t=totals();document.getElementById('products-error').textContent=t.total===0?'Adicione pelo menos uma camisa ou um botton ao pedido.':'';if(t.total===0)return;renderSummary();showPanel('summary-panel',3)});
-document.getElementById('back-products').addEventListener('click',()=>showPanel('products-panel',2));
-document.getElementById('confirm-order').addEventListener('click',async()=>{const btn=document.getElementById('confirm-order'),err=document.getElementById('submit-error');btn.disabled=true;btn.textContent='Registrando pedido…';err.textContent='';const t=totals();const payload={customer:{name:document.getElementById('nome').value.trim(),cpf:digits(document.getElementById('cpf').value),phone:digits(document.getElementById('telefone').value)},shirts:t.shirts,buttons:t.buttons};try{const response=await fetch('/api/pedidos',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});const result=await response.json();if(!response.ok)throw new Error(result.error||'Não foi possível registrar o pedido.');document.getElementById('order-code').textContent=result.orderId;document.getElementById('payment-total').textContent=money(result.total);document.getElementById('receipt-file').value='';document.getElementById('receipt-status').textContent='';showPanel('payment-panel',3)}catch(e){err.textContent=e.message||'Falha ao enviar. Tente novamente.';btn.disabled=false;btn.textContent='Confirmar pedido'}});
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#9c3e1c">
+  <title>Lojinha Geração</title>
+  <style>
+    :root {
+      font-family: Inter, system-ui, -apple-system, Segoe UI, sans-serif;
+      color: #251b20;
+      background: #fffaf6;
+      --brand: #9c3e1c;
+      --brand2: #74351d;
+      --line: #eadbd2;
+      --soft: #fff0e6
+    }
 
-document.getElementById('upload-receipt').addEventListener('click',async()=>{
-  const input=document.getElementById('receipt-file'),btn=document.getElementById('upload-receipt'),status=document.getElementById('receipt-status'),file=input.files&&input.files[0],orderId=document.getElementById('order-code').textContent.trim();
-  status.classList.remove('error');
-  if(!file){status.textContent='Selecione uma imagem ou PDF do comprovante.';status.classList.add('error');return}
-  const allowed=['image/jpeg','image/png','application/pdf'];
-  if(!allowed.includes(file.type)){status.textContent='Formato não permitido. Envie JPG, PNG ou PDF.';status.classList.add('error');return}
-  if(file.size>3*1024*1024){status.textContent='O arquivo ultrapassa o limite de 3 MB.';status.classList.add('error');return}
-  if(!orderId){status.textContent='Não foi possível identificar o pedido.';status.classList.add('error');return}
-  btn.disabled=true;btn.textContent='Enviando comprovante…';status.textContent='';
-  try{
-    const dataUrl=await new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=()=>reject(new Error('Não foi possível ler o arquivo.'));reader.readAsDataURL(file)});
-    const response=await fetch('/api/comprovantes',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({orderId,fileName:file.name,mimeType:file.type,dataUrl})});
-    const result=await response.json();if(!response.ok||!result.ok)throw new Error(result.error||'Não foi possível enviar o comprovante.');
-    status.textContent='Comprovante enviado! Nossa equipe fará a conferência do pagamento.';input.disabled=true;btn.textContent='Comprovante enviado';
-  }catch(e){status.textContent=e.message||'Falha ao enviar. Tente novamente.';status.classList.add('error');btn.disabled=false;btn.textContent='Enviar comprovante'}
-});
+    * {
+      box-sizing: border-box
+    }
 
-document.getElementById('copy-pix-key').addEventListener('click',async()=>{const key=document.getElementById('pix-key').textContent.trim(),feedback=document.getElementById('copy-feedback');try{if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(key)}else{const field=document.createElement('textarea');field.value=key;field.style.position='fixed';field.style.opacity='0';document.body.appendChild(field);field.select();const copied=document.execCommand('copy');field.remove();if(!copied)throw new Error('copy failed')}feedback.textContent='Chave Pix copiada!';}catch(e){feedback.textContent='Não foi possível copiar automaticamente. Selecione e copie a chave acima.'}});
-updateTotals();
-</script></body></html>
+    body {
+      margin: 0;
+      padding: 18px;
+      background: linear-gradient(180deg, #fff7f0 0, #fff 320px)
+    }
+
+    main {
+      max-width: 780px;
+      margin: 0 auto
+    }
+
+    .hero {
+      padding: 22px 4px 14px
+    }
+
+    .eyebrow {
+      font-size: .78rem;
+      font-weight: 800;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--brand)
+    }
+
+    h1 {
+      font-size: clamp(1.7rem, 5vw, 2.35rem);
+      margin: 7px 0;
+      color: #311e1a
+    }
+
+    h2 {
+      font-size: 1.2rem;
+      margin: 0 0 8px
+    }
+
+    .lead {
+      color: #685b60;
+      line-height: 1.55;
+      margin: 0
+    }
+
+    .card {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 20px;
+      margin: 14px 0;
+      box-shadow: 0 8px 28px #552b1710
+    }
+
+    .steps {
+      display: flex;
+      gap: 8px;
+      margin: 16px 0
+    }
+
+    .step-pill {
+      flex: 1;
+      border-radius: 99px;
+      background: #f1e8e2;
+      color: #786a6d;
+      padding: 9px;
+      text-align: center;
+      font-size: .82rem;
+      font-weight: 750
+    }
+
+    .step-pill.active {
+      background: var(--brand);
+      color: #fff
+    }
+
+    .panel {
+      display: none
+    }
+
+    .panel.active {
+      display: block
+    }
+
+    label {
+      display: block;
+      font-weight: 700;
+      margin: 13px 0 6px
+    }
+
+    input {
+      width: 100%;
+      padding: 13px;
+      border: 1px solid #d8c7be;
+      border-radius: 11px;
+      font: inherit;
+      background: #fff;
+      color: #251b20
+    }
+
+    input:focus {
+      outline: 3px solid #f3d0bc;
+      border-color: var(--brand)
+    }
+
+    .grid2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 18px
+    }
+
+    .btn {
+      border: 0;
+      border-radius: 12px;
+      padding: 14px 18px;
+      background: var(--brand);
+      color: #fff;
+      font: inherit;
+      font-weight: 800;
+      cursor: pointer;
+      min-height: 48px
+    }
+
+    .btn:hover {
+      filter: brightness(.95)
+    }
+
+    .btn:disabled {
+      opacity: .55;
+      cursor: wait
+    }
+
+    .btn.secondary {
+      background: #f3e8e1;
+      color: var(--brand2)
+    }
+
+    .actions .btn {
+      flex: 1
+    }
+
+    .product {
+      border: 1px solid #eee2dc;
+      border-radius: 14px;
+      padding: 14px;
+      margin: 14px 0
+    }
+
+    .product h3 {
+      font-size: 1rem;
+      margin: 0 0 9px
+    }
+
+    .shirt-img {
+      width: 100%;
+      height: 190px;
+      object-fit: contain;
+      background: #fffaf6;
+      border-radius: 10px
+    }
+
+    .sizegrid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 9px;
+      margin-top: 12px
+    }
+
+    .sizegrid label {
+      font-size: .86rem;
+      margin: 0
+    }
+
+    .sizegrid input {
+      margin-top: 5px;
+      padding: 10px;
+      text-align: center
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+      margin: 12px 0
+    }
+
+    .gallery img {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      border-radius: 10px;
+      background: #f6eee9
+    }
+
+    .botton-row {
+      display: grid;
+      grid-template-columns: 1fr 100px;
+      gap: 10px;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid #f0e8e3
+    }
+
+    .botton-row label {
+      margin: 0;
+      font-size: .94rem
+    }
+
+    .botton-row input {
+      text-align: center;
+      padding: 10px
+    }
+
+    .hint {
+      font-size: .87rem;
+      color: #786c72;
+      line-height: 1.45
+    }
+
+    .total {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: center;
+      background: var(--soft);
+      border-radius: 13px;
+      padding: 15px;
+      margin-top: 13px
+    }
+
+    .total strong {
+      font-size: 1.55rem;
+      color: var(--brand);
+      white-space: nowrap
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 10px 0;
+      border-bottom: 1px solid #f1e8e3
+    }
+
+    .summary-row span:first-child {
+      color: #685b60
+    }
+
+    .error {
+      color: #b42318;
+      font-size: .9rem;
+      min-height: 1.2em;
+      margin-top: 8px
+    }
+
+    .success {
+      text-align: center;
+      padding: 25px 10px
+    }
+
+    .success .check {
+      font-size: 3rem
+    }
+
+    .success h2 {
+      font-size: 1.5rem
+    }
+
+    .success code {
+      background: #f7eee8;
+      padding: 5px 8px;
+      border-radius: 7px
+    }
+
+    .hidden {
+      display: none !important
+    }
+
+    .fine {
+      font-size: .8rem;
+      color: #81747a;
+      line-height: 1.5;
+      margin-top: 14px
+    }
+
+    .pix-card {
+      text-align: center
+    }
+
+    .pix-amount {
+      font-size: 2rem;
+      font-weight: 850;
+      color: var(--brand);
+      margin: 8px 0 16px
+    }
+
+    .pix-frame {
+      border: 2px dashed #d9b9a7;
+      border-radius: 16px;
+      padding: 14px;
+      max-width: 320px;
+      margin: 14px auto;
+      background: #fffaf6
+    }
+
+    .pix-frame img {
+      display: block;
+      width: 100%;
+      height: auto;
+      max-height: 290px;
+      object-fit: contain
+    }
+
+    .pix-placeholder {
+      min-height: 220px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      color: #786c72
+    }
+
+    .pix-placeholder .qr-symbol {
+      font-size: 3rem
+    }
+
+    .pix-key {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #fff7f1;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 10px;
+      margin: 10px 0
+    }
+
+    .pix-key code {
+      flex: 1;
+      overflow-wrap: anywhere;
+      font-size: .95rem
+    }
+
+    .pix-key .btn {
+      flex: 0 0 auto;
+      padding: 10px 13px;
+      min-height: 42px
+    }
+
+    .copy-feedback {
+      min-height: 1.2em;
+      color: #287443;
+      font-size: .88rem
+    }
+
+    .receipt-box {
+      margin-top: 22px;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      text-align: left;
+      background: #fffaf6
+    }
+
+    .receipt-box input[type=file] {
+      padding: 10px;
+      background: #fff
+    }
+
+    .receipt-box .btn {
+      width: 100%;
+      margin-top: 10px
+    }
+
+    .receipt-status {
+      min-height: 1.3em;
+      margin-top: 9px;
+      font-size: .9rem;
+      color: #287443
+    }
+
+    .receipt-status.error {
+      color: #b42318
+    }
+
+    @media(max-width:500px) {
+      body {
+        padding: 9px
+      }
+
+      .card {
+        padding: 15px
+      }
+
+      .grid2 {
+        grid-template-columns: 1fr
+      }
+
+      .sizegrid {
+        grid-template-columns: repeat(2, 1fr)
+      }
+
+      .gallery {
+        gap: 4px
+      }
+
+      .gallery img {
+        border-radius: 6px
+      }
+
+      .botton-row {
+        grid-template-columns: 1fr 82px
+      }
+
+      .actions {
+        flex-direction: column-reverse
+      }
+
+      .actions .btn {
+        width: 100%
+      }
+
+      .shirt-img {
+        height: 150px
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+    <header class="hero">
+      <div class="eyebrow">Lojinha oficial</div>
+      <h1>🔥 Lojinha Geração</h1>
+      <p class="lead">Escolha seus produtos, confira o valor e confirme seu pedido em poucos passos.</p>
+    </header>
+    <div class="steps" aria-label="Etapas do pedido">
+      <div class="step-pill active" id="pill1">1. Seus dados</div>
+      <div class="step-pill" id="pill2">2. Produtos</div>
+      <div class="step-pill" id="pill3">3. Resumo</div>
+    </div>
+    <section class="panel active" id="contact-panel">
+      <div class="card">
+        <h2>Vamos começar?</h2>
+        <p class="lead">Preencha seus dados para identificar seu pedido.</p>
+        <label for="nome">Nome completo</label><input id="nome" autocomplete="name" maxlength="120"
+          placeholder="Seu nome completo">
+        <div class="grid2">
+          <div><label for="cpf">CPF</label><input id="cpf" inputmode="numeric" autocomplete="off" maxlength="14"
+              placeholder="000.000.000-00"></div>
+          <div><label for="telefone">Telefone / WhatsApp</label><input id="telefone" inputmode="tel" autocomplete="tel"
+              maxlength="16" placeholder="(00) 00000-0000"></div>
+        </div>
+        <div class="error" id="contact-error" role="alert"></div>
+        <div class="actions"><button class="btn" id="to-products">Continuar para os produtos →</button></div>
+        <p class="fine">Seus dados serão utilizados para identificar e organizar seu pedido.</p>
+      </div>
+    </section>
+    <section class="panel" id="products-panel">
+      <div class="card">
+        <h2>👕 Escolha suas camisas</h2>
+        <p class="lead">Cada camisa custa R$ 45,00. Informe a quantidade desejada por tamanho.</p>
+        <div class="product">
+          <h3>A onda que vira fogo</h3><img class="shirt-img" src="/imagens/camisas/camisa-01-onda-vira-fogo.png"
+            alt="Camisa A onda que vira fogo">
+          <div class="sizegrid"><label>P<input type="number" min="0" step="1" value="0"
+                data-shirt="camisa_onda_p"></label><label>M<input type="number" min="0" step="1" value="0"
+                data-shirt="camisa_onda_m"></label><label>G<input type="number" min="0" step="1" value="0"
+                data-shirt="camisa_onda_g"></label><label>GG<input type="number" min="0" step="1" value="0"
+                data-shirt="camisa_onda_gg"></label></div>
+        </div>
+        <div class="product">
+          <h3>O ciclo recomeça. O ponto de partida não</h3><img class="shirt-img"
+            src="/imagens/camisas/camisa-02-ciclo-recomeca.png" alt="Camisa O ciclo recomeça">
+          <div class="sizegrid"><label>P<input type="number" min="0" step="1" value="0"
+                data-shirt="camisa_ciclo_p"></label><label>M<input type="number" min="0" step="1" value="0"
+                data-shirt="camisa_ciclo_m"></label><label>G<input type="number" min="0" step="1" value="0"
+                data-shirt="camisa_ciclo_g"></label><label>GG<input type="number" min="0" step="1" value="0"
+                data-shirt="camisa_ciclo_gg"></label></div>
+        </div>
+      </div>
+      <div class="card">
+        <h2>🔥 Escolha seus bottons</h2>
+        <p class="lead">Veja os cinco modelos e informe quantos deseja de cada um.</p>
+        <div class="gallery" aria-label="Os cinco modelos de bottons"><img src="/imagens/bottons/botton-1.jpeg"
+            alt="Geração em Chamas"><img src="/imagens/bottons/botton-2.jpeg" alt="Álbum da Cidade"><img
+            src="/imagens/bottons/botton-3.jpeg" alt="O Maior Núcleo da Bahia"><img src="/imagens/bottons/botton-4.jpg"
+            alt="Grandões e Sem Medo"><img src="/imagens/bottons/botton-5.jpeg" alt="Sol, Onda e Montanha"></div>
+        <div id="botton-inputs"></div>
+        <p class="hint">Por modelo: unidade avulsa R$ 6,00 · combo de 3 por R$ 15,00 · combo de 5 por R$ 23,00. Unidades
+          excedentes: R$ 6,00 cada. Os combos são calculados separadamente por modelo.</p>
+        <div class="total"><span>Subtotal dos bottons</span><strong id="botton-total">R$ 0,00</strong></div>
+        <div class="total"><span>Subtotal das camisas</span><strong id="shirt-total">R$ 0,00</strong></div>
+        <div class="total"><span>Total do pedido</span><strong id="order-total">R$ 0,00</strong></div>
+        <div class="error" id="products-error" role="alert"></div>
+        <div class="actions"><button class="btn secondary" id="back-contact">← Voltar</button><button class="btn"
+            id="to-summary">Revisar pedido →</button></div>
+      </div>
+    </section>
+    <section class="panel" id="summary-panel">
+      <div class="card">
+        <h2>Confira seu pedido</h2>
+        <p class="lead">Verifique os dados e os produtos antes de confirmar.</p>
+        <div id="summary-content"></div>
+        <div class="total"><span>Valor total</span><strong id="summary-total">R$ 0,00</strong></div>
+        <p class="fine">O pedido será registrado antes da exibição do Pix. Depois do pagamento, você poderá anexar o
+          comprovante para nossa equipe conferir.</p>
+        <div class="error" id="submit-error" role="alert"></div>
+        <div class="actions"><button class="btn secondary" id="back-products">← Alterar produtos</button><button
+            class="btn" id="confirm-order">Confirmar pedido</button></div>
+      </div>
+    </section>
+    <section class="panel" id="payment-panel">
+      <div class="card pix-card">
+        <div class="check">✅</div>
+        <h2>Pedido registrado!</h2>
+        <p class="lead">Seu pedido foi enviado para nossa equipe. Agora, realize o pagamento via Pix.</p>
+        <p>Número do pedido: <code id="order-code"></code></p>
+        <div class="pix-amount" id="payment-total">R$ 0,00</div>
+        <h3>Escaneie o QR Code Pix</h3>
+        <div class="pix-frame"><img id="pix-qr-image" src="/imagens/pix-qr-code.jpeg" alt="QR Code Pix"
+            onerror="this.style.display='none';document.getElementById('pix-placeholder').classList.remove('hidden')">
+          <div id="pix-placeholder" class="pix-placeholder">
+            <p class="lead">Ou, se preferir, copie a chave Pix:</p>
+            <div class="pix-key"><code id="pix-key">vpggdonejelementar@gmail.com</code><button class="btn"
+                id="copy-pix-key" type="button">Copiar</button></div>
+            <div class="copy-feedback" id="copy-feedback" role="status" aria-live="polite"></div>
+            <p class="fine">Faça o Pix no valor exato acima. O pagamento será conferido manualmente pela equipe. Enviar
+              o comprovante não confirma automaticamente o recebimento.</p>
+            <div class="receipt-box" id="receipt-box">
+              <h3>📎 Envie seu comprovante Pix</h3>
+              <p class="hint">Anexe uma imagem (JPG ou PNG) ou PDF do comprovante. Limite: 3 MB.</p><label
+                for="receipt-file">Comprovante de pagamento</label><input id="receipt-file" type="file"
+                accept="image/jpeg,image/png,application/pdf"><button class="btn" id="upload-receipt"
+                type="button">Enviar comprovante</button>
+              <div class="receipt-status" id="receipt-status" role="status" aria-live="polite"></div>
+            </div>
+            <p class="fine">Após o envio, o status ficará como <b>Aguardando confirmação</b>. A equipe atualizará para
+              <b>Pago</b> somente depois de conferir o recebimento na conta.</p>
+          </div>
+    </section>
+  </main>
+  <script>
+    const SHIRT_PRICE = 45;
+    const buttonModels = [['Geração em Chamas', 'botton_geracao'], ['Álbum da Cidade', 'botton_album'], ['O Maior Núcleo da Bahia', 'botton_nucleo'], ['Grandões e Sem Medo', 'botton_grandoes'], ['Sol, Onda e Montanha', 'botton_sol']];
+    const money = v => Number(v).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    const qty = el => Math.max(0, Math.min(999, Math.floor(Number(el.value) || 0)));
+    function priceFor(q) { const dp = Array(q + 1).fill(Infinity); dp[0] = 0; for (let n = 1; n <= q; n++) { dp[n] = dp[n - 1] + 6; if (n >= 3) dp[n] = Math.min(dp[n], dp[n - 3] + 15); if (n >= 5) dp[n] = Math.min(dp[n], dp[n - 5] + 23) } return dp[q] }
+    const bottonWrap = document.getElementById('botton-inputs');
+    buttonModels.forEach(([name, key], i) => { const row = document.createElement('div'); row.className = 'botton-row'; const label = document.createElement('label'); label.htmlFor = 'botton-' + i; label.textContent = name; const input = document.createElement('input'); input.id = 'botton-' + i; input.type = 'number'; input.min = '0'; input.max = '999'; input.step = '1'; input.value = '0'; input.inputMode = 'numeric'; input.dataset.botton = key; input.setAttribute('aria-label', 'Quantidade de ' + name); input.addEventListener('input', updateTotals); row.append(label, input); bottonWrap.append(row) });
+    function getShirts() { const out = {}; document.querySelectorAll('[data-shirt]').forEach(el => out[el.dataset.shirt] = qty(el)); return out }
+    function getButtons() { const out = {}; document.querySelectorAll('[data-botton]').forEach(el => out[el.dataset.botton] = qty(el)); return out }
+    function totals() { const shirts = getShirts(), buttons = getButtons(), shirtCount = Object.values(shirts).reduce((a, b) => a + b, 0), shirtTotal = shirtCount * SHIRT_PRICE, buttonTotal = Object.values(buttons).reduce((a, q) => a + priceFor(q), 0); return { shirts, buttons, shirtCount, shirtTotal, buttonTotal, total: shirtTotal + buttonTotal } }
+    function updateTotals() { const t = totals(); document.getElementById('botton-total').textContent = money(t.buttonTotal); document.getElementById('shirt-total').textContent = money(t.shirtTotal); document.getElementById('order-total').textContent = money(t.total) }
+    document.querySelectorAll('[data-shirt]').forEach(el => el.addEventListener('input', updateTotals));
+    function digits(v) { return v.replace(/\D/g, '') }
+    function validCPF(cpf) { cpf = digits(cpf); if (cpf.length !== 11 || /^([0-9])\1+$/.test(cpf)) return false; let sum = 0; for (let i = 0; i < 9; i++)sum += Number(cpf[i]) * (10 - i); let d = (sum * 10) % 11; if (d === 10) d = 0; if (d !== Number(cpf[9])) return false; sum = 0; for (let i = 0; i < 10; i++)sum += Number(cpf[i]) * (11 - i); d = (sum * 10) % 11; if (d === 10) d = 0; return d === Number(cpf[10]) }
+    function showPanel(id, step) { document.querySelectorAll('.panel').forEach(p => p.classList.remove('active')); document.getElementById(id).classList.add('active');['pill1', 'pill2', 'pill3'].forEach((p, i) => document.getElementById(p).classList.toggle('active', i < step)); window.scrollTo({ top: 0, behavior: 'smooth' }) }
+    document.getElementById('cpf').addEventListener('input', e => { let v = digits(e.target.value).slice(0, 11); v = v.replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d{1,2})$/, '$1-$2'); e.target.value = v });
+    document.getElementById('telefone').addEventListener('input', e => { let v = digits(e.target.value).slice(0, 11); if (v.length > 10) v = v.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3'); else if (v.length > 6) v = v.replace(/(\d{2})(\d{4})(\d{0,4})/, '($1) $2-$3'); else if (v.length > 2) v = v.replace(/(\d{2})(\d+)/, '($1) $2'); e.target.value = v });
+    document.getElementById('to-products').addEventListener('click', () => { const name = document.getElementById('nome').value.trim(), cpf = document.getElementById('cpf').value, phone = document.getElementById('telefone').value; let msg = ''; if (!name) msg = 'Informe seu nome completo.'; else if (!validCPF(cpf)) msg = 'Informe um CPF válido.'; else if (digits(phone).length < 10) msg = 'Informe um telefone/WhatsApp válido.'; document.getElementById('contact-error').textContent = msg; if (!msg) showPanel('products-panel', 2) });
+    document.getElementById('back-contact').addEventListener('click', () => showPanel('contact-panel', 1));
+    function renderSummary() { const t = totals(), name = document.getElementById('nome').value.trim(), cpf = document.getElementById('cpf').value, phone = document.getElementById('telefone').value; let html = `<div class="summary-row"><span>Cliente</span><b>${escapeHTML(name)}</b></div><div class="summary-row"><span>CPF</span><b>${escapeHTML(cpf)}</b></div><div class="summary-row"><span>Telefone</span><b>${escapeHTML(phone)}</b></div><h3>Camisas</h3>`; const shirtLabels = { camisa_onda_p: 'A onda que vira fogo — P', camisa_onda_m: 'A onda que vira fogo — M', camisa_onda_g: 'A onda que vira fogo — G', camisa_onda_gg: 'A onda que vira fogo — GG', camisa_ciclo_p: 'O ciclo recomeça — P', camisa_ciclo_m: 'O ciclo recomeça — M', camisa_ciclo_g: 'O ciclo recomeça — G', camisa_ciclo_gg: 'O ciclo recomeça — GG' }; let hasShirt = false; for (const [k, q] of Object.entries(t.shirts)) { if (q) { hasShirt = true; html += `<div class="summary-row"><span>${shirtLabels[k]}</span><b>${q} × R$ 45,00</b></div>` } } if (!hasShirt) html += '<p class="hint">Nenhuma camisa selecionada.</p>'; html += '<h3 style="margin-top:18px">Bottons</h3>'; let hasButtons = false; for (const [name, key] of buttonModels) { const q = t.buttons[key]; if (q) { hasButtons = true; html += `<div class="summary-row"><span>${name}</span><b>${q} un. · ${money(priceFor(q))}</b></div>` } } if (!hasButtons) html += '<p class="hint">Nenhum botton selecionado.</p>'; html += `<div class="summary-row"><span>Subtotal camisas</span><b>${money(t.shirtTotal)}</b></div><div class="summary-row"><span>Subtotal bottons</span><b>${money(t.buttonTotal)}</b></div>`; document.getElementById('summary-content').innerHTML = html; document.getElementById('summary-total').textContent = money(t.total) }
+    function escapeHTML(s) { return s.replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])) }
+    document.getElementById('to-summary').addEventListener('click', () => { const t = totals(); document.getElementById('products-error').textContent = t.total === 0 ? 'Adicione pelo menos uma camisa ou um botton ao pedido.' : ''; if (t.total === 0) return; renderSummary(); showPanel('summary-panel', 3) });
+    document.getElementById('back-products').addEventListener('click', () => showPanel('products-panel', 2));
+    document.getElementById('confirm-order').addEventListener('click', async () => { const btn = document.getElementById('confirm-order'), err = document.getElementById('submit-error'); btn.disabled = true; btn.textContent = 'Registrando pedido…'; err.textContent = ''; const t = totals(); const payload = { customer: { name: document.getElementById('nome').value.trim(), cpf: digits(document.getElementById('cpf').value), phone: digits(document.getElementById('telefone').value) }, shirts: t.shirts, buttons: t.buttons }; try { const response = await fetch('/api/pedidos', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }); const result = await response.json(); if (!response.ok) throw new Error(result.error || 'Não foi possível registrar o pedido.'); document.getElementById('order-code').textContent = result.orderId; document.getElementById('payment-total').textContent = money(result.total); document.getElementById('receipt-file').value = ''; document.getElementById('receipt-status').textContent = ''; showPanel('payment-panel', 3) } catch (e) { err.textContent = e.message || 'Falha ao enviar. Tente novamente.'; btn.disabled = false; btn.textContent = 'Confirmar pedido' } });
+
+    document.getElementById('upload-receipt').addEventListener('click', async () => {
+      const input = document.getElementById('receipt-file'), btn = document.getElementById('upload-receipt'), status = document.getElementById('receipt-status'), file = input.files && input.files[0], orderId = document.getElementById('order-code').textContent.trim();
+      status.classList.remove('error');
+      if (!file) { status.textContent = 'Selecione uma imagem ou PDF do comprovante.'; status.classList.add('error'); return }
+      const allowed = ['image/jpeg', 'image/png', 'application/pdf'];
+      if (!allowed.includes(file.type)) { status.textContent = 'Formato não permitido. Envie JPG, PNG ou PDF.'; status.classList.add('error'); return }
+      if (file.size > 3 * 1024 * 1024) { status.textContent = 'O arquivo ultrapassa o limite de 3 MB.'; status.classList.add('error'); return }
+      if (!orderId) { status.textContent = 'Não foi possível identificar o pedido.'; status.classList.add('error'); return }
+      btn.disabled = true; btn.textContent = 'Enviando comprovante…'; status.textContent = '';
+      try {
+        const dataUrl = await new Promise((resolve, reject) => { const reader = new FileReader(); reader.onload = () => resolve(reader.result); reader.onerror = () => reject(new Error('Não foi possível ler o arquivo.')); reader.readAsDataURL(file) });
+        const response = await fetch('/api/comprovantes', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ orderId, fileName: file.name, mimeType: file.type, dataUrl }) });
+        const result = await response.json(); if (!response.ok || !result.ok) throw new Error(result.error || 'Não foi possível enviar o comprovante.');
+        status.textContent = 'Comprovante enviado! Nossa equipe fará a conferência do pagamento.'; input.disabled = true; btn.textContent = 'Comprovante enviado';
+      } catch (e) { status.textContent = e.message || 'Falha ao enviar. Tente novamente.'; status.classList.add('error'); btn.disabled = false; btn.textContent = 'Enviar comprovante' }
+    });
+
+    document.getElementById('copy-pix-key').addEventListener('click', async () => { const key = document.getElementById('pix-key').textContent.trim(), feedback = document.getElementById('copy-feedback'); try { if (navigator.clipboard && window.isSecureContext) { await navigator.clipboard.writeText(key) } else { const field = document.createElement('textarea'); field.value = key; field.style.position = 'fixed'; field.style.opacity = '0'; document.body.appendChild(field); field.select(); const copied = document.execCommand('copy'); field.remove(); if (!copied) throw new Error('copy failed') } feedback.textContent = 'Chave Pix copiada!'; } catch (e) { feedback.textContent = 'Não foi possível copiar automaticamente. Selecione e copie a chave acima.' } });
+    updateTotals();
+  </script>
+</body>
+
+</html>
