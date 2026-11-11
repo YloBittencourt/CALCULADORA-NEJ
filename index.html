@@ -1005,10 +1005,52 @@
     }
   
     /* ===== Controle de estoque ===== */
-    .model-stock { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-bottom: 10px; font-size: .78rem; font-weight: 700; color: #53627F; }
-    .model-stock > span:first-child { margin-right: auto; }
-    .model-stock .stock-chip { background: #EAF1FF; color: #02195B; padding: 3px 9px; }
+    .model-stock {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 12px;
+      padding: 9px 12px;
+      background: #F0F4FA;
+      border-radius: 12px;
+      font-size: .82rem;
+      font-weight: 700;
+      color: #53627F;
+    }
+    .model-stock-title {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: #02195B;
+    }
+    .model-stock-title b {
+      color: #004AAD;
+      font-size: .95rem;
+    }
+    .model-stock-chips {
+      display: inline-flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      align-items: center;
+    }
+    .model-stock .stock-chip {
+      background: #FFFFFF;
+      color: #02195B;
+      border: 1px solid #DCE4F2;
+      border-radius: 999px;
+      padding: 3px 8px;
+      font-size: .74rem;
+      font-weight: 700;
+    }
     .model-stock .stock-chip b { color: #004AAD; }
+    .model-stock .stock-chip.out {
+      opacity: .5;
+      text-decoration: line-through;
+      background: #E8EDF5;
+    }
+
     .stock-banner { margin: 0 0 18px; padding: 16px; border-radius: 16px; color: #fff; background: linear-gradient(135deg, #02195B 0%, #004AAD 70%, #1F6FE0 100%); box-shadow: 0 10px 26px rgba(2,25,91,.22); }
     .stock-banner-head { display: flex; align-items: center; gap: 12px; }
     .stock-banner-head > div { flex: 1; display: grid; gap: 2px; min-width: 0; }
@@ -1021,32 +1063,159 @@
     .stock-chip { display: inline-flex; align-items: center; gap: 6px; padding: 5px 10px; border-radius: 999px; background: rgba(255,255,255,.14); font-size: .78rem; font-weight: 700; }
     .stock-chip b { color: #FFD28A; }
     .stock-chip.out { opacity: .5; text-decoration: line-through; }
-    .size-picker { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
-    .size-card { position: relative; display: grid; gap: 7px; justify-items: center; padding: 12px 6px 10px; border: 2px solid #DCE4F2; border-radius: 15px; background: #fff; transition: transform .18s, border-color .18s, box-shadow .18s; }
-    .size-card:not(.soldout):hover { transform: translateY(-2px); box-shadow: 0 8px 18px rgba(0,74,173,.12); }
-    .size-card.active { border-color: #004AAD; background: linear-gradient(180deg, #F2F7FF, #fff); box-shadow: 0 6px 16px rgba(0,74,173,.16); }
-    .size-card.soldout { background: #F3F5F9; border-style: dashed; }
-    .size-card.soldout .size-label { color: #9AA6BD; text-decoration: line-through; }
-    .size-label { font-size: 1.35rem; font-weight: 900; color: #02195B; letter-spacing: -.02em; line-height: 1; }
-    .size-status { font-size: .7rem; font-weight: 800; color: #287443; text-transform: uppercase; letter-spacing: .03em; }
+
+    /* Mobile: 2 colunas para P, M, G, GG caberem com folga e sem cortes */
+    .size-picker {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .size-card {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      padding: 14px 8px 12px;
+      border: 2px solid #DCE4F2;
+      border-radius: 16px;
+      background: #FFFFFF;
+      min-height: 145px;
+      transition: transform .18s, border-color .18s, box-shadow .18s;
+      overflow: hidden;
+    }
+
+    .size-card:not(.soldout):hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 18px rgba(0, 74, 173, .12);
+    }
+
+    .size-card.active {
+      border-color: #004AAD;
+      background: linear-gradient(180deg, #F2F7FF, #FFFFFF);
+      box-shadow: 0 6px 16px rgba(0, 74, 173, .16);
+    }
+
+    .size-card.soldout {
+      background: #F3F5F9;
+      border-style: dashed;
+      opacity: .85;
+    }
+
+    .size-card.soldout .size-label {
+      color: #9AA6BD;
+      text-decoration: line-through;
+    }
+
+    .size-label {
+      font-size: 1.45rem;
+      font-weight: 900;
+      color: #02195B;
+      letter-spacing: -.02em;
+      line-height: 1;
+    }
+
+    .size-status {
+      font-size: .74rem;
+      font-weight: 800;
+      color: #287443;
+      text-transform: uppercase;
+      letter-spacing: .02em;
+      white-space: nowrap;
+    }
+
     .size-status.low { color: #C2570C; }
     .size-status.out { color: #8A95AB; }
-    .size-pips { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px; min-height: 9px; }
-    .pip { width: 9px; height: 9px; border-radius: 50%; background: #2E9E5B; transition: background .2s, transform .2s; }
-    .pip.mine { background: #F47B20; transform: scale(1.2); }
+
+    .size-pips {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 4px;
+      min-height: 10px;
+      margin: 2px 0;
+    }
+
+    .pip {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #2E9E5B;
+      transition: background .2s, transform .2s;
+    }
+
+    .pip.mine {
+      background: #F47B20;
+      transform: scale(1.2);
+    }
+
     .pip.gone { background: #D5DCEA; }
     .size-card.low .pip:not(.mine):not(.gone) { background: #E8892B; }
-    .size-stepper { display: flex; align-items: center; gap: 4px; }
-    .step-btn { width: 32px; height: 32px; border: 0; border-radius: 10px; background: #004AAD; color: #fff; font: inherit; font-size: 1.15rem; font-weight: 800; cursor: pointer; transition: background .15s, transform .1s; }
+
+    .size-stepper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      width: 100%;
+    }
+
+    .step-btn {
+      width: 38px;
+      height: 38px;
+      border: 0;
+      border-radius: 11px;
+      background: #004AAD;
+      color: #FFFFFF;
+      font: inherit;
+      font-size: 1.25rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+      transition: background .15s, transform .1s;
+      flex-shrink: 0;
+    }
+
     .step-btn:hover:not(:disabled) { background: #02195B; }
     .step-btn:active:not(:disabled) { transform: scale(.92); }
-    .step-btn:disabled { background: #D5DCEA; color: #fff; cursor: not-allowed; }
+    .step-btn:disabled { background: #D5DCEA; color: #FFFFFF; cursor: not-allowed; }
     .step-btn:focus-visible { outline: 3px solid #B9D0FF; outline-offset: 2px; }
-    .step-qty { min-width: 24px; text-align: center; font-weight: 900; color: #02195B; font-size: 1.05rem; }
+
+    .step-qty {
+      min-width: 26px;
+      text-align: center;
+      font-weight: 900;
+      color: #02195B;
+      font-size: 1.15rem;
+    }
+
     .size-card.bump { animation: bump .28s; }
     @keyframes bump { 50% { transform: scale(1.06); } }
-    .shirt-selector .shirt-feedback { text-align: center; }
-    @media (min-width: 640px) { .size-picker { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; } .size-card { padding: 10px 4px 8px; } .step-btn { width: 28px; height: 28px; } }
+
+    .shirt-selector .shirt-feedback { text-align: center; margin-top: 10px; }
+
+    /* Desktop (telas a partir de 620px): 4 colunas em linha */
+    @media (min-width: 620px) {
+      .size-picker {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 12px;
+      }
+      .size-card {
+        padding: 12px 6px 10px;
+        min-height: 140px;
+      }
+      .step-btn {
+        width: 32px;
+        height: 32px;
+        font-size: 1.15rem;
+      }
+    }
+
     @media (prefers-reduced-motion: reduce) { .stock-flame, .size-card.bump { animation: none; } .size-card, .pip { transition: none; } }
   </style>
 </head>
@@ -1260,7 +1429,7 @@
           html += `<div class="size-card${sel ? ' active' : ''}${out ? ' soldout' : ''}${low ? ' low' : ''}"><span class="size-label">${size.toUpperCase()}</span><span class="size-status${out ? ' out' : low ? ' low' : ''}">${status}</span><span class="size-pips" aria-hidden="true">${pips}</span><div class="size-stepper"><button type="button" class="step-btn" data-act="dec" data-key="${key}" aria-label="Diminuir camisa tamanho ${size.toUpperCase()}"${sel ? '' : ' disabled'}>−</button><span class="step-qty" aria-live="polite">${sel}</span><button type="button" class="step-btn" data-act="inc" data-key="${key}" aria-label="Adicionar camisa tamanho ${size.toUpperCase()}"${canAdd ? '' : ' disabled'}>+</button></div></div>`;
         });
         selector.querySelector('.size-picker').innerHTML = html;
-        const head = selector.querySelector('.model-stock'); if (head) head.innerHTML = modelLeft ? `<span>${modelLeft} disponíveis neste modelo</span>${chips}` : '<span>Modelo esgotado</span>';
+        const head = selector.querySelector('.model-stock'); if (head) head.innerHTML = modelLeft ? `<span class="model-stock-title"><b>${modelLeft}</b> disponíveis neste modelo</span><div class="model-stock-chips">${chips}</div>` : '<span class="model-stock-title"><b>0</b> disponíveis neste modelo</span><div class="model-stock-chips"><span class="stock-chip out">Esgotado</span></div>';
       });
       document.getElementById('stock-count').textContent = totalLeft;
       document.getElementById('stock-sub').textContent = totalLeft === 0 ? 'Todas as camisas foram vendidas.' : `${totalLeft} de ${totalLimit} camisas disponíveis nos dois modelos${mine ? ` · ${totalLeft - mine} livres após sua seleção` : ''}`;
