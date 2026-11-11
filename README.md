@@ -49,24 +49,25 @@ A imagem deve se chamar exatamente `pix-qr-code.png` e ficar na raiz do projeto,
 
 ## Atualização visual — Fase 1
 - Mantida a identidade visual azul, bege e branco da Lojinha Geração.
-- Incluída tabela de medidas oficial para P, M, G, GG, G1, G2 e G3 (medidas em centímetros).
-- Incluídos os tamanhos G1, G2 e G3 nos dois modelos de camisa, no resumo do pedido e na validação da API.
+- Incluída tabela de medidas oficial para P, M, G e GG (medidas em centímetros).
+- Tamanhos disponíveis nos dois modelos: P, M, G e GG (G1, G2 e G3 foram removidos).
 - Adicionados controles de quantidade (+ e −), mantendo a digitação manual.
 - Refinados cartões, botões, etapas, áreas de produto, resumo e pagamento, com ajustes responsivos.
 - Não foi implementado carrinho persistente. O CPF e as regras comerciais foram mantidos.
 
 ## Tamanhos de camisa aceitos
-P, M, G, GG, G1, G2 e G3. O preço unitário permanece R$ 45,00.
+P, M, G e GG. O preço unitário permanece R$ 45,00.
 
 ## Controle de Estoque (Camisas)
 O site possui controle de estoque em tempo real com proteção contra compras simultâneas da mesma peça (reserva atômica via Lua script no Redis).
 
-### Quantidades configuradas (estoque global compartilhado entre os dois modelos):
+### Quantidades configuradas (por modelo de camisa — vale para cada um dos dois modelos):
 - **P:** 4 unidades
 - **M:** 4 unidades
-- **G:** 1 unidade
+- **G:** 0 (esgotado — já adquiridas antecipadamente)
 - **GG:** 1 unidade
-- **G1, G2, G3:** 0 unidades (exibidos como *Esgotado*)
+
+Para alterar, edite `SIZE_LIMITS` em `api/_estoque.js`.
 
 ### Como o estoque é persistido entre os clientes (Vercel)
 Para que a compra de um cliente dê baixa imediatamente no estoque e a próxima pessoa já veja a quantidade reduzida, é necessário conectar o **Upstash Redis** na Vercel:
@@ -83,5 +84,5 @@ Para que a compra de um cliente dê baixa imediatamente no estoque e a próxima 
 - **Ajustar ou resetar estoque (opcional):**
   Defina a variável `ADMIN_TOKEN` nas configurações de ambiente da Vercel.
   - Resetar contagem: `POST /api/estoque` com header `Authorization: Bearer <SEU_TOKEN>` e corpo `{"action": "reset"}`.
-  - Ajustar peças vendidas de um tamanho: `POST /api/estoque` com header `Authorization: Bearer <SEU_TOKEN>` e corpo `{"action": "set", "size": "m", "sold": 1}`.
+  - Ajustar peças vendidas de um tamanho: `POST /api/estoque` com header `Authorization: Bearer <SEU_TOKEN>` e corpo `{"action": "set", "size": "camisa_onda_m", "sold": 1}`.
 

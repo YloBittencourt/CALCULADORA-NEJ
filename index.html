@@ -1005,6 +1005,10 @@
     }
   
     /* ===== Controle de estoque ===== */
+    .model-stock { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-bottom: 10px; font-size: .78rem; font-weight: 700; color: #53627F; }
+    .model-stock > span:first-child { margin-right: auto; }
+    .model-stock .stock-chip { background: #EAF1FF; color: #02195B; padding: 3px 9px; }
+    .model-stock .stock-chip b { color: #004AAD; }
     .stock-banner { margin: 0 0 18px; padding: 16px; border-radius: 16px; color: #fff; background: linear-gradient(135deg, #02195B 0%, #004AAD 70%, #1F6FE0 100%); box-shadow: 0 10px 26px rgba(2,25,91,.22); }
     .stock-banner-head { display: flex; align-items: center; gap: 12px; }
     .stock-banner-head > div { flex: 1; display: grid; gap: 2px; min-width: 0; }
@@ -1042,7 +1046,7 @@
     .size-card.bump { animation: bump .28s; }
     @keyframes bump { 50% { transform: scale(1.06); } }
     .shirt-selector .shirt-feedback { text-align: center; }
-    @media (min-width: 640px) { .size-picker { grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 8px; } .size-card { padding: 10px 4px 8px; } .step-btn { width: 28px; height: 28px; } }
+    @media (min-width: 640px) { .size-picker { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; } .size-card { padding: 10px 4px 8px; } .step-btn { width: 28px; height: 28px; } }
     @media (prefers-reduced-motion: reduce) { .stock-flame, .size-card.bump { animation: none; } .size-card, .pip { transition: none; } }
   </style>
 </head>
@@ -1093,9 +1097,6 @@
                   <tr><th scope="row">M</th><td>54 cm</td><td>75 cm</td></tr>
                   <tr><th scope="row">G</th><td>57 cm</td><td>78 cm</td></tr>
                   <tr><th scope="row">GG</th><td>59 cm</td><td>81 cm</td></tr>
-                  <tr><th scope="row">G1</th><td>65 cm</td><td>83 cm</td></tr>
-                  <tr><th scope="row">G2</th><td>67 cm</td><td>85 cm</td></tr>
-                  <tr><th scope="row">G3</th><td>69 cm</td><td>87 cm</td></tr>
                 </tbody>
               </table>
             </div>
@@ -1119,9 +1120,10 @@
               src="/imagens/camisas/camisa-01-onda-vira-fogo.png" alt="Camisa A onda que vira fogo"></button>
           <p class="image-hint">Toque na imagem para ampliar</p>
           <div class="shirt-selector" data-shirt-product="onda" data-shirt-prefix="camisa_onda_">
+            <div class="model-stock" aria-live="polite"></div>
             <div class="size-picker" role="group" aria-label="Escolha de tamanhos"></div>
             <p class="shirt-feedback" id="onda-feedback" role="status" aria-live="polite"></p>
-            <div class="shirt-hidden-inputs"><input type="hidden" data-shirt="camisa_onda_p" value="0"><input type="hidden" data-shirt="camisa_onda_m" value="0"><input type="hidden" data-shirt="camisa_onda_g" value="0"><input type="hidden" data-shirt="camisa_onda_gg" value="0"><input type="hidden" data-shirt="camisa_onda_g1" value="0"><input type="hidden" data-shirt="camisa_onda_g2" value="0"><input type="hidden" data-shirt="camisa_onda_g3" value="0"></div>
+            <div class="shirt-hidden-inputs"><input type="hidden" data-shirt="camisa_onda_p" value="0"><input type="hidden" data-shirt="camisa_onda_m" value="0"><input type="hidden" data-shirt="camisa_onda_g" value="0"><input type="hidden" data-shirt="camisa_onda_gg" value="0"></div>
           </div>
         </div>
         <div class="product">
@@ -1133,9 +1135,10 @@
               src="/imagens/camisas/camisa-02-ciclo-recomeca.png" alt="Camisa O ciclo recomeça"></button>
           <p class="image-hint">Toque na imagem para ampliar</p>
           <div class="shirt-selector" data-shirt-product="ciclo" data-shirt-prefix="camisa_ciclo_">
+            <div class="model-stock" aria-live="polite"></div>
             <div class="size-picker" role="group" aria-label="Escolha de tamanhos"></div>
             <p class="shirt-feedback" id="ciclo-feedback" role="status" aria-live="polite"></p>
-            <div class="shirt-hidden-inputs"><input type="hidden" data-shirt="camisa_ciclo_p" value="0"><input type="hidden" data-shirt="camisa_ciclo_m" value="0"><input type="hidden" data-shirt="camisa_ciclo_g" value="0"><input type="hidden" data-shirt="camisa_ciclo_gg" value="0"><input type="hidden" data-shirt="camisa_ciclo_g1" value="0"><input type="hidden" data-shirt="camisa_ciclo_g2" value="0"><input type="hidden" data-shirt="camisa_ciclo_g3" value="0"></div>
+            <div class="shirt-hidden-inputs"><input type="hidden" data-shirt="camisa_ciclo_p" value="0"><input type="hidden" data-shirt="camisa_ciclo_m" value="0"><input type="hidden" data-shirt="camisa_ciclo_g" value="0"><input type="hidden" data-shirt="camisa_ciclo_gg" value="0"></div>
           </div>
         </div>
       </div>
@@ -1234,38 +1237,41 @@
     const bottonWrap = document.getElementById('botton-inputs');
     buttonModels.forEach(([name, key], i) => { const row = document.createElement('div'); row.className = 'botton-row'; const label = document.createElement('label'); label.htmlFor = 'botton-' + i; label.textContent = name; const input = document.createElement('input'); input.id = 'botton-' + i; input.type = 'number'; input.min = '0'; input.max = '999'; input.step = '1'; input.value = '0'; input.inputMode = 'numeric'; input.dataset.botton = key; input.setAttribute('aria-label', 'Quantidade de ' + name); row.append(label, input); bottonWrap.append(row); bindQuantityInput(input) });
     // ===== Estoque e seletor de tamanhos =====
-    const SIZE_ORDER = ['p', 'm', 'g', 'gg', 'g1', 'g2', 'g3'];
-    let STOCK = { p: { limit: 4, left: 4 }, m: { limit: 4, left: 4 }, g: { limit: 1, left: 1 }, gg: { limit: 1, left: 1 }, g1: { limit: 0, left: 0 }, g2: { limit: 0, left: 0 }, g3: { limit: 0, left: 0 } };
-    const shirtInputs = size => Array.from(document.querySelectorAll(`[data-shirt$="_${size}"]`));
-    const selectedTotal = size => shirtInputs(size).reduce((a, i) => a + qty(i), 0);
-    function clampToStock() { SIZE_ORDER.forEach(size => { let over = selectedTotal(size) - STOCK[size].left; for (const input of shirtInputs(size).reverse()) { if (over <= 0) break; const cut = Math.min(over, qty(input)); input.value = String(qty(input) - cut); over -= cut } }) }
+    const SIZE_ORDER = ['p', 'm', 'g', 'gg'];
+    const LIMITS = { p: 4, m: 4, g: 0, gg: 1 };
+    const keyOf = (selector, size) => selector.dataset.shirtPrefix + size;
+    let STOCK = {};
+    document.querySelectorAll('.shirt-selector').forEach(sel => SIZE_ORDER.forEach(size => { STOCK[keyOf(sel, size)] = { limit: LIMITS[size], left: LIMITS[size] } }));
+    const stockLeft = key => (STOCK[key] ? STOCK[key].left : 0);
+    function clampToStock() { document.querySelectorAll('[data-shirt]').forEach(input => { const left = stockLeft(input.dataset.shirt); if (qty(input) > left) input.value = String(left) }) }
     function setShirtFeedback(selector, message, isError = false) { const feedback = selector.querySelector('.shirt-feedback'); feedback.textContent = message; feedback.classList.toggle('error', isError) }
     function renderStock(focusKey) {
       clampToStock();
-      let totalLeft = 0, totalLimit = 0, chips = '';
-      SIZE_ORDER.forEach(size => { const st = STOCK[size]; totalLeft += st.left; totalLimit += st.limit; if (st.limit > 0) chips += `<span class="stock-chip${st.left ? '' : ' out'}">${size.toUpperCase()} <b>${st.left}</b></span>` });
-      const mine = SIZE_ORDER.reduce((a, s) => a + selectedTotal(s), 0), free = totalLeft - mine;
-      document.getElementById('stock-count').textContent = totalLeft;
-      document.getElementById('stock-sub').textContent = totalLeft === 0 ? 'Todas as camisas foram vendidas.' : `${totalLeft} de ${totalLimit} camisas disponíveis${mine ? ` · ${free} livres após sua seleção` : ''}`;
-      document.getElementById('stock-chips').innerHTML = chips;
+      let totalLeft = 0, totalLimit = 0, mine = 0;
       document.querySelectorAll('.shirt-selector').forEach(selector => {
-        const picker = selector.querySelector('.size-picker'); let html = '';
+        let chips = '', modelLeft = 0, html = '';
         SIZE_ORDER.forEach(size => {
-          const st = STOCK[size], key = selector.dataset.shirtPrefix + size, mineHere = qty(selector.querySelector(`[data-shirt="${key}"]`)), mineAll = selectedTotal(size), canAdd = mineAll < st.left, out = st.left === 0;
-          const low = st.left === 1 || (st.left > 0 && st.left - mineAll <= 1 && st.left <= 2);
-          let pips = ''; for (let i = 0; i < st.limit; i++) pips += `<i class="pip${i >= st.left ? ' gone' : i < mineAll ? ' mine' : ''}"></i>`;
+          const key = keyOf(selector, size), st = STOCK[key] || { limit: 0, left: 0 }, sel = qty(selector.querySelector(`[data-shirt="${key}"]`)), out = st.left === 0, canAdd = sel < st.left;
+          totalLeft += st.left; totalLimit += st.limit; mine += sel; modelLeft += st.left;
+          chips += `<span class="stock-chip${out ? ' out' : ''}">${size.toUpperCase()} <b>${st.left}</b></span>`;
+          const low = !out && st.left - sel <= 1 && st.left <= 2;
+          let pips = ''; for (let i = 0; i < Math.max(st.limit, 0); i++) pips += `<i class="pip${i >= st.left ? ' gone' : i < sel ? ' mine' : ''}"></i>`;
           const status = out ? 'Esgotado' : st.left === 1 ? 'Última!' : `Restam ${st.left}`;
-          html += `<div class="size-card${mineHere ? ' active' : ''}${out ? ' soldout' : ''}${low && !out ? ' low' : ''}" data-size="${size}"><span class="size-label">${size.toUpperCase()}</span><span class="size-status${out ? ' out' : low ? ' low' : ''}">${status}</span><span class="size-pips" aria-hidden="true">${pips}</span><div class="size-stepper"><button type="button" class="step-btn" data-act="dec" data-key="${key}" aria-label="Diminuir camisa tamanho ${size.toUpperCase()}"${mineHere ? '' : ' disabled'}>−</button><span class="step-qty" aria-live="polite">${mineHere}</span><button type="button" class="step-btn" data-act="inc" data-key="${key}" aria-label="Adicionar camisa tamanho ${size.toUpperCase()}"${canAdd ? '' : ' disabled'}>+</button></div></div>`;
+          html += `<div class="size-card${sel ? ' active' : ''}${out ? ' soldout' : ''}${low ? ' low' : ''}"><span class="size-label">${size.toUpperCase()}</span><span class="size-status${out ? ' out' : low ? ' low' : ''}">${status}</span><span class="size-pips" aria-hidden="true">${pips}</span><div class="size-stepper"><button type="button" class="step-btn" data-act="dec" data-key="${key}" aria-label="Diminuir camisa tamanho ${size.toUpperCase()}"${sel ? '' : ' disabled'}>−</button><span class="step-qty" aria-live="polite">${sel}</span><button type="button" class="step-btn" data-act="inc" data-key="${key}" aria-label="Adicionar camisa tamanho ${size.toUpperCase()}"${canAdd ? '' : ' disabled'}>+</button></div></div>`;
         });
-        picker.innerHTML = html;
+        selector.querySelector('.size-picker').innerHTML = html;
+        const head = selector.querySelector('.model-stock'); if (head) head.innerHTML = modelLeft ? `<span>${modelLeft} disponíveis neste modelo</span>${chips}` : '<span>Modelo esgotado</span>';
       });
+      document.getElementById('stock-count').textContent = totalLeft;
+      document.getElementById('stock-sub').textContent = totalLeft === 0 ? 'Todas as camisas foram vendidas.' : `${totalLeft} de ${totalLimit} camisas disponíveis nos dois modelos${mine ? ` · ${totalLeft - mine} livres após sua seleção` : ''}`;
+      document.getElementById('stock-chips').innerHTML = '';
       if (focusKey) { const el = document.querySelector(`.step-btn[data-key="${focusKey.key}"][data-act="${focusKey.act}"]`); if (el && !el.disabled) el.focus(); else { const alt = document.querySelector(`.step-btn[data-key="${focusKey.key}"]:not(:disabled)`); if (alt) alt.focus() } const card = document.querySelector(`.step-btn[data-key="${focusKey.key}"]`)?.closest('.size-card'); if (card) card.classList.add('bump') }
     }
     function bindShirtSelector(selector) {
       selector.querySelector('.size-picker').addEventListener('click', event => {
         const btn = event.target.closest('.step-btn'); if (!btn || btn.disabled) return;
         const input = selector.querySelector(`[data-shirt="${btn.dataset.key}"]`), size = btn.dataset.key.split('_').pop(), current = qty(input);
-        if (btn.dataset.act === 'inc') { if (selectedTotal(size) >= STOCK[size].left) { setShirtFeedback(selector, `Só há ${STOCK[size].left} unidade(s) do tamanho ${size.toUpperCase()}.`, true); return } input.value = String(current + 1); setShirtFeedback(selector, `Camisa ${size.toUpperCase()} adicionada.`) }
+        if (btn.dataset.act === 'inc') { if (current >= stockLeft(btn.dataset.key)) { setShirtFeedback(selector, `Só há ${stockLeft(btn.dataset.key)} unidade(s) do tamanho ${size.toUpperCase()}.`, true); return } input.value = String(current + 1); setShirtFeedback(selector, `Camisa ${size.toUpperCase()} adicionada.`) }
         else { input.value = String(Math.max(0, current - 1)); setShirtFeedback(selector, `Camisa ${size.toUpperCase()} removida.`) }
         renderStock({ key: btn.dataset.key, act: btn.dataset.act }); updateTotals();
       });
@@ -1318,7 +1324,7 @@
     document.getElementById('telefone').addEventListener('blur', () => { touchedFields.add('telefone'); setFieldState('telefone', true) });
     document.getElementById('to-products').addEventListener('click', () => { const result = validateCustomer(true); if (!result.valid) { result.firstInvalid.focus(); result.firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' }); return } showPanel('products-panel', 2) });
     document.getElementById('back-contact').addEventListener('click', () => showPanel('contact-panel', 1));
-    function renderSummary() { const t = totals(), name = document.getElementById('nome').value.trim(), cpf = document.getElementById('cpf').value, phone = document.getElementById('telefone').value; let html = `<h3 class="summary-section-title">Seus dados</h3><div class="summary-row"><span>Cliente</span><b>${escapeHTML(name)}</b></div><div class="summary-row"><span>CPF</span><b>${escapeHTML(cpf)}</b></div><div class="summary-row"><span>Telefone</span><b>${escapeHTML(phone)}</b></div><h3 class="summary-section-title">Camisas</h3>`; const shirtLabels = { camisa_onda_p: 'A onda que vira fogo — P', camisa_onda_m: 'A onda que vira fogo — M', camisa_onda_g: 'A onda que vira fogo — G', camisa_onda_gg: 'A onda que vira fogo — GG', camisa_onda_g1: 'A onda que vira fogo — G1', camisa_onda_g2: 'A onda que vira fogo — G2', camisa_onda_g3: 'A onda que vira fogo — G3', camisa_ciclo_p: 'O ciclo recomeça — P', camisa_ciclo_m: 'O ciclo recomeça — M', camisa_ciclo_g: 'O ciclo recomeça — G', camisa_ciclo_gg: 'O ciclo recomeça — GG', camisa_ciclo_g1: 'O ciclo recomeça — G1', camisa_ciclo_g2: 'O ciclo recomeça — G2', camisa_ciclo_g3: 'O ciclo recomeça — G3' }; let hasShirt = false; for (const [k, q] of Object.entries(t.shirts)) { if (q) { hasShirt = true; html += `<div class="summary-row summary-item"><span>${shirtLabels[k]}<span class="summary-detail">${q} unidade(s) × R$ 45,00</span></span><b>${money(q * SHIRT_PRICE)}</b></div>` } } if (!hasShirt) html += '<p class="hint">Nenhuma camisa selecionada.</p>'; html += '<h3 class="summary-section-title">Bottons</h3>'; let hasButtons = false; for (const [name, key] of buttonModels) { const q = t.buttons[key]; if (q) { hasButtons = true; html += `<div class="summary-row summary-item"><span>${name}<span class="summary-detail">Combos calculados sobre o total global</span></span><b>${q} un.</b></div>` } } if (!hasButtons) html += '<p class="hint">Nenhum botton selecionado.</p>'; html += `<div class="summary-row"><span>Subtotal camisas</span><b>${money(t.shirtTotal)}</b></div><div class="summary-row"><span>Subtotal bottons (${t.buttonCount} unidade(s), combos globais)</span><b>${money(t.buttonTotal)}</b></div>`; document.getElementById('summary-content').innerHTML = html; document.getElementById('summary-total').textContent = money(t.total) }
+    function renderSummary() { const t = totals(), name = document.getElementById('nome').value.trim(), cpf = document.getElementById('cpf').value, phone = document.getElementById('telefone').value; let html = `<h3 class="summary-section-title">Seus dados</h3><div class="summary-row"><span>Cliente</span><b>${escapeHTML(name)}</b></div><div class="summary-row"><span>CPF</span><b>${escapeHTML(cpf)}</b></div><div class="summary-row"><span>Telefone</span><b>${escapeHTML(phone)}</b></div><h3 class="summary-section-title">Camisas</h3>`; const shirtLabels = { camisa_onda_p: 'A onda que vira fogo — P', camisa_onda_m: 'A onda que vira fogo — M', camisa_onda_g: 'A onda que vira fogo — G', camisa_onda_gg: 'A onda que vira fogo — GG', camisa_ciclo_p: 'O ciclo recomeça — P', camisa_ciclo_m: 'O ciclo recomeça — M', camisa_ciclo_g: 'O ciclo recomeça — G', camisa_ciclo_gg: 'O ciclo recomeça — GG' }; let hasShirt = false; for (const [k, q] of Object.entries(t.shirts)) { if (q) { hasShirt = true; html += `<div class="summary-row summary-item"><span>${shirtLabels[k]}<span class="summary-detail">${q} unidade(s) × R$ 45,00</span></span><b>${money(q * SHIRT_PRICE)}</b></div>` } } if (!hasShirt) html += '<p class="hint">Nenhuma camisa selecionada.</p>'; html += '<h3 class="summary-section-title">Bottons</h3>'; let hasButtons = false; for (const [name, key] of buttonModels) { const q = t.buttons[key]; if (q) { hasButtons = true; html += `<div class="summary-row summary-item"><span>${name}<span class="summary-detail">Combos calculados sobre o total global</span></span><b>${q} un.</b></div>` } } if (!hasButtons) html += '<p class="hint">Nenhum botton selecionado.</p>'; html += `<div class="summary-row"><span>Subtotal camisas</span><b>${money(t.shirtTotal)}</b></div><div class="summary-row"><span>Subtotal bottons (${t.buttonCount} unidade(s), combos globais)</span><b>${money(t.buttonTotal)}</b></div>`; document.getElementById('summary-content').innerHTML = html; document.getElementById('summary-total').textContent = money(t.total) }
     function escapeHTML(s) { return s.replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])) }
     document.getElementById('to-summary').addEventListener('click', async () => { await loadStock(); const t = totals(); document.getElementById('products-error').textContent = t.total === 0 ? 'Adicione pelo menos uma camisa ou um botton ao pedido.' : ''; if (t.total === 0) return; renderSummary(); showPanel('summary-panel', 3) });
     document.getElementById('back-products').addEventListener('click', () => showPanel('products-panel', 2));

@@ -10,13 +10,11 @@ const BUTTON_MODELS = [
   ['botton_grandoes', 'Grandões e Sem Medo'],
   ['botton_sol', 'Sol, Onda e Montanha'],
 ];
-const SHIRT_KEYS = ['camisa_onda_p','camisa_onda_m','camisa_onda_g','camisa_onda_gg','camisa_onda_g1','camisa_onda_g2','camisa_onda_g3','camisa_ciclo_p','camisa_ciclo_m','camisa_ciclo_g','camisa_ciclo_gg','camisa_ciclo_g1','camisa_ciclo_g2','camisa_ciclo_g3'];
+const SHIRT_KEYS = ['camisa_onda_p','camisa_onda_m','camisa_onda_g','camisa_onda_gg','camisa_ciclo_p','camisa_ciclo_m','camisa_ciclo_g','camisa_ciclo_gg'];
 const SHIRT_LABELS = {
   camisa_onda_p:'A onda que vira fogo - P', camisa_onda_m:'A onda que vira fogo - M',
   camisa_onda_g:'A onda que vira fogo - G', camisa_onda_gg:'A onda que vira fogo - GG',
-  camisa_onda_g1:'A onda que vira fogo - G1', camisa_onda_g2:'A onda que vira fogo - G2', camisa_onda_g3:'A onda que vira fogo - G3',
-  camisa_ciclo_p:'O ciclo recomeça - P', camisa_ciclo_m:'O ciclo recomeça - M', camisa_ciclo_g:'O ciclo recomeça - G', camisa_ciclo_gg:'O ciclo recomeça - GG',
-  camisa_ciclo_g1:'O ciclo recomeça - G1', camisa_ciclo_g2:'O ciclo recomeça - G2', camisa_ciclo_g3:'O ciclo recomeça - G3'
+  camisa_ciclo_p:'O ciclo recomeça - P', camisa_ciclo_m:'O ciclo recomeça - M', camisa_ciclo_g:'O ciclo recomeça - G', camisa_ciclo_gg:'O ciclo recomeça - GG'
 };
 
 const BRAZILIAN_DDDS = new Set([
@@ -166,8 +164,8 @@ module.exports = async (req, res) => {
     };
 
     // Reserva o estoque (atômica) antes de registrar; devolve se o registro falhar.
-    const want = Object.fromEntries(SIZES.map(sz => [sz, 0]));
-    for (const key of SHIRT_KEYS) want[key.split('_').pop()] += shirts[key];
+    const want = Object.fromEntries(SIZES.map(k => [k, 0]));
+    for (const key of SHIRT_KEYS) want[key] = shirts[key];
     if (!(await reserve(want))) {
       return res.status(409).json({
         error: 'Algumas camisas acabaram de esgotar. Revise as quantidades e tente novamente.',

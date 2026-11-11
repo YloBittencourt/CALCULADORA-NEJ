@@ -1,10 +1,14 @@
 // Controle de estoque de camisas.
-// O estoque é compartilhado entre os dois modelos: cada tamanho tem um limite total.
+// O estoque é controlado por modelo de camisa e por tamanho (chave = modelo + tamanho).
 // Persistência: Upstash Redis (Vercel Marketplace → Upstash Redis), via REST, com reserva atômica.
 // Variáveis aceitas: KV_REST_API_URL/KV_REST_API_TOKEN ou UPSTASH_REDIS_REST_URL/UPSTASH_REDIS_REST_TOKEN.
 
-const STOCK_LIMITS = { p: 4, m: 4, g: 1, gg: 1, g1: 0, g2: 0, g3: 0 };
-const SIZES = Object.keys(STOCK_LIMITS);
+// Limite por tamanho em cada modelo. G está zerado nos dois modelos (já foram compradas antecipadamente).
+const SIZE_LIMITS = { p: 4, m: 4, g: 0, gg: 1 };
+const MODELS = ['onda', 'ciclo'];
+const STOCK_LIMITS = {};
+for (const model of MODELS) for (const [size, limit] of Object.entries(SIZE_LIMITS)) STOCK_LIMITS[`camisa_${model}_${size}`] = limit;
+const SIZES = Object.keys(STOCK_LIMITS); // chaves completas, ex.: camisa_onda_p
 const HASH_KEY = 'lojinha:estoque:vendido';
 
 const REDIS_URL = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
@@ -44,7 +48,7 @@ async function getStock() {
   return stock;
 }
 
-// Reserva atômica: tudo ou nada. `want` = { p: 2, m: 1, ... }. Retorna true se reservou.
+// Reserva atômica: tudo ou nada. `want` = { camisa_onda_p: 2, camisa_ciclo_m: 1, ... }. Retorna true se reservou.
 const RESERVE_LUA = `
 for i = 1, #ARGV, 3 do
   local sold = tonumber(redis.call('HGET', KEYS[1], ARGV[i]) or '0')
@@ -61,7 +65,7 @@ async function reserve(want) {
     entries.forEach(s => { memory[s] += want[s]; });
     return true;
   }
-  // ARGV em trincas: tamanho, quantidade, limite
+  // ARGV em trincas: chave, quantidade, limite
   const args = entries.flatMap(s => [s, String(want[s]), String(STOCK_LIMITS[s])]);
   return (await redis(['EVAL', RESERVE_LUA, '1', HASH_KEY, ...args])) === 1;
 }
