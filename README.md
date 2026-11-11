@@ -57,3 +57,31 @@ A imagem deve se chamar exatamente `pix-qr-code.png` e ficar na raiz do projeto,
 
 ## Tamanhos de camisa aceitos
 P, M, G, GG, G1, G2 e G3. O preço unitário permanece R$ 45,00.
+
+## Controle de Estoque (Camisas)
+O site possui controle de estoque em tempo real com proteção contra compras simultâneas da mesma peça (reserva atômica via Lua script no Redis).
+
+### Quantidades configuradas (estoque global compartilhado entre os dois modelos):
+- **P:** 4 unidades
+- **M:** 4 unidades
+- **G:** 1 unidade
+- **GG:** 1 unidade
+- **G1, G2, G3:** 0 unidades (exibidos como *Esgotado*)
+
+### Como o estoque é persistido entre os clientes (Vercel)
+Para que a compra de um cliente dê baixa imediatamente no estoque e a próxima pessoa já veja a quantidade reduzida, é necessário conectar o **Upstash Redis** na Vercel:
+1. No painel do projeto na Vercel, acesse **Storage** (ou **Marketplace**).
+2. Adicione **Upstash Redis** (plano Free gratuito).
+3. Conecte ao projeto `lojinha-geracao`.
+4. As variáveis `KV_REST_API_URL` e `KV_REST_API_TOKEN` são injetadas automaticamente pela Vercel.
+5. Faça um novo Deploy (Redeploy) no painel.
+
+*Nota: Se o Upstash Redis não for conectado, o sistema opera em modo de desenvolvimento com memória local da função serverless.*
+
+### Gestão Administrativa do Estoque
+- **Consultar estoque:** `GET /api/estoque` retorna o total disponível e o status `persistent: true/false`.
+- **Ajustar ou resetar estoque (opcional):**
+  Defina a variável `ADMIN_TOKEN` nas configurações de ambiente da Vercel.
+  - Resetar contagem: `POST /api/estoque` com header `Authorization: Bearer <SEU_TOKEN>` e corpo `{"action": "reset"}`.
+  - Ajustar peças vendidas de um tamanho: `POST /api/estoque` com header `Authorization: Bearer <SEU_TOKEN>` e corpo `{"action": "set", "size": "m", "sold": 1}`.
+

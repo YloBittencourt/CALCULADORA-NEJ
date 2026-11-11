@@ -72,4 +72,25 @@ async function release(want) {
   for (const s of entries) await redis(['HINCRBY', HASH_KEY, s, String(-want[s])]);
 }
 
-module.exports = { STOCK_LIMITS, SIZES, getStock, reserve, release, persistent };
+async function resetStock() {
+  if (!persistent()) {
+    SIZES.forEach(s => { memory[s] = 0; });
+    return true;
+  }
+  await redis(['DEL', HASH_KEY]);
+  return true;
+}
+
+async function setSold(size, count) {
+  const s = String(size).toLowerCase();
+  if (!SIZES.includes(s)) throw new Error('Tamanho inválido.');
+  const val = Math.max(0, Number(count) || 0);
+  if (!persistent()) {
+    memory[s] = val;
+    return true;
+  }
+  await redis(['HSET', HASH_KEY, s, String(val)]);
+  return true;
+}
+
+module.exports = { STOCK_LIMITS, SIZES, getStock, reserve, release, resetStock, setSold, persistent };
