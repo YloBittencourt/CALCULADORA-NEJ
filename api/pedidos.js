@@ -1,4 +1,5 @@
 const crypto = require('crypto');
+const { reserve, release, getStock, SIZES } = require('./_estoque');
 
 const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyOkDOpLPTZdf9J3tPb7RYacfVidoRDIZkeTxlJBSgt6vLWzf1W2kGHns8FkZcridUahw/exec';
 const SHIRT_PRICE_CENTS = 4500;
@@ -164,6 +165,17 @@ module.exports = async (req, res) => {
       total: totalCents / 100
     };
 
+    // Reserva o estoque (atômica) antes de registrar; devolve se o registro falhar.
+    const want = Object.fromEntries(SIZES.map(sz => [sz, 0]));
+    for (const key of SHIRT_KEYS) want[key.split('_').pop()] += shirts[key];
+    if (!(await reserve(want))) {
+      return res.status(409).json({
+        error: 'Algumas camisas acabaram de esgotar. Revise as quantidades e tente novamente.',
+        stock: await getStock()
+      });
+    }
+    let registered = false, result;
+    try {
     const response = await fetch(APPS_SCRIPT_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'text/plain;charset=utf-8' },
@@ -171,12 +183,15 @@ module.exports = async (req, res) => {
       redirect: 'follow'
     });
     const responseText = await response.text();
-    let result;
     try { result = JSON.parse(responseText); }
     catch (_) { throw new Error('Resposta externa inválida.'); }
 
     if (!response.ok || result.sucesso !== true) {
       throw new Error('O registro externo não foi confirmado.');
+    }
+    registered = true;
+    } finally {
+      if (!registered) await release(want).catch(() => {});
     }
 
     return res.status(201).json({
