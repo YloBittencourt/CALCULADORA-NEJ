@@ -61,13 +61,19 @@ P, M, G e GG. O preço unitário permanece R$ 45,00.
 ## Controle de Estoque (Camisas)
 O site possui controle de estoque em tempo real com proteção contra compras simultâneas da mesma peça (reserva atômica via Lua script no Redis).
 
-### Quantidades configuradas (por modelo de camisa — vale para cada um dos dois modelos):
-- **P:** 4 unidades
-- **M:** 4 unidades
-- **G:** 0 (esgotado — já adquiridas antecipadamente)
-- **GG:** 1 unidade
+### Quantidades configuradas por modelo de camisa:
+- **A onda que vira fogo (9 disponíveis de 10):**
+  - **P:** 4 unidades
+  - **M:** 4 unidades
+  - **G:** 0 (esgotado — já adquiridas antecipadamente)
+  - **GG:** 1 unidade
+- **O ciclo recomeça (7 disponíveis de 10):**
+  - **P:** 4 unidades
+  - **M:** 2 disponíveis (de um total de 4, com 2 já adquiridas previamente fora da lojinha)
+  - **G:** 0 (esgotado — já adquiridas antecipadamente)
+  - **GG:** 1 unidade
 
-Para alterar, edite `SIZE_LIMITS` em `api/_estoque.js`.
+Total geral no catálogo: 16 camisas disponíveis. Para alterar, edite `SIZE_LIMITS` ou `INITIAL_SOLD` em `api/_estoque.js`.
 
 ### Como o estoque é persistido entre os clientes (Vercel)
 Para que a compra de um cliente dê baixa imediatamente no estoque e a próxima pessoa já veja a quantidade reduzida, é necessário conectar o **Upstash Redis** na Vercel:

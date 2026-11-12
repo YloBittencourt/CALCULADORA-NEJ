@@ -11,6 +11,11 @@ for (const model of MODELS) for (const [size, limit] of Object.entries(SIZE_LIMI
 const SIZES = Object.keys(STOCK_LIMITS); // chaves completas, ex.: camisa_onda_p
 const HASH_KEY = 'lojinha:estoque:vendido';
 
+// Vendas já realizadas fora da lojinha (ex.: compras antecipadas presenciais)
+const INITIAL_SOLD = {
+  camisa_ciclo_m: 2
+};
+
 const REDIS_URL = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
 const REDIS_TOKEN = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN;
 
@@ -39,11 +44,13 @@ async function getSold() {
 }
 
 async function getStock() {
-  const sold = await getSold();
+  const onlineSold = await getSold();
   const stock = {};
   for (const s of SIZES) {
     const limit = STOCK_LIMITS[s];
-    stock[s] = { limit, sold: Math.min(sold[s], limit), left: Math.max(0, limit - sold[s]) };
+    const external = INITIAL_SOLD[s] || 0;
+    const sold = Math.min(limit, external + (onlineSold[s] || 0));
+    stock[s] = { limit, sold, left: Math.max(0, limit - sold) };
   }
   return stock;
 }
@@ -61,12 +68,16 @@ async function reserve(want) {
   const entries = SIZES.filter(s => want[s] > 0);
   if (!entries.length) return true;
   if (!persistent()) {
-    if (entries.some(s => memory[s] + want[s] > STOCK_LIMITS[s])) return false;
+    if (entries.some(s => (INITIAL_SOLD[s] || 0) + memory[s] + want[s] > STOCK_LIMITS[s])) return false;
     entries.forEach(s => { memory[s] += want[s]; });
     return true;
   }
-  // ARGV em trincas: chave, quantidade, limite
-  const args = entries.flatMap(s => [s, String(want[s]), String(STOCK_LIMITS[s])]);
+  // ARGV em trincas: chave, quantidade, limite máximo que pode ser vendido online
+  const args = entries.flatMap(s => [
+    s,
+    String(want[s]),
+    String(Math.max(0, STOCK_LIMITS[s] - (INITIAL_SOLD[s] || 0)))
+  ]);
   return (await redis(['EVAL', RESERVE_LUA, '1', HASH_KEY, ...args])) === 1;
 }
 
@@ -88,13 +99,14 @@ async function resetStock() {
 async function setSold(size, count) {
   const s = String(size).toLowerCase();
   if (!SIZES.includes(s)) throw new Error('Tamanho inválido.');
-  const val = Math.max(0, Number(count) || 0);
+  const external = INITIAL_SOLD[s] || 0;
+  const onlineCount = Math.max(0, Number(count) - external || 0);
   if (!persistent()) {
-    memory[s] = val;
+    memory[s] = onlineCount;
     return true;
   }
-  await redis(['HSET', HASH_KEY, s, String(val)]);
+  await redis(['HSET', HASH_KEY, s, String(onlineCount)]);
   return true;
 }
 
-module.exports = { STOCK_LIMITS, SIZES, getStock, reserve, release, resetStock, setSold, persistent };
+module.exports = { STOCK_LIMITS, INITIAL_SOLD, SIZES, getStock, reserve, release, resetStock, setSold, persistent };
