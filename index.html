@@ -1408,14 +1408,9 @@
     // ===== Estoque e seletor de tamanhos =====
     const SIZE_ORDER = ['p', 'm', 'g', 'gg'];
     const LIMITS = { p: 4, m: 4, g: 0, gg: 1 };
-    const INITIAL_SOLD = { camisa_ciclo_m: 2 };
     const keyOf = (selector, size) => selector.dataset.shirtPrefix + size;
     let STOCK = {};
-    document.querySelectorAll('.shirt-selector').forEach(sel => SIZE_ORDER.forEach(size => {
-      const k = keyOf(sel, size);
-      const ext = INITIAL_SOLD[k] || 0;
-      STOCK[k] = { limit: LIMITS[size], left: Math.max(0, LIMITS[size] - ext), sold: ext };
-    }));
+    document.querySelectorAll('.shirt-selector').forEach(sel => SIZE_ORDER.forEach(size => { STOCK[keyOf(sel, size)] = { limit: LIMITS[size], left: LIMITS[size] } }));
     const stockLeft = key => (STOCK[key] ? STOCK[key].left : 0);
     function clampToStock() { document.querySelectorAll('[data-shirt]').forEach(input => { const left = stockLeft(input.dataset.shirt); if (qty(input) > left) input.value = String(left) }) }
     function setShirtFeedback(selector, message, isError = false) { const feedback = selector.querySelector('.shirt-feedback'); feedback.textContent = message; feedback.classList.toggle('error', isError) }
