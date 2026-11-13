@@ -58,16 +58,35 @@ A imagem deve se chamar exatamente `pix-qr-code.png` e ficar na raiz do projeto,
 ## Tamanhos de camisa aceitos
 P, M, G e GG. O preço unitário permanece R$ 45,00.
 
-## Controle de Estoque (Camisas)
-O site possui controle de estoque em tempo real com proteção contra compras simultâneas da mesma peça (reserva atômica via Lua script no Redis).
+## Controle de Estoque (Camisas e Bottons)
+O site possui controle de estoque em tempo real com proteção contra compras simultâneas da mesma peça (reserva atômica via Lua script no Upstash Redis).
 
-### Quantidades configuradas (por modelo de camisa — vale para cada um dos dois modelos):
-- **P:** 4 unidades
-- **M:** 4 unidades
-- **G:** 0 (esgotado — já adquiridas antecipadamente)
-- **GG:** 1 unidade
+### Quantidades configuradas
 
-Para alterar, edite `SIZE_LIMITS` em `api/_estoque.js`.
+#### Camisas
+- **A onda que vira fogo:**
+  - **P:** 4 unidades
+  - **M:** 4 unidades
+  - **G:** 0 (esgotado — já adquiridas antecipadamente)
+  - **GG:** 1 unidade
+  *(Total: 9 disponíveis)*
+
+- **O ciclo recomeça:**
+  - **P:** 4 unidades
+  - **M:** 2 unidades (4 no lote inicial, sendo 2 já vendidas fora da lojinha)
+  - **G:** 0 (esgotado — já adquiridas antecipadamente)
+  - **GG:** 1 unidade
+  *(Total: 7 disponíveis)*
+
+#### Bottons
+- **Geração em Chamas:** 30 iniciais − 3 vendidos na planilha = **27 disponíveis**
+- **Álbum da Cidade:** 30 iniciais − 3 vendidos na planilha = **27 disponíveis**
+- **O Maior Núcleo da Bahia:** 12 iniciais − 0 vendidos = **12 disponíveis**
+- **Grandões e Sem Medo:** 16 iniciais − 1 vendido na planilha = **15 disponíveis**
+- **Sol, Onda e Montanha:** 12 iniciais − 0 vendidos = **12 disponíveis**
+*(Total: 100 iniciais − 7 vendidos = **93 disponíveis**)*
+
+Para alterar quantidades iniciais ou vendas prévias, edite `SHIRT_SIZE_LIMITS`, `BUTTON_LIMITS` e `INITIAL_SOLD` em `api/_estoque.js`.
 
 ### Como o estoque é persistido entre os clientes (Vercel)
 Para que a compra de um cliente dê baixa imediatamente no estoque e a próxima pessoa já veja a quantidade reduzida, é necessário conectar o **Upstash Redis** na Vercel:

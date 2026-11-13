@@ -1,15 +1,37 @@
-// Controle de estoque de camisas.
-// O estoque é controlado por modelo de camisa e por tamanho (chave = modelo + tamanho).
+// Controle de estoque de camisas e bottons.
 // Persistência: Upstash Redis (Vercel Marketplace → Upstash Redis), via REST, com reserva atômica.
 // Variáveis aceitas: KV_REST_API_URL/KV_REST_API_TOKEN ou UPSTASH_REDIS_REST_URL/UPSTASH_REDIS_REST_TOKEN.
 
-// Limite por tamanho em cada modelo. G está zerado nos dois modelos (já foram compradas antecipadamente).
-const SIZE_LIMITS = { p: 4, m: 4, g: 0, gg: 1 };
-const MODELS = ['onda', 'ciclo'];
-const STOCK_LIMITS = {};
-for (const model of MODELS) for (const [size, limit] of Object.entries(SIZE_LIMITS)) STOCK_LIMITS[`camisa_${model}_${size}`] = limit;
-const SIZES = Object.keys(STOCK_LIMITS); // chaves completas, ex.: camisa_onda_p
+// Limite por tamanho em cada modelo de camisa:
+const SHIRT_SIZE_LIMITS = { p: 4, m: 4, g: 0, gg: 1 };
+const SHIRT_MODELS = ['onda', 'ciclo'];
+const SHIRT_STOCK_LIMITS = {};
+for (const model of SHIRT_MODELS) {
+  for (const [size, limit] of Object.entries(SHIRT_SIZE_LIMITS)) {
+    SHIRT_STOCK_LIMITS[`camisa_${model}_${size}`] = limit;
+  }
+}
+
+// Limites dos 5 modelos de bottons:
+const BUTTON_LIMITS = {
+  botton_geracao: 30,
+  botton_album: 30,
+  botton_nucleo: 12,
+  botton_grandoes: 16,
+  botton_sol: 12
+};
+
+const STOCK_LIMITS = { ...SHIRT_STOCK_LIMITS, ...BUTTON_LIMITS };
+const SIZES = Object.keys(STOCK_LIMITS);
 const HASH_KEY = 'lojinha:estoque:vendido';
+
+// Vendas já registradas fora da lojinha ou antes do lançamento online:
+const INITIAL_SOLD = {
+  camisa_ciclo_m: 2,
+  botton_geracao: 3,
+  botton_album: 3,
+  botton_grandoes: 1
+};
 
 const REDIS_URL = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
 const REDIS_TOKEN = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN;
@@ -39,16 +61,18 @@ async function getSold() {
 }
 
 async function getStock() {
-  const sold = await getSold();
+  const onlineSold = await getSold();
   const stock = {};
   for (const s of SIZES) {
     const limit = STOCK_LIMITS[s];
-    stock[s] = { limit, sold: Math.min(sold[s], limit), left: Math.max(0, limit - sold[s]) };
+    const external = INITIAL_SOLD[s] || 0;
+    const sold = Math.min(limit, external + (onlineSold[s] || 0));
+    stock[s] = { limit, sold, left: Math.max(0, limit - sold) };
   }
   return stock;
 }
 
-// Reserva atômica: tudo ou nada. `want` = { camisa_onda_p: 2, camisa_ciclo_m: 1, ... }. Retorna true se reservou.
+// Reserva atômica: tudo ou nada. `want` = { camisa_onda_p: 2, botton_geracao: 3, ... }. Retorna true se reservou.
 const RESERVE_LUA = `
 for i = 1, #ARGV, 3 do
   local sold = tonumber(redis.call('HGET', KEYS[1], ARGV[i]) or '0')
@@ -58,20 +82,24 @@ for i = 1, #ARGV, 3 do redis.call('HINCRBY', KEYS[1], ARGV[i], ARGV[i+1]) end
 return 1`;
 
 async function reserve(want) {
-  const entries = SIZES.filter(s => want[s] > 0);
+  const entries = SIZES.filter(s => (want[s] || 0) > 0);
   if (!entries.length) return true;
   if (!persistent()) {
-    if (entries.some(s => memory[s] + want[s] > STOCK_LIMITS[s])) return false;
+    if (entries.some(s => (INITIAL_SOLD[s] || 0) + memory[s] + want[s] > STOCK_LIMITS[s])) return false;
     entries.forEach(s => { memory[s] += want[s]; });
     return true;
   }
-  // ARGV em trincas: chave, quantidade, limite
-  const args = entries.flatMap(s => [s, String(want[s]), String(STOCK_LIMITS[s])]);
+  // ARGV em trincas: chave, quantidade, limite máximo que pode ser vendido online
+  const args = entries.flatMap(s => [
+    s,
+    String(want[s]),
+    String(Math.max(0, STOCK_LIMITS[s] - (INITIAL_SOLD[s] || 0)))
+  ]);
   return (await redis(['EVAL', RESERVE_LUA, '1', HASH_KEY, ...args])) === 1;
 }
 
 async function release(want) {
-  const entries = SIZES.filter(s => want[s] > 0);
+  const entries = SIZES.filter(s => (want[s] || 0) > 0);
   if (!persistent()) { entries.forEach(s => { memory[s] = Math.max(0, memory[s] - want[s]); }); return; }
   for (const s of entries) await redis(['HINCRBY', HASH_KEY, s, String(-want[s])]);
 }
@@ -85,16 +113,28 @@ async function resetStock() {
   return true;
 }
 
-async function setSold(size, count) {
-  const s = String(size).toLowerCase();
-  if (!SIZES.includes(s)) throw new Error('Tamanho inválido.');
-  const val = Math.max(0, Number(count) || 0);
+async function setSold(key, count) {
+  const s = String(key).toLowerCase();
+  if (!SIZES.includes(s)) throw new Error('Item inválido.');
+  const external = INITIAL_SOLD[s] || 0;
+  const onlineCount = Math.max(0, Number(count) - external || 0);
   if (!persistent()) {
-    memory[s] = val;
+    memory[s] = onlineCount;
     return true;
   }
-  await redis(['HSET', HASH_KEY, s, String(val)]);
+  await redis(['HSET', HASH_KEY, s, String(onlineCount)]);
   return true;
 }
 
-module.exports = { STOCK_LIMITS, SIZES, getStock, reserve, release, resetStock, setSold, persistent };
+module.exports = {
+  STOCK_LIMITS,
+  BUTTON_LIMITS,
+  INITIAL_SOLD,
+  SIZES,
+  getStock,
+  reserve,
+  release,
+  resetStock,
+  setSold,
+  persistent
+};

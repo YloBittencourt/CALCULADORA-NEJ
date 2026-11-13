@@ -219,23 +219,167 @@
       background: #EAF1FF
     }
 
-    .botton-row {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(124px, 150px);
-      gap: 10px;
+    /* Banner de estoque dos bottons */
+    .bottons-banner {
+      margin: 14px 0 16px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: #F4F7FD;
+      border: 1px solid #DCE4F2;
+      display: flex;
       align-items: center;
-      padding: 10px 0;
-      border-bottom: 1px solid #E4EAF4
+      gap: 10px;
+    }
+    .bottons-banner-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      gap: 10px;
+    }
+    .bottons-banner-head strong {
+      color: #02195B;
+      font-size: .95rem;
+    }
+    .bottons-banner-head span#bottons-banner-sub {
+      display: block;
+      font-size: .78rem;
+      color: #53627F;
+      font-weight: 600;
+      margin-top: 2px;
+    }
+    .bottons-banner-flame {
+      font-size: 1.35rem;
+    }
+    .bottons-banner-count {
+      padding: 5px 12px;
+      border-radius: 999px;
+      background: #004AAD;
+      color: #FFFFFF;
+      font-weight: 800;
+      font-size: .88rem;
+      flex-shrink: 0;
     }
 
-    .botton-row label {
+    /* Linha dos bottons com miniatura redonda e badge de estoque */
+    .botton-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 4px;
+      border-bottom: 1px solid #E8EDF5;
+      transition: background .15s, opacity .15s;
+    }
+    .botton-row:last-child {
+      border-bottom: 0;
+    }
+    .botton-row.soldout {
+      opacity: .55;
+    }
+    .botton-main {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+      flex: 1;
+    }
+    .botton-thumb-btn {
+      padding: 0;
+      border: 2px solid #DCE4F2;
+      border-radius: 50%;
+      background: #FFFFFF;
+      cursor: pointer;
+      flex-shrink: 0;
+      box-shadow: 0 3px 8px rgba(2, 25, 91, .06);
+      transition: transform .15s, border-color .15s;
+      line-height: 0;
+    }
+    .botton-thumb-btn:hover {
+      transform: scale(1.08);
+      border-color: #004AAD;
+    }
+    .botton-thumb-btn:focus-visible {
+      outline: 3px solid #B9D0FF;
+      outline-offset: 2px;
+    }
+    .botton-thumb {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      object-fit: contain;
+      display: block;
+      padding: 2px;
+      background: #FFFFFF;
+    }
+    .botton-info {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      min-width: 0;
+    }
+    .botton-title {
+      font-size: .94rem;
+      font-weight: 800;
+      color: #02195B;
       margin: 0;
-      font-size: .94rem
+      line-height: 1.25;
+      cursor: pointer;
+    }
+    .botton-stock-meta {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: .75rem;
+    }
+    .botton-stock-pill {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-weight: 700;
+      background: #EAF1FF;
+      color: #004AAD;
+      white-space: nowrap;
+    }
+    .botton-stock-pill.low {
+      background: #FEF0C7;
+      color: #B54708;
+    }
+    .botton-stock-pill.out {
+      background: #F2F4F7;
+      color: #667085;
+      text-decoration: line-through;
+    }
+    .botton-stock-limit {
+      color: #8392AB;
+      font-weight: 600;
+    }
+    .botton-row .quantity-control {
+      flex-shrink: 0;
+      max-width: 140px;
+    }
+    .botton-row .quantity-button {
+      width: 36px;
+      height: 38px;
+      border-radius: 10px;
+      font-size: 1.2rem;
+    }
+    .botton-row .quantity-control input {
+      width: 40px;
+      min-width: 40px;
+      font-weight: 800;
+      font-size: 1.05rem;
+      text-align: center;
     }
 
-    .botton-row input {
-      text-align: center;
-      padding: 10px
+    @media (max-width: 480px) {
+      .botton-thumb { width: 38px; height: 38px; }
+      .botton-main { gap: 9px; }
+      .botton-title { font-size: .88rem; }
+      .botton-stock-meta { font-size: .72rem; }
+      .botton-row .quantity-control { max-width: 120px; }
+      .botton-row .quantity-button { width: 31px; height: 36px; font-size: 1.1rem; }
+      .botton-row .quantity-control input { width: 34px; min-width: 34px; font-size: .95rem; }
     }
 
     .hint {
@@ -726,10 +870,6 @@
         border-radius: 6px
       }
 
-      .botton-row {
-        grid-template-columns: minmax(0, 1fr) 124px
-      }
-
       .actions {
         flex-direction: column-reverse
       }
@@ -907,7 +1047,6 @@
     .gallery { gap: 10px; }
     .gallery button { border: 1px solid #DCE4F2; background: #F4F1EA; }
     .gallery img { aspect-ratio: 1 / 1; object-fit: contain; padding: 5px; }
-    .botton-row { padding: 13px 2px; }
     .total { border: 1px solid #DCE8FA; background: #F1F6FF; }
     .total:last-of-type { background: #E6EEFF; border-color: #B9D0FF; }
     .summary-row { border-bottom-color: #E7ECF4; }
@@ -969,8 +1108,6 @@
     .sizegrid .quantity-control { gap: 3px; }
     .sizegrid .quantity-button { flex-basis: 25px; width: 25px; height: 36px; }
     .sizegrid .quantity-control input { padding: 7px 2px; font-size: .9rem; }
-    .botton-row .quantity-control { width: 100%; max-width: 150px; min-width: 0; }
-    .botton-row .quantity-control input { min-width: 40px; width: 40px; flex: 1 1 40px; padding: 8px 3px; text-align: center; }
     @media(max-width:600px) {
       .sizegrid .quantity-control { gap: 2px; }
       .sizegrid .quantity-button { flex-basis: 24px; width: 24px; }
@@ -1329,6 +1466,16 @@
             data-image-caption="Botton — Sol, Onda e Montanha" aria-label="Ampliar botton Sol, Onda e Montanha"><img
               src="/imagens/bottons/botton-5.jpeg" alt="Sol, Onda e Montanha"></button></div>
         <p class="image-hint">Toque em qualquer imagem para ampliar</p>
+        <div class="bottons-banner" id="bottons-banner" aria-live="polite">
+          <div class="bottons-banner-head">
+            <span class="bottons-banner-flame" aria-hidden="true">🔥</span>
+            <div>
+              <strong>Coleção de Bottons</strong>
+              <span id="bottons-banner-sub">Carregando disponibilidade…</span>
+            </div>
+            <span class="bottons-banner-count" id="bottons-banner-count">–</span>
+          </div>
+        </div>
         <div id="botton-inputs"></div>
         <p class="hint">Por modelo: unidade avulsa R$ 6,00 · combo de 3 por R$ 15,00 · combo de 5 por R$ 23,00. Unidades
           excedentes: R$ 6,00 cada.</p>
@@ -1398,22 +1545,132 @@
   </main>
   <script>
     const SHIRT_PRICE = 45;
-    const buttonModels = [['Geração em Chamas', 'botton_geracao'], ['Álbum da Cidade', 'botton_album'], ['O Maior Núcleo da Bahia', 'botton_nucleo'], ['Grandões e Sem Medo', 'botton_grandoes'], ['Sol, Onda e Montanha', 'botton_sol']];
+    const buttonModels = [
+      ['Geração em Chamas', 'botton_geracao', '/imagens/bottons/botton-1.jpeg', 30],
+      ['Álbum da Cidade', 'botton_album', '/imagens/bottons/botton-2.jpeg', 30],
+      ['O Maior Núcleo da Bahia', 'botton_nucleo', '/imagens/bottons/botton-3.jpeg', 12],
+      ['Grandões e Sem Medo', 'botton_grandoes', '/imagens/bottons/botton-4.jpg', 16],
+      ['Sol, Onda e Montanha', 'botton_sol', '/imagens/bottons/botton-5.jpeg', 12]
+    ];
+    const INITIAL_SOLD = {
+      camisa_ciclo_m: 2,
+      botton_geracao: 3,
+      botton_album: 3,
+      botton_grandoes: 1
+    };
     const money = v => Number(v).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-    const qty = el => { const value = String(el.value ?? ''); return /^\d+$/.test(value) ? Math.max(0, Math.min(999, Number(value))) : 0 };
-    function normalizeQuantityInput(input, emptyAsZero = false) { const raw = String(input.value ?? ''); if (!raw) { if (emptyAsZero) input.value = '0'; return } const match = raw.match(/^\d+/); input.value = match ? String(Math.min(999, Number(match[0]))) : '0' }
+    const qty = el => { const value = String(el?.value ?? ''); return /^\d+$/.test(value) ? Math.max(0, Math.min(999, Number(value))) : 0 };
     function priceFor(q) { const dp = Array(q + 1).fill(Infinity); dp[0] = 0; for (let n = 1; n <= q; n++) { dp[n] = dp[n - 1] + 6; if (n >= 3) dp[n] = Math.min(dp[n], dp[n - 3] + 15); if (n >= 5) dp[n] = Math.min(dp[n], dp[n - 5] + 23) } return dp[q] }
+
     const bottonWrap = document.getElementById('botton-inputs');
-    buttonModels.forEach(([name, key], i) => { const row = document.createElement('div'); row.className = 'botton-row'; const label = document.createElement('label'); label.htmlFor = 'botton-' + i; label.textContent = name; const input = document.createElement('input'); input.id = 'botton-' + i; input.type = 'number'; input.min = '0'; input.max = '999'; input.step = '1'; input.value = '0'; input.inputMode = 'numeric'; input.dataset.botton = key; input.setAttribute('aria-label', 'Quantidade de ' + name); row.append(label, input); bottonWrap.append(row); bindQuantityInput(input) });
-    // ===== Estoque e seletor de tamanhos =====
+    buttonModels.forEach(([name, key, img, limit], i) => {
+      const row = document.createElement('div');
+      row.className = 'botton-row';
+      row.id = 'botton-row-' + key;
+
+      const main = document.createElement('div');
+      main.className = 'botton-main';
+
+      const thumbBtn = document.createElement('button');
+      thumbBtn.type = 'button';
+      thumbBtn.className = 'botton-thumb-btn';
+      thumbBtn.dataset.fullImage = img;
+      thumbBtn.dataset.imageCaption = 'Botton — ' + name;
+      thumbBtn.setAttribute('aria-label', 'Ampliar botton ' + name);
+
+      const thumbImg = document.createElement('img');
+      thumbImg.className = 'botton-thumb';
+      thumbImg.src = img;
+      thumbImg.alt = name;
+      thumbBtn.appendChild(thumbImg);
+
+      const info = document.createElement('div');
+      info.className = 'botton-info';
+
+      const title = document.createElement('label');
+      title.className = 'botton-title';
+      title.htmlFor = 'botton-' + i;
+      title.textContent = name;
+
+      const meta = document.createElement('div');
+      meta.className = 'botton-stock-meta';
+
+      const pill = document.createElement('span');
+      pill.className = 'botton-stock-pill';
+      pill.id = 'stock-pill-' + key;
+      pill.textContent = 'Carregando…';
+
+      const limitSpan = document.createElement('span');
+      limitSpan.className = 'botton-stock-limit';
+      limitSpan.textContent = 'de ' + limit;
+
+      meta.append(pill, limitSpan);
+      info.append(title, meta);
+      main.append(thumbBtn, info);
+
+      const input = document.createElement('input');
+      input.id = 'botton-' + i;
+      input.type = 'number';
+      input.min = '0';
+      input.max = String(limit);
+      input.step = '1';
+      input.value = '0';
+      input.inputMode = 'numeric';
+      input.dataset.botton = key;
+      input.setAttribute('aria-label', 'Quantidade de ' + name);
+
+      row.append(main, input);
+      bottonWrap.append(row);
+      enhanceQuantityControls(input);
+    });
+
+    // ===== Estoque e seletores =====
     const SIZE_ORDER = ['p', 'm', 'g', 'gg'];
     const LIMITS = { p: 4, m: 4, g: 0, gg: 1 };
     const keyOf = (selector, size) => selector.dataset.shirtPrefix + size;
     let STOCK = {};
-    document.querySelectorAll('.shirt-selector').forEach(sel => SIZE_ORDER.forEach(size => { STOCK[keyOf(sel, size)] = { limit: LIMITS[size], left: LIMITS[size] } }));
+
+    document.querySelectorAll('.shirt-selector').forEach(sel => {
+      SIZE_ORDER.forEach(size => {
+        const key = keyOf(sel, size);
+        const limit = LIMITS[size];
+        const offline = INITIAL_SOLD[key] || 0;
+        STOCK[key] = { limit, left: Math.max(0, limit - offline) };
+      });
+    });
+    buttonModels.forEach(([_, key, __, limit]) => {
+      const offline = INITIAL_SOLD[key] || 0;
+      STOCK[key] = { limit, left: Math.max(0, limit - offline) };
+    });
+
     const stockLeft = key => (STOCK[key] ? STOCK[key].left : 0);
-    function clampToStock() { document.querySelectorAll('[data-shirt]').forEach(input => { const left = stockLeft(input.dataset.shirt); if (qty(input) > left) input.value = String(left) }) }
-    function setShirtFeedback(selector, message, isError = false) { const feedback = selector.querySelector('.shirt-feedback'); feedback.textContent = message; feedback.classList.toggle('error', isError) }
+
+    function clampToStock() {
+      document.querySelectorAll('[data-shirt]').forEach(input => {
+        const left = stockLeft(input.dataset.shirt);
+        if (qty(input) > left) input.value = String(left);
+      });
+      document.querySelectorAll('[data-botton]').forEach(input => {
+        const left = stockLeft(input.dataset.botton);
+        if (qty(input) > left) input.value = String(left);
+      });
+    }
+
+    function normalizeQuantityInput(input, emptyAsZero = false) {
+      const raw = String(input.value ?? '');
+      if (!raw) { if (emptyAsZero) input.value = '0'; return; }
+      const key = input.dataset.botton;
+      const maxVal = key ? stockLeft(key) : 999;
+      const match = raw.match(/^\d+/);
+      input.value = match ? String(Math.min(maxVal, Number(match[0]))) : '0';
+    }
+
+    function setShirtFeedback(selector, message, isError = false) {
+      const feedback = selector.querySelector('.shirt-feedback');
+      feedback.textContent = message;
+      feedback.classList.toggle('error', isError);
+    }
+
     function renderStock(focusKey) {
       clampToStock();
       let totalLeft = 0, totalLimit = 0, mine = 0;
@@ -1429,30 +1686,115 @@
           html += `<div class="size-card${sel ? ' active' : ''}${out ? ' soldout' : ''}${low ? ' low' : ''}"><span class="size-label">${size.toUpperCase()}</span><span class="size-status${out ? ' out' : low ? ' low' : ''}">${status}</span><span class="size-pips" aria-hidden="true">${pips}</span><div class="size-stepper"><button type="button" class="step-btn" data-act="dec" data-key="${key}" aria-label="Diminuir camisa tamanho ${size.toUpperCase()}"${sel ? '' : ' disabled'}>−</button><span class="step-qty" aria-live="polite">${sel}</span><button type="button" class="step-btn" data-act="inc" data-key="${key}" aria-label="Adicionar camisa tamanho ${size.toUpperCase()}"${canAdd ? '' : ' disabled'}>+</button></div></div>`;
         });
         selector.querySelector('.size-picker').innerHTML = html;
-        const head = selector.querySelector('.model-stock'); if (head) head.innerHTML = modelLeft ? `<span class="model-stock-title"><b>${modelLeft}</b> disponíveis neste modelo</span><div class="model-stock-chips">${chips}</div>` : '<span class="model-stock-title"><b>0</b> disponíveis neste modelo</span><div class="model-stock-chips"><span class="stock-chip out">Esgotado</span></div>';
+        const head = selector.querySelector('.model-stock');
+        if (head) head.innerHTML = modelLeft ? `<span class="model-stock-title"><b>${modelLeft}</b> disponíveis neste modelo</span><div class="model-stock-chips">${chips}</div>` : '<span class="model-stock-title"><b>0</b> disponíveis neste modelo</span><div class="model-stock-chips"><span class="stock-chip out">Esgotado</span></div>';
       });
       document.getElementById('stock-count').textContent = totalLeft;
       document.getElementById('stock-sub').textContent = totalLeft === 0 ? 'Todas as camisas foram vendidas.' : `${totalLeft} de ${totalLimit} camisas disponíveis nos dois modelos${mine ? ` · ${totalLeft - mine} livres após sua seleção` : ''}`;
       document.getElementById('stock-chips').innerHTML = '';
-      if (focusKey) { const el = document.querySelector(`.step-btn[data-key="${focusKey.key}"][data-act="${focusKey.act}"]`); if (el && !el.disabled) el.focus(); else { const alt = document.querySelector(`.step-btn[data-key="${focusKey.key}"]:not(:disabled)`); if (alt) alt.focus() } const card = document.querySelector(`.step-btn[data-key="${focusKey.key}"]`)?.closest('.size-card'); if (card) card.classList.add('bump') }
+
+      // Atualiza estoque e controles dos bottons
+      let totalBottonsLeft = 0, totalBottonsLimit = 0, myBottons = 0;
+      buttonModels.forEach(([name, key, img, limit]) => {
+        const st = STOCK[key] || { limit, left: limit };
+        const input = document.querySelector(`[data-botton="${key}"]`);
+        const sel = input ? qty(input) : 0;
+        const left = st.left;
+        totalBottonsLeft += left;
+        totalBottonsLimit += st.limit || limit;
+        myBottons += sel;
+
+        const pill = document.getElementById('stock-pill-' + key);
+        const row = document.getElementById('botton-row-' + key);
+        const out = left === 0;
+        const low = !out && left <= 3;
+
+        if (pill) {
+          pill.className = 'botton-stock-pill' + (out ? ' out' : low ? ' low' : '');
+          pill.textContent = out ? 'Esgotado' : left === 1 ? 'Última unidade!' : `Restam ${left}`;
+        }
+        if (row) {
+          row.classList.toggle('soldout', out);
+        }
+        if (input) {
+          input.max = String(left);
+          input.disabled = out;
+          const wrap = input.closest('.quantity-control');
+          if (wrap) {
+            const decBtn = wrap.querySelector('.quantity-button:first-child');
+            const incBtn = wrap.querySelector('.quantity-button:last-child');
+            if (decBtn) decBtn.disabled = (sel <= 0);
+            if (incBtn) incBtn.disabled = (sel >= left || out);
+          }
+        }
+      });
+
+      const bannerSub = document.getElementById('bottons-banner-sub');
+      const bannerCount = document.getElementById('bottons-banner-count');
+      if (bannerCount) bannerCount.textContent = `${totalBottonsLeft} disponíveis`;
+      if (bannerSub) {
+        bannerSub.textContent = totalBottonsLeft === 0
+          ? 'Todos os bottons estão esgotados.'
+          : `${totalBottonsLeft} de ${totalBottonsLimit} bottons disponíveis nos 5 modelos${myBottons ? ` · ${totalBottonsLeft - myBottons} livres após sua seleção` : ''}`;
+      }
+
+      if (focusKey) {
+        const el = document.querySelector(`.step-btn[data-key="${focusKey.key}"][data-act="${focusKey.act}"]`);
+        if (el && !el.disabled) el.focus();
+        else {
+          const alt = document.querySelector(`.step-btn[data-key="${focusKey.key}"]:not(:disabled)`);
+          if (alt) alt.focus();
+        }
+        const card = document.querySelector(`.step-btn[data-key="${focusKey.key}"]`)?.closest('.size-card');
+        if (card) card.classList.add('bump');
+      }
     }
+
     function bindShirtSelector(selector) {
       selector.querySelector('.size-picker').addEventListener('click', event => {
         const btn = event.target.closest('.step-btn'); if (!btn || btn.disabled) return;
         const input = selector.querySelector(`[data-shirt="${btn.dataset.key}"]`), size = btn.dataset.key.split('_').pop(), current = qty(input);
-        if (btn.dataset.act === 'inc') { if (current >= stockLeft(btn.dataset.key)) { setShirtFeedback(selector, `Só há ${stockLeft(btn.dataset.key)} unidade(s) do tamanho ${size.toUpperCase()}.`, true); return } input.value = String(current + 1); setShirtFeedback(selector, `Camisa ${size.toUpperCase()} adicionada.`) }
-        else { input.value = String(Math.max(0, current - 1)); setShirtFeedback(selector, `Camisa ${size.toUpperCase()} removida.`) }
+        if (btn.dataset.act === 'inc') {
+          if (current >= stockLeft(btn.dataset.key)) { setShirtFeedback(selector, `Só há ${stockLeft(btn.dataset.key)} unidade(s) do tamanho ${size.toUpperCase()}.`, true); return; }
+          input.value = String(current + 1); setShirtFeedback(selector, `Camisa ${size.toUpperCase()} adicionada.`);
+        } else {
+          input.value = String(Math.max(0, current - 1)); setShirtFeedback(selector, `Camisa ${size.toUpperCase()} removida.`);
+        }
         renderStock({ key: btn.dataset.key, act: btn.dataset.act }); updateTotals();
       });
     }
     document.querySelectorAll('.shirt-selector').forEach(bindShirtSelector);
-    async function loadStock() { try { const r = await fetch('/api/estoque', { cache: 'no-store' }), d = await r.json(); if (r.ok && d.stock) STOCK = d.stock } catch (_) { /* mantém últimos valores conhecidos */ } renderStock(); updateTotals() }
+
+    async function loadStock() {
+      try {
+        const r = await fetch('/api/estoque', { cache: 'no-store' }), d = await r.json();
+        if (r.ok && d.stock) STOCK = d.stock;
+      } catch (_) { /* mantém últimos valores conhecidos */ }
+      renderStock(); updateTotals();
+    }
     renderStock(); loadStock();
-    function getShirts() { const out = {}; document.querySelectorAll('[data-shirt]').forEach(el => out[el.dataset.shirt] = qty(el)); return out }
-    function getButtons() { const out = {}; document.querySelectorAll('[data-botton]').forEach(el => out[el.dataset.botton] = qty(el)); return out }
-    function totals() { const shirts = getShirts(), buttons = getButtons(), shirtCount = Object.values(shirts).reduce((a, b) => a + b, 0), buttonCount = Object.values(buttons).reduce((a, b) => a + b, 0), shirtTotal = shirtCount * SHIRT_PRICE, buttonTotal = priceFor(buttonCount); return { shirts, buttons, shirtCount, buttonCount, shirtTotal, buttonTotal, total: shirtTotal + buttonTotal } }
-    function updateTotals() { const t = totals(); document.getElementById('botton-total').textContent = money(t.buttonTotal); document.getElementById('shirt-total').textContent = money(t.shirtTotal); document.getElementById('order-total').textContent = money(t.total) }
-    function bindQuantityInput(input) { if (input.dataset.quantityBound) return; input.dataset.quantityBound = 'true'; input.inputMode = 'numeric'; input.addEventListener('input', () => { normalizeQuantityInput(input); updateTotals() }); input.addEventListener('blur', () => { normalizeQuantityInput(input, true); updateTotals() }) }
+
+    function getShirts() { const out = {}; document.querySelectorAll('[data-shirt]').forEach(el => out[el.dataset.shirt] = qty(el)); return out; }
+    function getButtons() { const out = {}; document.querySelectorAll('[data-botton]').forEach(el => out[el.dataset.botton] = qty(el)); return out; }
+    function totals() {
+      const shirts = getShirts(), buttons = getButtons(), shirtCount = Object.values(shirts).reduce((a, b) => a + b, 0), buttonCount = Object.values(buttons).reduce((a, b) => a + b, 0), shirtTotal = shirtCount * SHIRT_PRICE, buttonTotal = priceFor(buttonCount);
+      return { shirts, buttons, shirtCount, buttonCount, shirtTotal, buttonTotal, total: shirtTotal + buttonTotal };
+    }
+    function updateTotals() {
+      const t = totals();
+      document.getElementById('botton-total').textContent = money(t.buttonTotal);
+      document.getElementById('shirt-total').textContent = money(t.shirtTotal);
+      document.getElementById('order-total').textContent = money(t.total);
+    }
+
+    function bindQuantityInput(input) {
+      if (input.dataset.quantityBound) return;
+      input.dataset.quantityBound = 'true';
+      input.inputMode = 'numeric';
+      input.addEventListener('input', () => { normalizeQuantityInput(input); renderStock(); updateTotals(); });
+      input.addEventListener('blur', () => { normalizeQuantityInput(input, true); renderStock(); updateTotals(); });
+    }
+
     function enhanceQuantityControls(input) {
       if (input.parentElement.classList.contains('quantity-control')) return;
       const wrap = document.createElement('div');
@@ -1466,8 +1808,12 @@
         button.addEventListener('click', event => {
           event.preventDefault(); event.stopPropagation();
           const current = qty(input);
-          input.value = String(Math.max(0, Math.min(999, current + delta)));
+          const key = input.dataset.botton;
+          const left = key ? stockLeft(key) : 999;
+          const next = Math.max(0, Math.min(left, current + delta));
+          input.value = String(next);
           input.dispatchEvent(new Event('input', { bubbles: true }));
+          renderStock();
         });
         return button;
       };
@@ -1475,7 +1821,6 @@
       wrap.insertBefore(makeButton('Diminuir quantidade', '−', -1), input);
       wrap.appendChild(makeButton('Aumentar quantidade', '+', 1));
     }
-    document.querySelectorAll('[data-botton]').forEach(enhanceQuantityControls);
     function digits(v) { return v.replace(/\D/g, '') }
     function validCPF(cpf) { cpf = digits(cpf); if (cpf.length !== 11 || /^([0-9])\1+$/.test(cpf)) return false; let sum = 0; for (let i = 0; i < 9; i++)sum += Number(cpf[i]) * (10 - i); let d = (sum * 10) % 11; if (d === 10) d = 0; if (d !== Number(cpf[9])) return false; sum = 0; for (let i = 0; i < 10; i++)sum += Number(cpf[i]) * (11 - i); d = (sum * 10) % 11; if (d === 10) d = 0; return d === Number(cpf[10]) }
     const BRAZILIAN_DDDS = new Set(['11','12','13','14','15','16','17','18','19','21','22','24','27','28','31','32','33','34','35','37','38','41','42','43','44','45','46','47','48','49','51','53','54','55','61','62','63','64','65','66','67','68','69','71','73','74','75','77','79','81','82','83','84','85','86','87','88','89','91','92','93','94','95','96','97','98','99']);
@@ -1495,7 +1840,21 @@
     document.getElementById('back-contact').addEventListener('click', () => showPanel('contact-panel', 1));
     function renderSummary() { const t = totals(), name = document.getElementById('nome').value.trim(), cpf = document.getElementById('cpf').value, phone = document.getElementById('telefone').value; let html = `<h3 class="summary-section-title">Seus dados</h3><div class="summary-row"><span>Cliente</span><b>${escapeHTML(name)}</b></div><div class="summary-row"><span>CPF</span><b>${escapeHTML(cpf)}</b></div><div class="summary-row"><span>Telefone</span><b>${escapeHTML(phone)}</b></div><h3 class="summary-section-title">Camisas</h3>`; const shirtLabels = { camisa_onda_p: 'A onda que vira fogo — P', camisa_onda_m: 'A onda que vira fogo — M', camisa_onda_g: 'A onda que vira fogo — G', camisa_onda_gg: 'A onda que vira fogo — GG', camisa_ciclo_p: 'O ciclo recomeça — P', camisa_ciclo_m: 'O ciclo recomeça — M', camisa_ciclo_g: 'O ciclo recomeça — G', camisa_ciclo_gg: 'O ciclo recomeça — GG' }; let hasShirt = false; for (const [k, q] of Object.entries(t.shirts)) { if (q) { hasShirt = true; html += `<div class="summary-row summary-item"><span>${shirtLabels[k]}<span class="summary-detail">${q} unidade(s) × R$ 45,00</span></span><b>${money(q * SHIRT_PRICE)}</b></div>` } } if (!hasShirt) html += '<p class="hint">Nenhuma camisa selecionada.</p>'; html += '<h3 class="summary-section-title">Bottons</h3>'; let hasButtons = false; for (const [name, key] of buttonModels) { const q = t.buttons[key]; if (q) { hasButtons = true; html += `<div class="summary-row summary-item"><span>${name}<span class="summary-detail">Combos calculados sobre o total global</span></span><b>${q} un.</b></div>` } } if (!hasButtons) html += '<p class="hint">Nenhum botton selecionado.</p>'; html += `<div class="summary-row"><span>Subtotal camisas</span><b>${money(t.shirtTotal)}</b></div><div class="summary-row"><span>Subtotal bottons (${t.buttonCount} unidade(s), combos globais)</span><b>${money(t.buttonTotal)}</b></div>`; document.getElementById('summary-content').innerHTML = html; document.getElementById('summary-total').textContent = money(t.total) }
     function escapeHTML(s) { return s.replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])) }
-    document.getElementById('to-summary').addEventListener('click', async () => { const beforeShirts = totals().shirtCount; await loadStock(); const t = totals(), errEl = document.getElementById('products-error'); if (t.shirtCount < beforeShirts) { errEl.textContent = 'Algumas camisas escolhidas acabaram de esgotar ou reduziram a disponibilidade. Confira sua seleção.'; return } errEl.textContent = t.total === 0 ? 'Adicione pelo menos uma camisa ou um botton ao pedido.' : ''; if (t.total === 0) return; document.getElementById('submit-error').textContent = ''; renderSummary(); showPanel('summary-panel', 3) });
+    document.getElementById('to-summary').addEventListener('click', async () => {
+      const beforeShirts = totals().shirtCount;
+      const beforeButtons = totals().buttonCount;
+      await loadStock();
+      const t = totals(), errEl = document.getElementById('products-error');
+      if (t.shirtCount < beforeShirts || t.buttonCount < beforeButtons) {
+        errEl.textContent = 'Alguns itens escolhidos acabaram de esgotar ou tiveram a disponibilidade reduzida. Confira sua seleção.';
+        return;
+      }
+      errEl.textContent = t.total === 0 ? 'Adicione pelo menos uma camisa ou um botton ao pedido.' : '';
+      if (t.total === 0) return;
+      document.getElementById('submit-error').textContent = '';
+      renderSummary();
+      showPanel('summary-panel', 3);
+    });
     document.getElementById('back-products').addEventListener('click', () => showPanel('products-panel', 2));
     document.getElementById('confirm-order').addEventListener('click', async () => { const btn = document.getElementById('confirm-order'), err = document.getElementById('submit-error'); btn.disabled = true; btn.textContent = 'Registrando pedido…'; err.textContent = ''; const t = totals(); const payload = { customer: { name: document.getElementById('nome').value.trim(), cpf: digits(document.getElementById('cpf').value), phone: digits(document.getElementById('telefone').value) }, shirts: t.shirts, buttons: t.buttons }; try { const response = await fetch('/api/pedidos', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }); const result = await response.json(); if (!response.ok) { if (response.status === 409 && result.stock) { STOCK = result.stock; renderStock(); updateTotals(); document.getElementById('products-error').textContent = result.error; btn.disabled = false; btn.textContent = 'Confirmar pedido'; showPanel('products-panel', 2); return } throw new Error(result.error || 'Não foi possível registrar o pedido.') } document.getElementById('order-code').textContent = result.orderId; document.getElementById('payment-total').textContent = money(result.total); document.getElementById('receipt-file').value = ''; document.getElementById('receipt-status').textContent = ''; showPanel('payment-panel', 4) } catch (e) { err.textContent = e.message || 'Falha ao enviar. Tente novamente.'; btn.disabled = false; btn.textContent = 'Confirmar pedido' } });
 
@@ -1520,17 +1879,23 @@
     // Ampliação acessível das fotos de camisas e bottons.
     const lightbox = document.getElementById('image-lightbox');
     const lightboxImage = document.getElementById('lightbox-image');
-    const closeLightbox = () => { lightbox.classList.remove('open'); lightbox.setAttribute('aria-hidden', 'true'); lightboxImage.src = '' };
-    document.querySelectorAll('[data-full-image]').forEach(control => control.addEventListener('click', () => {
-      lightboxImage.src = control.dataset.fullImage;
-      lightboxImage.alt = control.dataset.imageCaption || 'Imagem do produto';
-      document.getElementById('lightbox-caption').textContent = control.dataset.imageCaption || '';
-      lightbox.classList.add('open'); lightbox.setAttribute('aria-hidden', 'false');
+    const closeLightbox = () => { lightbox.classList.remove('open'); lightbox.setAttribute('aria-hidden', 'true'); lightboxImage.src = ''; };
+    function openLightbox(src, caption) {
+      lightboxImage.src = src;
+      lightboxImage.alt = caption || 'Imagem do produto';
+      document.getElementById('lightbox-caption').textContent = caption || '';
+      lightbox.classList.add('open');
+      lightbox.setAttribute('aria-hidden', 'false');
       document.getElementById('lightbox-close').focus();
-    }));
+    }
+    document.addEventListener('click', e => {
+      const control = e.target.closest('[data-full-image]');
+      if (!control) return;
+      openLightbox(control.dataset.fullImage, control.dataset.imageCaption);
+    });
     document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
-    lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox() });
-    document.addEventListener('keydown', e => { if (e.key === 'Escape' && lightbox.classList.contains('open')) closeLightbox() });
+    lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && lightbox.classList.contains('open')) closeLightbox(); });
     updateTotals();
   </script>
 </body>

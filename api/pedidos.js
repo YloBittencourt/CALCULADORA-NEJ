@@ -165,10 +165,11 @@ module.exports = async (req, res) => {
 
     // Reserva o estoque (atômica) antes de registrar; devolve se o registro falhar.
     const want = Object.fromEntries(SIZES.map(k => [k, 0]));
-    for (const key of SHIRT_KEYS) want[key] = shirts[key];
+    for (const key of SHIRT_KEYS) want[key] = shirts[key] || 0;
+    for (const [key] of BUTTON_MODELS) want[key] = buttons[key] || 0;
     if (!(await reserve(want))) {
       return res.status(409).json({
-        error: 'Algumas camisas acabaram de esgotar. Revise as quantidades e tente novamente.',
+        error: 'Alguns itens do seu pedido acabaram de esgotar ou tiveram a disponibilidade reduzida. Revise as quantidades e tente novamente.',
         stock: await getStock()
       });
     }
