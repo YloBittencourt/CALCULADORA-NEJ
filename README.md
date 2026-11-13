@@ -79,12 +79,12 @@ O site possui controle de estoque em tempo real com proteção contra compras si
   *(Total: 9 disponíveis)*
 
 #### Bottons
-- **Geração em Chamas:** 30 iniciais − 3 vendidos na planilha = **27 disponíveis**
-- **Álbum da Cidade:** 30 iniciais − 3 vendidos na planilha = **27 disponíveis**
-- **O Maior Núcleo da Bahia:** 12 iniciais − 0 vendidos = **12 disponíveis**
-- **Grandões e Sem Medo:** 16 iniciais − 1 vendido na planilha = **15 disponíveis**
-- **Sol, Onda e Montanha:** 12 iniciais − 0 vendidos = **12 disponíveis**
-*(Total: 100 iniciais − 7 vendidos = **93 disponíveis**)*
+- **Geração em Chamas:** 30 iniciais − 6 vendidos (3 planilha + 3 equipe do evento) = **24 disponíveis**
+- **Álbum da Cidade:** 30 iniciais − 5 vendidos (3 planilha + 2 equipe do evento) = **25 disponíveis**
+- **O Maior Núcleo da Bahia:** 12 iniciais − 2 vendidos (2 equipe do evento) = **10 disponíveis**
+- **Grandões e Sem Medo:** 16 iniciais − 3 vendidos (1 planilha + 2 equipe do evento) = **13 disponíveis**
+- **Sol, Onda e Montanha:** 12 iniciais − 3 vendidos (3 equipe do evento) = **9 disponíveis**
+*(Total: 100 iniciais − 19 vendidos = **81 disponíveis**)*
 
 Para alterar quantidades iniciais ou vendas prévias, edite `SHIRT_SIZE_LIMITS`, `BUTTON_LIMITS` e `INITIAL_SOLD` em `api/_estoque.js`.
 

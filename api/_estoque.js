@@ -27,9 +27,11 @@ const HASH_KEY = 'lojinha:estoque:vendido';
 
 // Vendas já registradas fora da lojinha ou antes do lançamento online:
 const INITIAL_SOLD = {
-  botton_geracao: 3,
-  botton_album: 3,
-  botton_grandoes: 1
+  botton_geracao: 6,
+  botton_album: 5,
+  botton_nucleo: 2,
+  botton_grandoes: 3,
+  botton_sol: 3
 };
 
 const REDIS_URL = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
