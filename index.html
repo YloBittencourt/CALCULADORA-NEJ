@@ -355,31 +355,115 @@
       font-weight: 600;
     }
     .botton-row .quantity-control {
+      display: flex;
+      align-items: center;
+      gap: 6px;
       flex-shrink: 0;
-      max-width: 140px;
     }
     .botton-row .quantity-button {
-      width: 36px;
+      width: 38px;
       height: 38px;
       border-radius: 10px;
-      font-size: 1.2rem;
+      font-size: 1.25rem;
+      font-weight: 700;
+      line-height: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      border: 1px solid #DCE4F2;
+      background: #F4F7FC;
+      color: #02195B;
+      cursor: pointer;
+      transition: all .15s ease;
+      user-select: none;
+    }
+    .botton-row .quantity-button:hover:not(:disabled) {
+      background: #EAF1FF;
+      border-color: #004AAD;
+      color: #004AAD;
+    }
+    .botton-row .quantity-button:disabled {
+      opacity: .35;
+      cursor: not-allowed;
+      background: #F8FAFE;
+      border-color: #E8EDF5;
+      color: #8392AB;
     }
     .botton-row .quantity-control input {
-      width: 40px;
-      min-width: 40px;
-      font-weight: 800;
-      font-size: 1.05rem;
-      text-align: center;
+      width: 46px !important;
+      min-width: 46px !important;
+      max-width: 46px !important;
+      height: 38px !important;
+      min-height: 38px !important;
+      max-height: 38px !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      font-weight: 800 !important;
+      font-size: 1.1rem !important;
+      text-align: center !important;
+      line-height: 38px !important;
+      border: 1px solid #C9D5E8 !important;
+      border-radius: 10px !important;
+      background: #FFFFFF !important;
+      color: #02195B !important;
+      box-sizing: border-box !important;
+      -webkit-appearance: none !important;
+      -moz-appearance: textfield !important;
+      appearance: textfield !important;
+    }
+    .botton-row .quantity-control input:focus {
+      outline: 2px solid #004AAD !important;
+      border-color: #004AAD !important;
+    }
+    .botton-row .quantity-control input::-webkit-outer-spin-button,
+    .botton-row .quantity-control input::-webkit-inner-spin-button {
+      -webkit-appearance: none !important;
+      margin: 0 !important;
     }
 
     @media (max-width: 480px) {
-      .botton-thumb { width: 38px; height: 38px; }
-      .botton-main { gap: 9px; }
-      .botton-title { font-size: .88rem; }
-      .botton-stock-meta { font-size: .72rem; }
-      .botton-row .quantity-control { max-width: 120px; }
-      .botton-row .quantity-button { width: 31px; height: 36px; font-size: 1.1rem; }
-      .botton-row .quantity-control input { width: 34px; min-width: 34px; font-size: .95rem; }
+      .botton-row {
+        gap: 8px;
+        padding: 10px 0;
+      }
+      .botton-main {
+        gap: 8px;
+      }
+      .botton-thumb {
+        width: 36px;
+        height: 36px;
+      }
+      .botton-title {
+        font-size: .86rem;
+      }
+      .botton-stock-meta {
+        font-size: .72rem;
+        gap: 4px;
+      }
+      .botton-stock-pill {
+        padding: 2px 7px;
+      }
+      .botton-row .quantity-control {
+        gap: 3px;
+      }
+      .botton-row .quantity-button {
+        width: 33px;
+        height: 36px;
+        font-size: 1.15rem;
+        border-radius: 8px;
+      }
+      .botton-row .quantity-control input {
+        width: 38px !important;
+        min-width: 38px !important;
+        max-width: 38px !important;
+        height: 36px !important;
+        min-height: 36px !important;
+        max-height: 36px !important;
+        line-height: 36px !important;
+        font-size: 1rem !important;
+        border-radius: 8px !important;
+      }
     }
 
     .hint {
@@ -1610,12 +1694,11 @@
 
       const input = document.createElement('input');
       input.id = 'botton-' + i;
-      input.type = 'number';
-      input.min = '0';
-      input.max = String(limit);
-      input.step = '1';
-      input.value = '0';
+      input.type = 'text';
       input.inputMode = 'numeric';
+      input.pattern = '[0-9]*';
+      input.autocomplete = 'off';
+      input.value = '0';
       input.dataset.botton = key;
       input.setAttribute('aria-label', 'Quantidade de ' + name);
 
@@ -1700,6 +1783,7 @@
         const input = document.querySelector(`[data-botton="${key}"]`);
         const sel = input ? qty(input) : 0;
         const left = st.left;
+        const remaining = Math.max(0, left - sel);
         totalBottonsLeft += left;
         totalBottonsLimit += st.limit || limit;
         myBottons += sel;
@@ -1707,17 +1791,24 @@
         const pill = document.getElementById('stock-pill-' + key);
         const row = document.getElementById('botton-row-' + key);
         const out = left === 0;
-        const low = !out && left <= 3;
+        const low = !out && remaining <= 3;
 
         if (pill) {
           pill.className = 'botton-stock-pill' + (out ? ' out' : low ? ' low' : '');
-          pill.textContent = out ? 'Esgotado' : left === 1 ? 'Última unidade!' : `Restam ${left}`;
+          if (out) {
+            pill.textContent = 'Esgotado';
+          } else if (remaining === 0) {
+            pill.textContent = 'Restam 0';
+          } else if (remaining === 1) {
+            pill.textContent = 'Resta 1!';
+          } else {
+            pill.textContent = 'Restam ' + remaining;
+          }
         }
         if (row) {
           row.classList.toggle('soldout', out);
         }
         if (input) {
-          input.max = String(left);
           input.disabled = out;
           const wrap = input.closest('.quantity-control');
           if (wrap) {
@@ -1731,11 +1822,12 @@
 
       const bannerSub = document.getElementById('bottons-banner-sub');
       const bannerCount = document.getElementById('bottons-banner-count');
-      if (bannerCount) bannerCount.textContent = `${totalBottonsLeft} disponíveis`;
+      const availableNet = Math.max(0, totalBottonsLeft - myBottons);
+      if (bannerCount) bannerCount.textContent = `${availableNet} disponíveis`;
       if (bannerSub) {
         bannerSub.textContent = totalBottonsLeft === 0
           ? 'Todos os bottons estão esgotados.'
-          : `${totalBottonsLeft} de ${totalBottonsLimit} bottons disponíveis nos 5 modelos${myBottons ? ` · ${totalBottonsLeft - myBottons} livres após sua seleção` : ''}`;
+          : `${availableNet} de ${totalBottonsLimit} bottons disponíveis nos 5 modelos${myBottons ? ` (${myBottons} no seu pedido)` : ''}`;
       }
 
       if (focusKey) {
