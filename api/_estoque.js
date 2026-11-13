@@ -27,7 +27,6 @@ const HASH_KEY = 'lojinha:estoque:vendido';
 
 // Vendas já registradas fora da lojinha ou antes do lançamento online:
 const INITIAL_SOLD = {
-  camisa_ciclo_m: 2,
   botton_geracao: 3,
   botton_album: 3,
   botton_grandoes: 1

@@ -73,10 +73,10 @@ O site possui controle de estoque em tempo real com proteção contra compras si
 
 - **O ciclo recomeça:**
   - **P:** 4 unidades
-  - **M:** 2 unidades (4 no lote inicial, sendo 2 já vendidas fora da lojinha)
+  - **M:** 4 unidades
   - **G:** 0 (esgotado — já adquiridas antecipadamente)
   - **GG:** 1 unidade
-  *(Total: 7 disponíveis)*
+  *(Total: 9 disponíveis)*
 
 #### Bottons
 - **Geração em Chamas:** 30 iniciais − 3 vendidos na planilha = **27 disponíveis**
